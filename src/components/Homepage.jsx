@@ -4,6 +4,7 @@ import "../styles/homepage.css";
 import "../styles/bootstrap.min.css";
 import videoBanner from "../assets/bgvid.mp4";
 import traverlVertical from "../assets/travel_vertical.jpg";
+import Header from "../components/Header.jsx";
 import l1 from "../assets/l1.jpg";
 import l2 from "../assets/l2.jpg";
 import l3 from "../assets/l3.jpg";
@@ -15,25 +16,13 @@ import l8 from "../assets/l8.jpg";
 
 const Homepage = () => {
   return (
-    <div>
+    <div className="homepage">
       <div className="banner">
         <video src={videoBanner} type="video/mp4" autoPlay muted loop></video>
 
         {/* Header */}
-
-        <div className="content" id="home">
-          <nav>
-            <ul className="navbar">
-              <li>
-                <Link to="/">Home</Link>
-                <Link to="/my-journey">My Journey</Link>
-                <Link to="/wishlist">Wishlist</Link>
-                <Link to="/explore">Explore</Link>
-                <Link to="/account">Account</Link>
-                <Link to="/contact-us">Contact Us</Link>
-              </li>
-            </ul>
-          </nav>
+        <div className="content-home" id="home">
+          <Header></Header>
 
           <div className="title">
             <h1>Travelopedia</h1>
