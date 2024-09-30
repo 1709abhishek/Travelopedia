@@ -14,6 +14,7 @@ export default function SignIn() {
 
   return (
     <div className="sign-in-background">
+      <div className="app-name-background">Travelopedia</div>
       <div className="form-modal__wrapper">
         <div className="sign-up">
           <img src={travelPic} alt="Camels in the desert" />

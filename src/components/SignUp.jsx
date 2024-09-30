@@ -16,6 +16,7 @@ export default function SignUp() {
 
   return (
     <div className="sign-in-background">
+      <div className="app-name-background">Travelopedia</div>
       <div className="form-modal__container">
         <div className="form-modal__wrapper">
           <div className="sign-up">

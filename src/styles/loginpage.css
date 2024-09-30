@@ -3,6 +3,20 @@ a {
     text-decoration: none;
 }
 
+.app-name-background {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5rem;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    z-index: 0;
+    white-space: nowrap;
+    pointer-events: none;
+    font-family: "Dancing Script", cursive !important;
+}
+
 .sign-in-background {
     height: 100vh;
     width: 100vw;
