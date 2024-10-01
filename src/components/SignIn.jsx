@@ -1,15 +1,20 @@
 import React, { useState } from "react";
-import "../styles/loginpage.css";
-import travelPic from "../assets/travel_vertical.jpg";
+import { useNavigate  } from 'react-router-dom';
 import { AccountCircle } from "@mui/icons-material";
 import { Lock } from "@mui/icons-material";
 
+import "../styles/loginpage.css";
+import travelPic from "../assets/travel_vertical.jpg";
+
 export default function SignIn() {
+  const navigate = useNavigate ();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+    navigate('/');
   };
 
   return (
