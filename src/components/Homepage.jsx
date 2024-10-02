@@ -18,7 +18,7 @@ const Homepage = () => {
   return (
     <div className="homepage">
       <div className="banner">
-        <video src={videoBanner} type="video/mp4" autoPlay muted loop></video>
+        <video src={videoBanner} type="video/mp4" autoPlay muted loop preload="auto"></video>
 
         {/* Header */}
         <div className="content-home" id="home">
@@ -233,7 +233,7 @@ const Homepage = () => {
               <h4>Connect</h4>
               <div className="social">
                 <a
-                  href="https://www.facebook.com/mohd.rahil.blogger"
+                  href="#"
                   target="_blank"
                 >
                   <i className="bx bxl-facebook"></i>
