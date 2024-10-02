@@ -1,8 +1,8 @@
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  /* padding: 2rem; */
+  /* text-align: center; */
 }
 
 .logo {
@@ -11,6 +11,12 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
+* {
+	font-family: 'Poppins', sans-serif !important;
+	box-sizing: border-box;
+}
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
