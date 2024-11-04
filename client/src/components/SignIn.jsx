@@ -16,6 +16,7 @@ export default function SignIn() {
     e.preventDefault();
     const response = await signInService(username, password);
     console.log(response);
+    sessionStorage.setItem('token', response.data);
     navigate('/');
   };
 
