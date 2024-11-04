@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import './App.css';
 import { MainContext } from './contexts/MainContext';
-import HomePage from './components/Homepage.jsx';
+import HomePage from './components/HomePage.jsx';
 import SignUp from './components/SignUp.jsx';
 import SignIn from './components/SignIn.jsx';
 import JourneyPage from './components/JourneyPage.jsx';

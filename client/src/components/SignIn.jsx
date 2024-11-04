@@ -1,10 +1,10 @@
+import { AccountCircle, Lock } from "@mui/icons-material";
 import React, { useState } from "react";
-import { useNavigate  } from 'react-router-dom';
-import { AccountCircle } from "@mui/icons-material";
-import { Lock } from "@mui/icons-material";
+import { useNavigate } from 'react-router-dom';
 
-import "../styles/loginpage.css";
 import travelPic from "../assets/travel_vertical.jpg";
+import { signInService } from "../services/CustomerServices";
+import "../styles/loginpage.css";
 
 export default function SignIn() {
   const navigate = useNavigate ();
@@ -14,6 +14,8 @@ export default function SignIn() {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+    const response = await signInService(username, password);
+    console.log(response);
     navigate('/');
   };
 
