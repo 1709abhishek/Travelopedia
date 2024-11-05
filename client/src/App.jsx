@@ -1,16 +1,14 @@
-import { useContext, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import './App.css';
-import { MainContext } from './contexts/MainContext';
-import HomePage from './components/HomePage.jsx';
-import SignUp from './components/SignUp.jsx';
-import SignIn from './components/SignIn.jsx';
-import JourneyPage from './components/JourneyPage.jsx';
-import ContactUsPage from './components/ContactUsPage.jsx';
 import AccountPage from './components/AccountPage.jsx';
+import ContactUsPage from './components/ContactUsPage.jsx';
 import ExplorePage from './components/ExplorePage.jsx';
+import HomePage from './components/HomePage.jsx';
+import JourneyPage from './components/JourneyPage.jsx';
 import LogTripPage from './components/LogTripPage.jsx';
+import SignIn from './components/SignIn.jsx';
+import SignUp from './components/SignUp.jsx';
 
 function App() {
   return (
