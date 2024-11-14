@@ -1,10 +1,6 @@
 // import React from 'react';
 import { Link } from "react-router-dom";
-import "../styles/homepage.css";
-import "../styles/bootstrap.min.css";
 import videoBanner from "../assets/bgvid.mp4";
-import traverlVertical from "../assets/travel_vertical.jpg";
-import Header from "../components/Header.jsx";
 import l1 from "../assets/l1.jpg";
 import l2 from "../assets/l2.jpg";
 import l3 from "../assets/l3.jpg";
@@ -13,6 +9,10 @@ import l5 from "../assets/l5.jpg";
 import l6 from "../assets/l6.jpg";
 import l7 from "../assets/l7.jpg";
 import l8 from "../assets/l8.jpg";
+import traverlVertical from "../assets/travel_vertical.jpg";
+import Header from "../components/Header.jsx";
+import "../styles/bootstrap.min.css";
+import "../styles/homepage.css";
 
 const Homepage = () => {
   return (
@@ -36,10 +36,10 @@ const Homepage = () => {
       </div>
 
       {/* <!-- Services --> */}
-      <section className="about py-lg-5 py-md-5 py-3">
+      <section className="about py-lg-5 py-md-5 py-3 bg-zinc-800">
         <div className="container">
           <div className="fetured-info py-lg-5 py-3">
-            <h3 className="heading text-center mb-lg-5 mb-3">What we do!</h3>
+            <h3 className="heading text-center mb-lg-5 mb-3 text-white">What we do!</h3>
             <div className="row fetured-sec mt-lg-5">
               <div className="col-lg-6 serv_bottom">
                 <div className="featured-left text-center row">
