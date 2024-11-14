@@ -1,22 +1,29 @@
 import { Calendar, Camera, ChevronRight, DollarSign, Globe, MapPin, Plane, Users } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { AccountContext } from "@/contexts/AccountContext";
+import { useNavigate } from 'react-router-dom';
 import Header from "./Header.jsx";
 
-const TravelStats = () => {
+const JourneyPage = () => {
+  const {
+    accountState,
+  } = useContext(AccountContext);
+  const navigate = useNavigate();
   const [userData] = useState({
-    name: "Abhishek Jain",
-    username: "Wanderlust",
-    location: "Currently in: Indiana, USA",
+    name: accountState.firstName + " " + accountState.lastName,
+    username: accountState.username,
+    location: accountState.city + ", " + accountState.country,
     travelPercentile: 95,
     milesTraveled: 50000,
-    countriesVisited: 30,
-    tripsPlanned: 5,
+    countriesVisited: accountState.placeTravelled.length,
+    tripsPlanned: accountState.wishlist.length,
   });
+
 
   return (
     <div className="homepage">
@@ -54,7 +61,7 @@ const TravelStats = () => {
             </div>
           </div>
           
-          <Button className="w-full bg-blue-600 hover:bg-blue-700">Edit Profile</Button>
+          <Button className="w-full bg-blue-600 hover:bg-blue-700" onClick={()=>navigate('/account')}>Edit Profile</Button>
         </aside>
 
         {/* Main content area */}
@@ -160,4 +167,4 @@ const TravelStats = () => {
   );
 };
 
-export default TravelStats;
+export default JourneyPage;

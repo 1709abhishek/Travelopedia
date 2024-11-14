@@ -25,6 +25,8 @@ function reducer(state, action) {
       return { ...state, wishlist: action.payload };
     case 'setTravelQuote':
       return { ...state, travelQuote: action.payload };
+    case 'username':
+      return { ...state, username: action.payload };
     default:
       throw new Error(`Invalid action type: ${action.type}`);
   }
@@ -42,7 +44,8 @@ const AccountContextProvider = props => {
     bio: 'I am a software developer',
     placeTravelled: ['India', 'USA', 'France', 'Netherlands', 'Brussels', 'Azerbaijan'],
     wishlist: ['Rome', 'Italy', 'Spain', 'New Zealand', 'Australia'],
-    travelQuote: 'Travel is the only thing you buy that makes you richer'
+    travelQuote: 'Travel is the only thing you buy that makes you richer',
+    username: 'Wanderlust'
   });
 
   const setFirstName = firstName => dispatch({ type: 'setFirstName', payload: firstName });
@@ -55,6 +58,7 @@ const AccountContextProvider = props => {
   const setPlaceTravelled = placeTravelled => dispatch({ type: 'setPlaceTravelled', payload: placeTravelled });
   const setWishlist = wishlist => dispatch({ type: 'setWishlist', payload: wishlist });
   const setTravelQuote = travelQuote => dispatch({ type: 'setTravelQuote', payload: travelQuote });
+  const setUsername = username => dispatch({ type: 'username', payload: username });
 
   return (
     <AccountContext.Provider
@@ -69,7 +73,8 @@ const AccountContextProvider = props => {
         setBio,
         setPlaceTravelled,
         setWishlist,
-        setTravelQuote
+        setTravelQuote,
+        setUsername
       }}
     >
       {props.children}
