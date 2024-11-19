@@ -80,6 +80,7 @@ const AccountPage = () => {
         <Header></Header>
       </header>
       <div className="container mx-auto px-4 py-8">
+        
         <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8">
           <aside className="space-y-6">
             <Card className="bg-zinc-900 border-zinc-800">
@@ -122,6 +123,7 @@ const AccountPage = () => {
                 </div>
               </CardContent>
             </Card>
+            
           </aside>
           <main>
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -197,6 +199,7 @@ const AccountPage = () => {
                   </div>
                 </CardContent>
               </Card>
+              
               <Card className="bg-zinc-900 border-zinc-800">
                 <CardHeader>
                   <CardTitle>Travel Information</CardTitle>
@@ -313,6 +316,7 @@ const AccountPage = () => {
                   </div>
                 </CardContent>
               </Card>
+              
               <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
                 Update Profile
               </Button>
