@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { AccountContext } from "@/contexts/AccountContext";
 import { useNavigate } from 'react-router-dom';
 import Header from "./Header.jsx";
+import TravelMap from "./ui/TravelMap.tsx";
 
 const JourneyPage = () => {
   const {
@@ -83,6 +84,8 @@ const JourneyPage = () => {
             </CardContent>
           </Card>
 
+          
+
           {/* Stats Grid */}
           <div className="grid gap-4 md:grid-cols-3">
             <Card className="bg-zinc-900 border-zinc-800">
@@ -114,6 +117,26 @@ const JourneyPage = () => {
             </Card>
           </div>
 
+          {/* Travel Map : Places Traveled or wishlist*/}
+          <Card className="bg-zinc-900 border-zinc-800">
+  <CardHeader className="flex flex-row items-center justify-between p-4">
+    <CardTitle className="text-xl font-bold">Travel Map</CardTitle>
+    <div className="flex items-center space-x-4">
+      <div className="flex items-center">
+        <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+        <span>Traveled</span>
+      </div>
+      <div className="flex items-center">
+        <div className="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
+        <span>Wishlist</span>
+      </div>
+    </div>
+  </CardHeader>
+  <CardContent>
+    <TravelMap placesTraveled={accountState.placeTravelled} wishlist={accountState.wishlist}/>
+  </CardContent>
+</Card>
+          
           {/* Recent Travels */}
           <Card className="bg-zinc-900 border-zinc-800">
             <CardHeader>
@@ -160,6 +183,7 @@ const JourneyPage = () => {
               </div>
             </CardContent>
           </Card>
+          
         </div>
       </main>
     </div>
