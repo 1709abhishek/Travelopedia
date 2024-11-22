@@ -57,7 +57,7 @@ const Homepage = () => {
           <Header></Header>
 
           <div className="title">
-            <h1>Travelopedia</h1>
+            <h1 className="travelopedia">Travelopedia</h1>
             <p>
               Track Your Journeys, Relive Your Memories, and Explore New
               Adventures

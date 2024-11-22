@@ -5,15 +5,17 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Calendar, Clock, MapPin, PlusCircle } from 'lucide-react'
 import React, { useState } from 'react'
 import Header from "../components/Header.jsx"
+import { BudgetModal } from "../components/BudgetModel.jsx"
 
 const trips = [
   {
     id: 1,
-    destination: 'Paris',
+    destination: 'Los Angeles',
     country: 'France',
     duration: '1 Day',
-    date: '2024-06-15',
+    date: '2024-11-30',
     description: 'Explore the City of Light in just one day!',
+    budget: 1000,
     itinerary: [
       { time: '9:00 AM', activity: 'Arrival in Paris' },
       { time: '9:30 AM', activity: 'Visit the Galeries Lafayette' },
@@ -70,14 +72,28 @@ function ItineraryModal({ isOpen, onClose, trip }) {
 }
 
 function LogTripPage() {
-    const [selectedTrip, setSelectedTrip] = useState(null)
+    const [selectedTrip, setSelectedTrip] = useState(null);
+    const [isOpenBudget, setIsOpenBudget] = useState(false);
+    const [isOpenItinerary, setIsOpenItinerary] = useState(false);
 
   const openItinerary = (trip) => {
     setSelectedTrip(trip)
+    setIsOpenItinerary(true);
+  }
+
+  const openBudget = (trip) => {
+    setSelectedTrip(trip);
+    setIsOpenBudget(true);
+  }
+
+  const closeBudget = () => { 
+    setIsOpenBudget(false);
+    setSelectedTrip(null)
   }
 
   const closeItinerary = () => {
     setSelectedTrip(null)
+    setIsOpenItinerary(false);
   }
 
   return (
@@ -107,8 +123,9 @@ function LogTripPage() {
                   {trip.date}
                 </div>
               </CardContent>
-              <CardFooter className="mt-auto">
+              <CardFooter className="mt-auto flex flex-col space-y-2">
                 <Button className="w-full bg-blue-600 hover:bg-blue-600 text-white" onClick={() => openItinerary(trip)}>View Itinerary</Button>
+                <Button className="w-full bg-blue-600 hover:bg-blue-600 text-white" onClick={() => openBudget(trip)}>View Budget</Button>
               </CardFooter>
             </Card>
           ))}
@@ -119,10 +136,14 @@ function LogTripPage() {
         </div>
       </main>
       <ItineraryModal
-        isOpen={!!selectedTrip}
+        isOpen={isOpenItinerary}
         onClose={closeItinerary}
         trip={selectedTrip}
       />
+      <BudgetModal
+        isOpen={isOpenBudget}
+        onClose={closeBudget}
+        trip={selectedTrip} />
     </div>
   )
 }

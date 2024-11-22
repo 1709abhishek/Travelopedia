@@ -10,7 +10,6 @@ import LogTripPage from './components/LogTripPage.jsx';
 import SignIn from './components/SignIn.jsx';
 import SignUp from './components/SignUp.jsx';
 
-
 function App() {
   return (
     <Router>
