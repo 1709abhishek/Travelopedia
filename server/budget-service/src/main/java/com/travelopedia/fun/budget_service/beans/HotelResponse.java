@@ -1,6 +1,6 @@
 package com.travelopedia.fun.budget_service.beans;
 
-public class ItineraryResponse {
+public class HotelResponse {
     private String hotelName;
     private String hotelId;
     private String cityCode;
@@ -9,7 +9,7 @@ public class ItineraryResponse {
     private String currency;
 
     // Constructor
-    public ItineraryResponse(String hotelName, String hotelId, String cityCode, double price, boolean available, String currency) {
+    public HotelResponse(String hotelName, String hotelId, String cityCode, double price, boolean available, String currency) {
         this.hotelName = hotelName;
         this.hotelId = hotelId;
         this.cityCode = cityCode;

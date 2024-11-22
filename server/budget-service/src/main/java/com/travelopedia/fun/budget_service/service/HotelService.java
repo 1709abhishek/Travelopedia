@@ -2,8 +2,8 @@ package com.travelopedia.fun.budget_service.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.travelopedia.fun.budget_service.beans.ItineraryRequest;
-import com.travelopedia.fun.budget_service.beans.ItineraryResponse;
+import com.travelopedia.fun.budget_service.beans.HotelRequest;
+import com.travelopedia.fun.budget_service.beans.HotelResponse;
 import com.travelopedia.fun.budget_service.beans.HotelListResponse;
 import com.travelopedia.fun.budget_service.beans.HotelOffersResponse;
 import org.springframework.web.client.RestTemplate;
@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class CostService {
+public class HotelService {
 
     @Autowired
     private AuthService authService;
@@ -43,7 +43,7 @@ public class CostService {
         }
     }
 
-    public List<ItineraryResponse> getHotelCostItinerary(ItineraryRequest request) {
+    public List<HotelResponse> getHotelCostItinerary(HotelRequest request) {
         String token = authService.getToken();
 
         // Step 1: Get hotel list by city
@@ -77,7 +77,7 @@ public class CostService {
     }
 
     //https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=string&adults=1&checkInDate=2023-11-22&checkOutDate=2024-11-22&roomQuantity=1&priceRange=200-300&currency=USD&paymentPolicy=NONE&bestRateOnly=true
-    private List<ItineraryResponse> getHotelOffers(List<String> hotelIds, ItineraryRequest request, String token) {
+    private List<HotelResponse> getHotelOffers(List<String> hotelIds, HotelRequest request, String token) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
@@ -96,7 +96,7 @@ public class CostService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<HotelOffersResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, HotelOffersResponse.class);
 
-        List<ItineraryResponse> itineraryList = new ArrayList<>();
+        List<HotelResponse> itineraryList = new ArrayList<>();
 
         if (response.getStatusCode().is2xxSuccessful()) {
             HotelOffersResponse hotelOffersResponse = response.getBody();
@@ -107,7 +107,7 @@ public class CostService {
                             HotelOffersResponse.Offer firstOffer = offer.getOffers().get(0);
                             String total = firstOffer.getPrice().getTotal();
                             double price = total != null ? Double.parseDouble(total) : 0.0;
-                            return new ItineraryResponse(
+                            return new HotelResponse(
                                     offer.getHotel().getName(),
                                     offer.getHotel().getHotelId(),
                                     offer.getHotel().getCityCode(),

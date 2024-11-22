@@ -1,6 +1,6 @@
 package com.travelopedia.fun.budget_service.beans;
 
-public class ItineraryRequest {
+public class HotelRequest {
     private String cityCode;
     private String checkInDate;
     private String checkOutDate;

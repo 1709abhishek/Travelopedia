@@ -22,6 +22,9 @@ public class AuthService {
     @Value("${api.auth_url}")
     private String authUrl;
 
+    @Value("${api.google_api_key}")
+    private String google_api_key;
+
     private final AtomicReference<String> token = new AtomicReference<>();
 
     public void authenticate() {
@@ -42,5 +45,9 @@ public class AuthService {
 
     public String getToken() {
         return token.get();
+    }
+
+    public String getGoogleToken() {
+        return google_api_key;
     }
 }
