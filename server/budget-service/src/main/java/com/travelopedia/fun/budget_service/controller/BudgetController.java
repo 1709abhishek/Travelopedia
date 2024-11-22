@@ -25,7 +25,7 @@ public class CostController {
 
     @PostMapping("/getHotelsCost")
     public List<ItineraryResponse> getCostItinerary(@RequestBody ItineraryRequest request) {
-        return costService.getCostItinerary(request);
+        return costService.getHotelCostItinerary(request);
     }
 
 }

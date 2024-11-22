@@ -43,7 +43,7 @@ public class CostService {
         }
     }
 
-    public List<ItineraryResponse> getCostItinerary(ItineraryRequest request) {
+    public List<ItineraryResponse> getHotelCostItinerary(ItineraryRequest request) {
         String token = authService.getToken();
 
         // Step 1: Get hotel list by city
