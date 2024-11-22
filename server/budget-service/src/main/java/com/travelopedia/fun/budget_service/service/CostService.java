@@ -15,6 +15,8 @@ import org.springframework.http.HttpMethod;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class CostService {
@@ -24,6 +26,22 @@ public class CostService {
 
     private final String hotelListUrl = "https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city";
     private final String hotelOffersUrl = "https://test.api.amadeus.com/v3/shopping/hotel-offers";
+
+    private static final Map<String, Double> EXCHANGE_RATES = new HashMap<>();
+
+    static {
+        EXCHANGE_RATES.put("INR", 0.012); // 1 INR = 0.012 USD
+        EXCHANGE_RATES.put("EUR", 1.1);  // 1 EUR = 1.1 USD
+        EXCHANGE_RATES.put("USD", 1.0);
+    }
+
+    private double convertToUSD(String currencyCode, double amount) {
+        if (EXCHANGE_RATES.containsKey(currencyCode)) {
+            return amount * EXCHANGE_RATES.get(currencyCode);
+        } else {
+            throw new IllegalArgumentException("Unsupported currency: " + currencyCode);
+        }
+    }
 
     public List<ItineraryResponse> getCostItinerary(ItineraryRequest request) {
         String token = authService.getToken();
@@ -51,6 +69,7 @@ public class CostService {
         if (response.getStatusCode().is2xxSuccessful()) {
             hotelIds = response.getBody().getData().stream()
                     .map(hotel -> hotel.getHotelId())
+                    .limit(30)
                     .collect(Collectors.toList());
         }
 
@@ -69,7 +88,7 @@ public class CostService {
                 "&checkInDate=" + request.getCheckInDate() +
                 "&checkOutDate=" + request.getCheckOutDate() +
                 "&roomQuantity=" + request.getRoomQuantity() +
-                "&currency=" + request.getCurrency() +
+                "&currency=USD" +
                 "&paymentPolicy=NONE&boardType=ROOM_ONLY&bestRateOnly=true";
 
         System.out.println("--------------------------------");
@@ -80,17 +99,26 @@ public class CostService {
         List<ItineraryResponse> itineraryList = new ArrayList<>();
 
         if (response.getStatusCode().is2xxSuccessful()) {
-            itineraryList = response.getBody().getData().stream()
-                    .filter(offer -> offer.isAvailable()) // Only include available hotels
-                    .map(offer -> new ItineraryResponse(
-                            offer.getHotel().getName(),
-                            offer.getHotel().getHotelId(),
-                            offer.getHotel().getCityCode(),
-                            Double.parseDouble(offer.getOffers().get(0).getPrice().getTotal()),
-                            offer.isAvailable(),
-                            offer.getOffers().get(0).getPrice().getCurrency()
-                    ))
-                    .collect(Collectors.toList());
+            HotelOffersResponse hotelOffersResponse = response.getBody();
+            if (hotelOffersResponse != null && hotelOffersResponse.getData() != null) {
+                itineraryList = hotelOffersResponse.getData().stream()
+                        .filter(HotelOffersResponse.HotelOfferData::isAvailable)
+                        .map(offer -> {
+                            HotelOffersResponse.Offer firstOffer = offer.getOffers().get(0);
+                            String total = firstOffer.getPrice().getTotal();
+                            double price = total != null ? Double.parseDouble(total) : 0.0;
+                            return new ItineraryResponse(
+                                    offer.getHotel().getName(),
+                                    offer.getHotel().getHotelId(),
+                                    offer.getHotel().getCityCode(),
+                                    convertToUSD(firstOffer.getPrice().getCurrency(),price),
+                                    offer.isAvailable(),
+                                    firstOffer.getPrice().getCurrency()
+                            );
+                        })
+                        .filter(itinerary -> itinerary.getPrice() > 0)
+                        .collect(Collectors.toList());
+            }
         }
 
         return itineraryList;
