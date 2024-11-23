@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Card, CardContent } from "@/components/ui/card";
 import hotelImg from '../assets/hotel.jpeg';
 
@@ -19,7 +20,7 @@ const HotelList = ({ hotels, onSelect, selectedItems }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
       {hotels.map((hotel) => (
         <div 
           key={hotel.hotelId}
@@ -72,6 +73,23 @@ const HotelList = ({ hotels, onSelect, selectedItems }) => {
       ))}
     </div>
   );
+};
+HotelList.propTypes = {
+  hotels: PropTypes.arrayOf(
+    PropTypes.shape({
+      hotelId: PropTypes.number.isRequired,
+      hotelName: PropTypes.string.isRequired,
+      cityCode: PropTypes.string.isRequired,
+      available: PropTypes.bool.isRequired,
+      price: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+  onSelect: PropTypes.func,
+  selectedItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      hotelId: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 };
 
 export default HotelList;
