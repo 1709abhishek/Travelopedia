@@ -10,6 +10,9 @@ public class AuthToken {
     @JsonProperty("token_type")
     private String tokenType;
 
+    @JsonProperty("expires_in")
+    private int expiresIn; // Duration in seconds for which the token is valid
+
     public String getAccessToken() {
         return accessToken;
     }
@@ -24,5 +27,13 @@ public class AuthToken {
 
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
+    }
+
+    public int getExpiresIn() {
+        return expiresIn;
+    }
+
+    public void setExpiresIn(int expiresIn) {
+        this.expiresIn = expiresIn;
     }
 }

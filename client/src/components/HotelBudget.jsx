@@ -9,6 +9,7 @@ import { useBudgets } from "@/hooks/useBudgets";
 import cityCodes from "@/resources/cityCodes.json";
 import { ClipLoader } from "react-spinners";
 import BudgetProcess from "./BudgetProcess";
+import { toast } from "react-toastify";
 
 const temp_hotels = [
   {
@@ -79,7 +80,8 @@ const HotelBudget = ({ trip }) => {
   const [showSearch, setShowSearch] = useState(false);
   const [hotels, setHotels] = useState();
   const [loading, setLoading] = useState(false);
-  const { getHotels } = useBudgets();
+  const { getHotels, createHotelBudget, refreshBudgets } = useBudgets();
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const calculateEndDate = (startDate, duration) => {
     if (!startDate) return "";
@@ -98,6 +100,11 @@ const HotelBudget = ({ trip }) => {
       setEndDate(calculateEndDate(trip.date, trip.duration));
     }
   }, []);
+
+  useEffect(() => {
+    const total = selectedItems.reduce((acc, item) => acc + item.price, 0);
+    setTotalPrice(total);
+  }, [selectedItems]);
 
   const handleHotelSelect = (hotel) => {
     const hotelWithDatesAndGuests = {
@@ -121,19 +128,19 @@ const HotelBudget = ({ trip }) => {
       alert("Please fill in all fields.");
       return;
     }
-
+  
     const start = new Date(startDate);
     const end = new Date(endDate);
-
+  
     if (end < start) {
       alert("End date should not be before start date.");
       return;
     }
-
+  
     const cityCode =
       cityCodes.cities.find((c) => c.name.toLowerCase() === city.toLowerCase())
         ?.code || "";
-
+  
     if (cityCode) {
       const inputs = {
         cityCode,
@@ -143,13 +150,17 @@ const HotelBudget = ({ trip }) => {
         roomQuantity: Math.ceil(guests / 4),
       };
       console.log(inputs);
-      setHotels(temp_hotels);
+      // setHotels(temp_hotels);
+      // setShowSearch(true);
+      setLoading(true);
+      const hotelsData = await getHotels(inputs);
+      if (!hotelsData) {
+        setLoading(false);
+        return;
+      }
+      setHotels(hotelsData);
+      setLoading(false);
       setShowSearch(true);
-    //   setLoading(true);
-    //   const hotelsData = await getHotels(inputs);
-    //   setHotels(hotelsData);
-    //   setLoading(false);
-    //   setShowSearch(true);
     } else {
       alert("Invalid city name.");
     }
@@ -167,9 +178,34 @@ const HotelBudget = ({ trip }) => {
     );
   };
 
-  const handleSave = () => {
-    // Implement save functionality here
-    console.log("Flights saved:", selectedItems);
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+  
+      let data = {
+        itineraryID: 104,
+        type: "hotel",
+        price: totalPrice,
+        items: selectedItems,
+      };
+  
+      console.log("Hotels data:", data);
+  
+      const result = await createHotelBudget(data);
+  
+      if (result.success) {
+        console.log("Hotels saved:", result);
+        refreshBudgets();
+        toast.success("Budget saved successfully!");
+      } else {
+        toast.error(result.message || "Failed to save budget");
+      }
+    } catch (error) {
+      console.error("Error saving budget:", error);
+      toast.error("An error occurred while saving the budget");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const renderStepContent = () => {
@@ -178,8 +214,6 @@ const HotelBudget = ({ trip }) => {
         return (
           <>
           <ScrollArea className="h-[40vh] w-full pr-4">
-
-          
             <div className="flex items-center space-x-4">
               <div className="flex-1">
                 <Label htmlFor="startDate">Start Date</Label>
@@ -287,7 +321,7 @@ const HotelBudget = ({ trip }) => {
               <h3 className="text-lg font-semibold">Confirm and Save</h3>
               <div className="p-4 bg-gray-800 rounded-lg text-center">
                 <p className="text-2xl font-bold">
-                  ${selectedItems.reduce((acc, item) => acc + item.price, 0)}
+                  ${totalPrice}
                 </p>
                 <p className="text-lg mt-2">Total Budget</p>
               </div>

@@ -4,9 +4,7 @@ import com.travelopedia.fun.budget_service.entity.*;
 import com.travelopedia.fun.budget_service.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.travelopedia.fun.budget_service.beans.FlightBudgetRequest;
-import com.travelopedia.fun.budget_service.beans.HotelBudgetRequest;
-
+import com.travelopedia.fun.budget_service.beans.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -86,13 +84,15 @@ public class BudgetService {
         custom.setBudget(savedBudget);
         custom.setName(request.getName());
         custom.setPrice(request.getPrice());
-        customBudgetRepository.save(flight);
+        customBudgetRepository.save(custom);
     }
 
     // Retrieve all Budgets and their details for a given ItineraryID
     public List<Object> getBudgetsByItineraryID(Integer itineraryID) {
         List<Budgets> budgets = budgetRepository.findByItineraryID(itineraryID);
         List<Object> results = new ArrayList<>();
+
+        System.out.println("Budgets found: " + budgets);
 
         for (Budgets budget : budgets) {
             switch (budget.getType().toLowerCase()) {
@@ -102,5 +102,67 @@ public class BudgetService {
             }
         }
         return results;
+    }
+
+    public void deleteBudgetsByItineraryID(Integer itineraryID) {
+        // Fetch all budgets associated with the itineraryID
+        List<Budgets> budgets = budgetRepository.findByItineraryID(itineraryID);
+
+        if (budgets != null && !budgets.isEmpty()) {
+            for (Budgets budget : budgets) {
+                // Delete related entities based on the type of the budget
+                switch (budget.getType().toLowerCase()) {
+                    case "hotel" -> {
+                        List<Hotel> hotels = hotelRepository.findByBudget_BudgetID(budget.getBudgetID());
+                        if (hotels != null && !hotels.isEmpty()) {
+                            hotelRepository.deleteAll(hotels);
+                        }
+                    }
+                    case "flight" -> {
+                        List<Flights> flights = flightsRepository.findByBudget_BudgetID(budget.getBudgetID());
+                        if (flights != null && !flights.isEmpty()) {
+                            flightsRepository.deleteAll(flights);
+                        }
+                    }
+                    case "custom" -> {
+                        List<CustomBudget> customBudget = customBudgetRepository.findByBudget_BudgetID(budget.getBudgetID());
+                        if (customBudget != null && !customBudget.isEmpty()) {
+                            customBudgetRepository.deleteAll(customBudget);
+                        }
+                    }
+                }
+                // Delete the budget itself
+                budgetRepository.delete(budget);
+            }
+        }
+    }
+
+    public void deleteBudgetByTypeAndId(Long budgetId, String type) {
+        switch (type.toLowerCase()) {
+            case "hotel" -> {
+                List<Hotel> hotels = hotelRepository.findByBudget_BudgetID(budgetId);
+                if (hotels != null && !hotels.isEmpty()) {
+                    hotelRepository.deleteAll(hotels);
+                }
+            }
+            case "flight" -> {
+                List<Flights> flights = flightsRepository.findByBudget_BudgetID(budgetId);
+                if (flights != null && !flights.isEmpty()) {
+                    flightsRepository.deleteAll(flights);
+                }
+            }
+            case "custom" -> {
+                List<CustomBudget> customBudget = customBudgetRepository.findByBudget_BudgetID(budgetId);
+                if (customBudget != null && !customBudget.isEmpty()) {
+                    customBudgetRepository.deleteAll(customBudget);
+                }
+            }
+            default -> throw new IllegalArgumentException("Invalid budget type: " + type);
+        }
+
+        // Finally, delete the budget itself
+        Budgets budget = budgetRepository.findById(budgetId)
+                .orElseThrow(() -> new IllegalArgumentException("Budget not found with ID: " + budgetId));
+        budgetRepository.delete(budget);
     }
 }

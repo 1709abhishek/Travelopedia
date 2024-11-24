@@ -3,13 +3,54 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useBudgets } from "@/hooks/useBudgets";
+import { ClipLoader } from "react-spinners";
+import { toast } from "react-toastify";
+
+const spinnerStyle = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "white",
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    zIndex: 1000,
+  };
+  
+  const spinnerContainerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    zIndex: 1000,
+    color: "white",
+  };
 
 function CustomBudget(){
     const [itemName, setItemName] = useState("");
     const [price, setPrice] = useState(""); 
-
+    const { createCustomBudget, refreshBudgets } = useBudgets();
+    const [loading, setLoading] = useState(false);
+    
     const handleSave = () => {
+        setLoading(true);
+        let data = {
+            "itineraryID": 104,
+            "type": "custom",
+            "name": itemName,
+            "price": price
+        };
+        console.log("Custom data:", data);
+        createCustomBudget(data);
+        refreshBudgets();
+        setLoading(false);
         console.log("Item Name:", itemName, "Price:", price);
+        toast.success("Custom budget saved successfully!");
     };
 
     return (   
@@ -47,6 +88,15 @@ function CustomBudget(){
                     Save
                 </Button>
             </div>
+            {loading && (
+          <div style={spinnerContainerStyle}>
+            <ClipLoader
+              color="#ffffff"
+              cssOverride={spinnerStyle}
+              loading={loading}
+            />
+          </div>
+        )}
         </ScrollArea>
     );
 }

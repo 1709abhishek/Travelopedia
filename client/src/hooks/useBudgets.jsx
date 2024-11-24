@@ -1,6 +1,18 @@
-import { getHotelsService } from '../services/BudgetServices';
+import { 
+  getHotelsService, 
+  getFlightsService, 
+  createHotelBudgetService, 
+  createFlightBudgetService, 
+  createCustomBudgetService, 
+  getBudgetsService,
+  deleteBudgetService,
+  deleteItineraryService 
+} from '../services/BudgetServices';
+import { useState } from 'react';
 
 export const useBudgets = () => {
+    const [refreshFlag, setRefreshFlag] = useState(false);
+
     const getHotels = async (inputs) => {
         try {
             const response = await getHotelsService(inputs);
@@ -12,7 +24,97 @@ export const useBudgets = () => {
         }
     };
 
+    const getFlights = async (inputs) => {
+        try {
+            const response = await getFlightsService(inputs);
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+    const createHotelBudget = async (data) => {
+        try {
+            const response = await createHotelBudgetService(data);
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+    const createFlightBudget = async (data) => {
+        try {
+            const response = await createFlightBudgetService(data);
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+    const createCustomBudget = async (data) => {
+        try {
+            const response = await createCustomBudgetService(data);
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+    const getBudgets = async (id) => {
+        try {
+            const response = await getBudgetsService(id);
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+    const refreshBudgets = () => {
+        setRefreshFlag(!refreshFlag);
+    };
+
+    const deleteBudget = async (budgetId, type) => {
+        try {
+            const response = await deleteBudgetService(budgetId, type);
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+    const deleteItinerary = async (itineraryId) => {
+        try {
+            const response = await deleteItineraryService(itineraryId);
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
     return {
-        getHotels
+        getHotels,
+        getFlights,
+        createHotelBudget,
+        createFlightBudget,
+        createCustomBudget,
+        getBudgets,
+        refreshBudgets,
+        deleteBudget,
+        deleteItinerary,
+        refreshFlag
     };
 };

@@ -24,16 +24,17 @@ export function BudgetModal({ isOpen, onClose, trip }) {
           </DialogDescription>
         </DialogHeader>
 
-        <Tabs defaultValue="new" className="w-full mt-4">
+        <Tabs defaultValue="existing" className="w-full mt-4">
           <TabsList className="grid w-full grid-cols-3 bg-gray-800 mb-6 gap-2">
+            <TabsTrigger value="existing" className="text-white data-[state=active]:bg-gray-700">
+              Existing Budgets
+            </TabsTrigger>
+
             <TabsTrigger value="new" className="text-white data-[state=active]:bg-gray-700">
               New Budget
             </TabsTrigger>
             <TabsTrigger value="custom" className="text-white data-[state=active]:bg-gray-700">
               New Custom Budget
-            </TabsTrigger>
-            <TabsTrigger value="existing" className="text-white data-[state=active]:bg-gray-700">
-              Existing Budgets
             </TabsTrigger>
           </TabsList>
 

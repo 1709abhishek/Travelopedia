@@ -4,8 +4,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import hotelImg from '../assets/hotel.jpeg';
 
 const HotelList = ({ hotels, onSelect, selectedItems }) => {
-  const [selectedHotelId, setSelectedHotelId] = useState(null);
-
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
@@ -15,7 +13,6 @@ const HotelList = ({ hotels, onSelect, selectedItems }) => {
   };
 
   const handleSelect = (hotelId) => {
-    setSelectedHotelId(hotelId);
     onSelect?.(hotels.find(hotel => hotel.hotelId === hotelId));
   };
 

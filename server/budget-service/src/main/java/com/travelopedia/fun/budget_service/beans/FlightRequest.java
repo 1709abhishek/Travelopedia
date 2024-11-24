@@ -4,7 +4,7 @@ public class FlightRequest {
     private String departure;
     private String arrival;
     private String departureDate;
-    private String returnDate;
+    private String arrivalDate;
     private int adults;
 
     public String getArrival() {
@@ -23,12 +23,12 @@ public class FlightRequest {
         this.departure = departure;
     }
 
-    public String getReturnDate() {
-        return returnDate;
+    public String getArrivalDate() {
+        return arrivalDate;
     }
 
-    public void setReturnDate(String returnDate) {
-        this.returnDate = returnDate;
+    public void setArrivalDate(String arrivalDate) {
+        this.arrivalDate = arrivalDate;
     }
 
     public int getAdults() {

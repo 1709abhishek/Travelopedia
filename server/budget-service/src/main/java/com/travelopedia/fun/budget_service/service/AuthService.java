@@ -7,7 +7,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpMethod;
+
+import javax.annotation.PostConstruct;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import com.travelopedia.fun.budget_service.beans.AuthToken;
 
 @Service
@@ -23,9 +29,12 @@ public class AuthService {
     private String authUrl;
 
     @Value("${api.google_api_key}")
-    private String google_api_key;
+    private String googleApiKey;
 
     private final AtomicReference<String> token = new AtomicReference<>();
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+    private static final int TOKEN_EXPIRY_BUFFER = 60; // Buffer to refresh token before it expires (in seconds)
 
     public void authenticate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -37,17 +46,35 @@ public class AuthService {
 
         ResponseEntity<AuthToken> response = restTemplate.exchange(authUrl, HttpMethod.POST, request, AuthToken.class);
         if (response.getStatusCode().is2xxSuccessful()) {
-            token.set(response.getBody().getAccessToken());
+            AuthToken authToken = response.getBody();
+            if (authToken != null) {
+                token.set(authToken.getAccessToken());
+
+                // Schedule the token refresh based on expires_in
+                int expiresIn = authToken.getExpiresIn();
+                scheduler.schedule(this::authenticate, expiresIn - TOKEN_EXPIRY_BUFFER, TimeUnit.SECONDS);
+
+                System.out.println("Token refreshed successfully. Expires in: " + expiresIn + " seconds.");
+            }
         } else {
             throw new RuntimeException("Failed to authenticate with API");
         }
     }
 
     public String getToken() {
+        String currentToken = token.get();
+        if (currentToken == null) {
+            authenticate(); // Ensure token is available on the first call
+        }
         return token.get();
     }
 
     public String getGoogleToken() {
-        return google_api_key;
+        return googleApiKey;
+    }
+
+    @PostConstruct
+    public void initialize() {
+        authenticate(); // Authenticate immediately when the service starts
     }
 }
