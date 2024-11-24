@@ -5,11 +5,9 @@ import com.travelopedia.fun.budget_service.configuration.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.travelopedia.fun.budget_service.service.HotelService;
-import com.travelopedia.fun.budget_service.service.FlightService;
+import com.travelopedia.fun.budget_service.service.*;
 import com.travelopedia.fun.budget_service.beans.*;
 import org.springframework.web.bind.annotation.*;
-import com.travelopedia.fun.budget_service.service.BudgetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +34,9 @@ public class BudgetController {
 
     @Autowired
     private BudgetService budgetService;
+
+    @Autowired
+    private SearchService searchService;
 
     @PostMapping("/getHotelsCost")
     public ResponseEntity<Object> getCostItinerary(@RequestBody HotelRequest request) {
@@ -170,6 +171,30 @@ public class BudgetController {
             response.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(response);
+        }
+    }
+
+    @PostMapping("/airports/search")
+    public ResponseEntity<Object> searchAirports(@RequestBody AirportSearchRequest request) {
+        try {
+            List<AirportDTO> results = searchService.searchAirports(request.getSearchTerm());
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("data", results);
+            response.put("count", results.size());
+
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "Error searching airports: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 }

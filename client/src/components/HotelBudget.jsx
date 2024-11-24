@@ -11,40 +11,40 @@ import { ClipLoader } from "react-spinners";
 import BudgetProcess from "./BudgetProcess";
 import { toast } from "react-toastify";
 
-const temp_hotels = [
-  {
-    hotelName: "Courtyard by Marriott Mumbai International Airport",
-    hotelId: "CYBOMCYC",
-    cityCode: "BOM",
-    price: 672600.0,
-    available: true,
-    currency: "INR",
-  },
-  {
-    hotelName: "HOLIDAY INN MUMBAI INTL ARPT",
-    hotelId: "HIBOMD98",
-    cityCode: "BOM",
-    price: 474773.0,
-    available: true,
-    currency: "INR",
-  },
-  {
-    hotelName: "HILTON MUMBAI INTERNATIONAL AIRPORT",
-    hotelId: "HLBOM440",
-    cityCode: "BOM",
-    price: 620798.12,
-    available: true,
-    currency: "INR",
-  },
-  {
-    hotelName: "Hyatt Regency Mumbai",
-    hotelId: "HYBOMMUM",
-    cityCode: "BOM",
-    price: 339150.0,
-    available: true,
-    currency: "INR",
-  },
-];
+// const temp_hotels = [
+//   {
+//     hotelName: "Courtyard by Marriott Mumbai International Airport",
+//     hotelId: "CYBOMCYC",
+//     cityCode: "BOM",
+//     price: 672600.0,
+//     available: true,
+//     currency: "INR",
+//   },
+//   {
+//     hotelName: "HOLIDAY INN MUMBAI INTL ARPT",
+//     hotelId: "HIBOMD98",
+//     cityCode: "BOM",
+//     price: 474773.0,
+//     available: true,
+//     currency: "INR",
+//   },
+//   {
+//     hotelName: "HILTON MUMBAI INTERNATIONAL AIRPORT",
+//     hotelId: "HLBOM440",
+//     cityCode: "BOM",
+//     price: 620798.12,
+//     available: true,
+//     currency: "INR",
+//   },
+//   {
+//     hotelName: "Hyatt Regency Mumbai",
+//     hotelId: "HYBOMMUM",
+//     cityCode: "BOM",
+//     price: 339150.0,
+//     available: true,
+//     currency: "INR",
+//   },
+// ];
 
 const spinnerStyle = {
   display: "block",

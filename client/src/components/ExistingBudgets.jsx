@@ -11,7 +11,7 @@ function ExistingBudgets() {
     const data = await getBudgets(104);
     if (data) {
       setBudgets(data);
-      console.log(data);
+      // console.log(data);
     }
   };
 
@@ -47,7 +47,7 @@ function ExistingBudgets() {
 
   const totalPrice = budgets.reduce((total, budgetGroup) => {
     return total + budgetGroup.reduce((groupTotal, item) => groupTotal + item.price, 0);
-  }, 0);
+  }, 0).toFixed(2);
 
   return (
     <ScrollArea className="h-[60vh] w-full">

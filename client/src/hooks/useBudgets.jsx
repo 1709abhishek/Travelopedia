@@ -16,7 +16,6 @@ export const useBudgets = () => {
     const getHotels = async (inputs) => {
         try {
             const response = await getHotelsService(inputs);
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error(error);
@@ -27,7 +26,6 @@ export const useBudgets = () => {
     const getFlights = async (inputs) => {
         try {
             const response = await getFlightsService(inputs);
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error(error);
@@ -38,7 +36,6 @@ export const useBudgets = () => {
     const createHotelBudget = async (data) => {
         try {
             const response = await createHotelBudgetService(data);
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error(error);
@@ -49,7 +46,6 @@ export const useBudgets = () => {
     const createFlightBudget = async (data) => {
         try {
             const response = await createFlightBudgetService(data);
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error(error);
@@ -60,7 +56,6 @@ export const useBudgets = () => {
     const createCustomBudget = async (data) => {
         try {
             const response = await createCustomBudgetService(data);
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error(error);
@@ -71,7 +66,6 @@ export const useBudgets = () => {
     const getBudgets = async (id) => {
         try {
             const response = await getBudgetsService(id);
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error(error);
@@ -86,7 +80,6 @@ export const useBudgets = () => {
     const deleteBudget = async (budgetId, type) => {
         try {
             const response = await deleteBudgetService(budgetId, type);
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error(error);
@@ -97,7 +90,6 @@ export const useBudgets = () => {
     const deleteItinerary = async (itineraryId) => {
         try {
             const response = await deleteItineraryService(itineraryId);
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error(error);

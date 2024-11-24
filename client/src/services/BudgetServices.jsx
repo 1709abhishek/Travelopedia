@@ -63,5 +63,3 @@ export const deleteItineraryService = async (itineraryId) => {
       url: `${serviceConfig.budgetHost}/api/budgets/delete/${itineraryId}`
     });
 }
-
-

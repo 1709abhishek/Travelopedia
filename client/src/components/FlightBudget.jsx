@@ -5,76 +5,78 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useBudgets } from "@/hooks/useBudgets";
+import { useSearch } from "@/hooks/useSearch";
 import { ClipLoader } from "react-spinners";
 import BudgetProcess from "./BudgetProcess";
 import FlightList from "./FlightList";
 import { toast } from "react-toastify";
+import Select from "react-select";
 
-const temp_flights = [
-  {
-    departureAirportName: "John F. Kennedy International Airport",
-    departureAirportId: "JFK",
-    departureTime: "2024-12-15 09:00",
-    arrivalAirportName: "Los Angeles International Airport",
-    arrivalAirportId: "LAX",
-    arrivalTime: "2024-12-15 12:20",
-    duration: 380,
-    airplane: "Airbus A320",
-    airline: "JetBlue",
-    airlineLogo: "https://www.gstatic.com/flights/airline_logos/70px/B6.png",
-    travelClass: "Economy",
-    flightNumber: "B6 223",
-    legroom: "32 in",
-    extensions: null,
-    totalDuration: 380,
-    carbonEmissions: 0,
-    price: 672,
-    tripType: "Round trip",
-    departureToken: null,
-  },
-  {
-    departureAirportName: "John F. Kennedy International Airport",
-    departureAirportId: "JFK",
-    departureTime: "2024-12-15 06:58",
-    arrivalAirportName: "Los Angeles International Airport",
-    arrivalAirportId: "LAX",
-    arrivalTime: "2024-12-15 10:20",
-    duration: 382,
-    airplane: "Airbus A321 (Sharklets)",
-    airline: "American",
-    airlineLogo: "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
-    travelClass: "Economy",
-    flightNumber: "AA 1",
-    legroom: "31 in",
-    extensions: null,
-    totalDuration: 382,
-    carbonEmissions: 0,
-    price: 687,
-    tripType: "Round trip",
-    departureToken: null,
-  },
-  {
-    departureAirportName: "John F. Kennedy International Airport",
-    departureAirportId: "JFK",
-    departureTime: "2024-12-15 08:40",
-    arrivalAirportName: "Los Angeles International Airport",
-    arrivalAirportId: "LAX",
-    arrivalTime: "2024-12-15 12:06",
-    duration: 386,
-    airplane: "Boeing 767",
-    airline: "Delta",
-    airlineLogo: "https://www.gstatic.com/flights/airline_logos/70px/DL.png",
-    travelClass: "Economy",
-    flightNumber: "DL 713",
-    legroom: "31 in",
-    extensions: null,
-    totalDuration: 386,
-    carbonEmissions: 0,
-    price: 727,
-    tripType: "Round trip",
-    departureToken: null,
-  },
-];
+// const temp_flights = [
+//   {
+//     departureAirportName: "John F. Kennedy International Airport",
+//     departureAirportId: "JFK",
+//     departureTime: "2024-12-15 09:00",
+//     arrivalAirportName: "Los Angeles International Airport",
+//     arrivalAirportId: "LAX",
+//     arrivalTime: "2024-12-15 12:20",
+//     duration: 380,
+//     airplane: "Airbus A320",
+//     airline: "JetBlue",
+//     airlineLogo: "https://www.gstatic.com/flights/airline_logos/70px/B6.png",
+//     travelClass: "Economy",
+//     flightNumber: "B6 223",
+//     legroom: "32 in",
+//     extensions: null,
+//     totalDuration: 380,
+//     carbonEmissions: 0,
+//     price: 672,
+//     tripType: "Round trip",
+//     departureToken: null,
+//   },
+//   {
+//     departureAirportName: "John F. Kennedy International Airport",
+//     departureAirportId: "JFK",
+//     departureTime: "2024-12-15 06:58",
+//     arrivalAirportName: "Los Angeles International Airport",
+//     arrivalAirportId: "LAX",
+//     arrivalTime: "2024-12-15 10:20",
+//     duration: 382,
+//     airplane: "Airbus A321 (Sharklets)",
+//     airline: "American",
+//     airlineLogo: "https://www.gstatic.com/flights/airline_logos/70px/AA.png",
+//     travelClass: "Economy",
+//     flightNumber: "AA 1",
+//     legroom: "31 in",
+//     extensions: null,
+//     totalDuration: 382,
+//     carbonEmissions: 0,
+//     price: 687,
+//     tripType: "Round trip",
+//     departureToken: null,
+//   },
+//   {
+//     departureAirportName: "John F. Kennedy International Airport",
+//     departureAirportId: "JFK",
+//     departureTime: "2024-12-15 08:40",
+//     arrivalAirportName: "Los Angeles International Airport",
+//     arrivalAirportId: "LAX",
+//     arrivalTime: "2024-12-15 12:06",
+//     duration: 386,
+//     airplane: "Boeing 767",
+//     airline: "Delta",
+//     airlineLogo: "https://www.gstatic.com/flights/airline_logos/70px/DL.png",
+//     travelClass: "Economy",
+//     flightNumber: "DL 713",
+//     legroom: "31 in",
+//     extensions: null,
+//     totalDuration: 386,
+//     carbonEmissions: 0,
+//     price: 727,
+//     tripType: "Round trip",
+//     departureToken: null,
+//   },
+// ];
 
 const spinnerStyle = {
   display: "block",
@@ -113,6 +115,46 @@ const FlightBudget = ({ trip }) => {
   const [flights, setFlights] = useState();
   const [totalPrice, setTotalPrice] = useState(0);
   const { getFlights, createFlightBudget, refreshBudgets } = useBudgets();
+  const { searchAirport } = useSearch();
+  const [fromOptions, setFromOptions] = useState([]);
+  const [toOptions, setToOptions] = useState([]);
+  const [fromLoading, setFromLoading] = useState(false);
+  const [toLoading, setToLoading] = useState(false);
+
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      backgroundColor: 'rgb(31, 41, 55)', // dark background
+      borderColor: 'rgb(75, 85, 99)', // dark border
+      '&:hover': {
+        borderColor: 'rgb(107, 114, 128)'
+      }
+    }),
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: 'rgb(31, 41, 55)'
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused ? 'rgb(55, 65, 81)' : 'rgb(31, 41, 55)',
+      color: 'white',
+      '&:hover': {
+        backgroundColor: 'rgb(55, 65, 81)'
+      }
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: 'white'
+    }),
+    input: (provided) => ({
+      ...provided,
+      color: 'white'
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: 'rgb(156, 163, 175)'
+    })
+  };
 
   const calculateEndDate = (startDate, duration) => {
     if (!startDate) return "";
@@ -152,7 +194,7 @@ const FlightBudget = ({ trip }) => {
 
   const handleSearch = async () => {
     if (!from || !to || !departureDate || !arrivalDate || !adults) {
-      alert("Please fill in all fields.");
+      toast.error("Please fill in all fields.");
       return;
     }
 
@@ -160,27 +202,28 @@ const FlightBudget = ({ trip }) => {
     const end = new Date(arrivalDate);
 
     if (end < start) {
-      alert("End date should not be before start date.");
+      toast.error("End date should not be before start date.");
       return;
     }
 
-    const fromCode = "LAX";
-    const toCode = "JFK";
-
-    if (fromCode && toCode) {
+    setLoading(true);
+    try {
       const inputs = {
-        departure: fromCode,
-        arrival: toCode,
+        departure: from, 
+        arrival: to,   
         departureDate,
         arrivalDate,
         adults,
       };
-      console.log(inputs);
+      
       const flightsData = await getFlights(inputs);
       setFlights(flightsData);
       setShowSearch(true);
-    } else {
-      alert("Invalid city name.");
+    } catch (error) {
+      console.error('Error fetching flights:', error);
+      toast.error('Failed to fetch flights');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -213,73 +256,121 @@ const FlightBudget = ({ trip }) => {
     }
   };
 
+   const handleInputChange = async (inputValue, type) => {
+    if (inputValue.length < 2) return;
+
+    try {
+      const loadingState = type === 'from' ? setFromLoading : setToLoading;
+      const optionsState = type === 'from' ? setFromOptions : setToOptions;
+      
+      loadingState(true);
+      // console.log('Searching airports:', inputValue);
+      const data = {
+        searchTerm: inputValue
+      };
+
+      // console.log('Searching airports:', data);
+
+      const response = await searchAirport(data);
+      
+      if (response.success && response.data) {
+        const formattedOptions = response.data.map(airport => ({
+          value: airport.iata,
+          label: `${airport.city} - ${airport.name} (${airport.iata})`
+        }));
+        optionsState(formattedOptions);
+      }
+    } catch (error) {
+      console.error('Error searching airports:', error);
+      toast.error('Failed to search airports');
+    } finally {
+      const loadingState = type === 'from' ? setFromLoading : setToLoading;
+      loadingState(false);
+    }
+  };
+
+  const renderSearchInputs = () => (
+    <div className="flex items-center space-x-4">
+      <div className="flex-1">
+        <Label htmlFor="departureDate">Departure Date</Label>
+        <Input
+          type="date"
+          id="departureDate"
+          value={departureDate}
+          onChange={(e) => setDepartureDate(e.target.value)}
+          className="bg-gray-800 border-gray-700"
+        />
+      </div>
+      <div className="flex-1">
+        <Label htmlFor="arrivalDate">Arrival Date</Label>
+        <Input
+          type="date"
+          id="arrivalDate"
+          value={arrivalDate}
+          onChange={(e) => setArrivalDate(e.target.value)}
+          className="bg-gray-800 border-gray-700"
+        />
+      </div>
+      <div className="flex-1">
+        <Label htmlFor="from">From</Label>
+        <Select
+          id="from"
+          placeholder="Enter city name"
+          value={fromOptions.find((option) => option.value === from)}
+          onChange={(selectedOption) => setFrom(selectedOption?.value || "")}
+          onInputChange={(input) => {
+            handleInputChange(input, "from");
+          }}
+          options={fromOptions}
+          isLoading={fromLoading}
+          styles={customStyles}
+          className="text-white"
+        />
+      </div>
+      <div className="flex-1">
+        <Label htmlFor="to">To</Label>
+        <Select
+          id="to"
+          placeholder="Enter city name"
+          value={toOptions.find(option => option.value === to)}
+          onChange={(selectedOption) => setTo(selectedOption?.value || '')}
+          onInputChange={(input) => {
+            handleInputChange(input, 'to');
+          }}
+          options={toOptions}
+          isLoading={toLoading}
+          styles={customStyles}
+          className="text-white"
+        />
+      </div>
+      <div className="flex-1">
+        <Label htmlFor="adults">Adults</Label>
+        <Input
+          type="number"
+          id="adults"
+          min="1"
+          max="4"
+          value={adults}
+          onChange={(e) => setAdults(parseInt(e.target.value))}
+          className="bg-gray-800 border-gray-700"
+        />
+      </div>
+    </div>
+  );
+
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
         return (
           <ScrollArea className="h-[40vh] w-full pr-4">
-            <div className="flex items-center space-x-4">
-              <div className="flex-1">
-                <Label htmlFor="departureDate">Departure Date</Label>
-                <Input
-                  type="date"
-                  id="departureDate"
-                  value={departureDate}
-                  onChange={(e) => setDepartureDate(e.target.value)}
-                  className="bg-gray-800 border-gray-700"
-                />
-              </div>
-              <div className="flex-1">
-                <Label htmlFor="arrivalDate">Arrival Date</Label>
-                <Input
-                  type="date"
-                  id="arrivalDate"
-                  value={arrivalDate}
-                  onChange={(e) => setArrivalDate(e.target.value)}
-                  className="bg-gray-800 border-gray-700"
-                />
-              </div>
-              <div className="flex-1">
-                <Label htmlFor="from">From</Label>
-                <Input
-                  type="text"
-                  id="from"
-                  placeholder="Enter city name"
-                  value={from}
-                  onChange={(e) => setFrom(e.target.value)}
-                  className="bg-gray-800 border-gray-700"
-                />
-              </div>
-              <div className="flex-1">
-                <Label htmlFor="to">To</Label>
-                <Input
-                  type="text"
-                  id="to"
-                  placeholder="Enter city name"
-                  value={to}
-                  onChange={(e) => setTo(e.target.value)}
-                  className="bg-gray-800 border-gray-700"
-                />
-              </div>
-              <div className="flex-1">
-                <Label htmlFor="adults">Adults</Label>
-                <Input
-                  type="number"
-                  id="adults"
-                  min="1"
-                  max="4"
-                  value={adults}
-                  onChange={(e) => setAdults(parseInt(e.target.value))}
-                  className="bg-gray-800 border-gray-700"
-                />
-              </div>
-            </div>
+            {renderSearchInputs()}
             <div className="flex items-center gap-4 my-4">
               <Button
                 onClick={handleSearch}
                 className="bg-blue-600 hover:bg-blue-700"
+                disabled={loading}
               >
-                Search Flights
+                {loading ? "Searching..." : "Search Flights"}
               </Button>
             </div>
             {showSearch && (
