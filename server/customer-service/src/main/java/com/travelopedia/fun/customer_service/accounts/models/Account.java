@@ -1,5 +1,6 @@
 package com.travelopedia.fun.customer_service.accounts.models;
 
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.util.List;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
@@ -31,3 +32,4 @@ public class Account {
     private String wishlist;
     private String profilePicUrl;
 }
+

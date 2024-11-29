@@ -21,7 +21,7 @@ public class TravelStatsController {
     @RequestMapping("/getTotalDistanceTravelled")
     public int getTotalDistanceTravelled(@RequestBody Account account) {
         List<String> placesTravelledList = Arrays.asList(account.getPlacesTravelled().split(","));
-        totalKilometersTravelled = (int)travelStatsService.getTotalKilometersTravelled(account.getCountry(), placesTravelledList);
+//        totalKilometersTravelled = (int)travelStatsService.getTotalKilometersTravelled(account.getCountry(), placesTravelledList);
         return totalKilometersTravelled;
     }
 
