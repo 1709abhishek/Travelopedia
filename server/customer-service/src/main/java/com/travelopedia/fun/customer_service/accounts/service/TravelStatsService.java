@@ -1,74 +1,76 @@
 package com.travelopedia.fun.customer_service.accounts.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.FileReader;
-import java.math.BigInteger;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.net.http.HttpResponse.BodyHandlers;
-import java.util.*;
-
-import com.opencsv.CSVReader;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.jdbc.core.CallableStatementCreator;
-import java.math.BigInteger;
-import java.math.BigDecimal;
-
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.math3.distribution.NormalDistribution;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.ConcurrentHashMap;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class TravelStatsService {
 
     private static final String GEODB_API_URL = "https://wft-geo-db.p.rapidapi.com/v1/geo";
     private static final String RAPIDAPI_KEY = "0929069aafmshcd69c500702a308p1721ddjsnec891a2c4a50";
-    private static final Map<String, String> countryCapitalCache = new ConcurrentHashMap<>();
     private static final Map<String, Double> distanceCache = new ConcurrentHashMap<>();
     private static final int API_CALLS_PER_MINUTE = 60;
     private static long lastCallTime = 0;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
-    public record CityInfo(String id, String name, String countryCode) {}
+    public record CityInfo(String id, String name, String countryCode) {
+    }
 
     public String findCapital(String country) throws Exception {
-        if (countryCapitalCache.containsKey(country)) {
-            return countryCapitalCache.get(country);
+        String cacheKey = "capital:" + country;
+        String cachedCapital = (String) redisTemplate.opsForValue().get(cacheKey);
+        if (cachedCapital != null) {
+            return cachedCapital;
         }
 
         waitForRateLimit();
 
         String query = String.format("""
-        {
-          countries(namePrefix: "%s") {
-            edges {
-              node {
-                capital
-              }
-            }
-          }
-        }
-        """, country);
+                {
+                  countries(namePrefix: "%s") {
+                    edges {
+                      node {
+                        capital
+                      }
+                    }
+                  }
+                }
+                """, country);
 
         JsonNode response = executeGraphQLQuery(query);
-        String capital = response.path("data").path("countries").path("edges").get(0).path("node").path("capital").asText();
+        String capital = response.path("data").path("countries").path("edges").get(0).path("node").path("capital")
+                .asText();
 
         if (capital.isEmpty()) {
             throw new Exception("No capital found for country: " + country);
         }
 
-        countryCapitalCache.put(country, capital);
+        redisTemplate.opsForValue().set(cacheKey, capital, 24, TimeUnit.HOURS);
         return capital;
     }
 
     public CityInfo findCity(String cityName) throws Exception {
+        String cacheKey = "city:" + cityName;
+        CityInfo cachedCity = (CityInfo) redisTemplate.opsForValue().get(cacheKey);
+        if (cachedCity != null) {
+            return cachedCity;
+        }
         waitForRateLimit();
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -84,7 +86,8 @@ public class TravelStatsService {
         System.out.println("Response Body: " + response.body());
 
         if (response.statusCode() != 200) {
-            throw new Exception("API request failed with status code: " + response.statusCode() + "\nResponse body: " + response.body());
+            throw new Exception("API request failed with status code: " + response.statusCode() + "\nResponse body: "
+                    + response.body());
         }
 
         JsonNode jsonResponse = new ObjectMapper().readTree(response.body());
@@ -94,17 +97,19 @@ public class TravelStatsService {
             throw new Exception("No city found with name: " + cityName);
         }
 
-        return new CityInfo(
+        CityInfo cityInfo = new CityInfo(
                 cityData.path("wikiDataId").asText(),
                 cityData.path("name").asText(),
-                cityData.path("countryCode").asText()
-        );
+                cityData.path("countryCode").asText());
+        redisTemplate.opsForValue().set(cacheKey, cityInfo, 24, TimeUnit.HOURS);
+        return cityInfo;
     }
 
     public double getDistance(String fromCountry, String toCountry) throws Exception {
-        String cacheKey = fromCountry + "-" + toCountry;
-        if (distanceCache.containsKey(cacheKey)) {
-            return distanceCache.get(cacheKey);
+        String cacheKey = "distance:" + fromCountry + "-" + toCountry;
+        Double cachedDistance = (Double) redisTemplate.opsForValue().get(cacheKey);
+        if (cachedDistance != null) {
+            return cachedDistance;
         }
 
         String fromCapital = findCapital(fromCountry);
@@ -117,16 +122,15 @@ public class TravelStatsService {
         waitForRateLimit();
 
         String query = String.format("""
-        {
-          distanceBetween(fromPlaceId: "%s", toPlaceId: "%s") 
-        }
-        """, city1.id(), city2.id());
+                {
+                  distanceBetween(fromPlaceId: "%s", toPlaceId: "%s")
+                }
+                """, city1.id(), city2.id());
 
         JsonNode response = executeGraphQLQuery(query);
         double distance = response.path("data").path("distanceBetween").asDouble();
 
-
-        distanceCache.put(cacheKey, distance);
+        redisTemplate.opsForValue().set(cacheKey, distance, 720, TimeUnit.HOURS);
         // print the distance
         System.out.println("Distance between " + fromCountry + " and " + toCountry + ": " + distance + " km");
         return distance;
@@ -173,7 +177,8 @@ public class TravelStatsService {
         System.out.println("Response Body: " + response.body());
 
         if (response.statusCode() != 200) {
-            throw new Exception("API request failed with status code: " + response.statusCode() + "\nResponse body: " + response.body());
+            throw new Exception("API request failed with status code: " + response.statusCode() + "\nResponse body: "
+                    + response.body());
         }
 
         JsonNode jsonResponse = new ObjectMapper().readTree(response.body());
@@ -208,16 +213,16 @@ public class TravelStatsService {
             String startCountry = "India";
             List<String> countriesVisited = Arrays.asList("France", "Germany", "Italy", "Spain");
 
-//            System.out.println("Calculating travel statistics...");
-//            System.out.println("Start country: " + startCountry);
-//            System.out.println("Countries visited: " + countriesVisited);
+            // System.out.println("Calculating travel statistics...");
+            // System.out.println("Start country: " + startCountry);
+            // System.out.println("Countries visited: " + countriesVisited);
 
             String capital = service.findCapital(startCountry);
             CityInfo capitalInfo = service.findCity(capital);
-//            System.out.println("\nCapital of " + startCountry + ":");
-//            System.out.println("Name: " + capitalInfo.name());
-//            System.out.println("ID: " + capitalInfo.id());
-//            System.out.println("Country Code: " + capitalInfo.countryCode());
+            // System.out.println("\nCapital of " + startCountry + ":");
+            // System.out.println("Name: " + capitalInfo.name());
+            // System.out.println("ID: " + capitalInfo.id());
+            // System.out.println("Country Code: " + capitalInfo.countryCode());
 
             double totalDistance = service.getTotalDistanceTraveled(startCountry, countriesVisited);
             double percentile = service.calculatePercentile(totalDistance);
@@ -230,6 +235,5 @@ public class TravelStatsService {
             e.printStackTrace();
         }
     }
-
 
 }
