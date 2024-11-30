@@ -1,17 +1,23 @@
 package com.travelopedia.fun.customer_service.configuration;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+@Component
 public class DatabaseCreator {
-    public static void main(String[] args) {
-        String url = "jdbc:mysql://localhost:3306/";
-        String user = "root";
-        String password = "Figureyourself";
-        String dbName = "TravelopediaDB";
 
+    private final String url = "jdbc:mysql://localhost:3306/";
+    private final String user = "root";
+    private final String password = "Figureyourself";
+    private final String dbName = "TravelopediaDB";
+
+    @PostConstruct
+    public void createDatabase() {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              Statement statement = connection.createStatement()) {
 
