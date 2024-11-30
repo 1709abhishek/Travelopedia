@@ -145,7 +145,7 @@ public class SecurityConfiguration {
         // return http.build();
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/sayHello", "/customer","/accounts/*").permitAll()
+                .requestMatchers("/sayHello", "/customer","/accounts/*", "/profile/*", "/travel-stats/*").permitAll()
                 .anyRequest().authenticated()
             )
             // .sessionManagement(session -> session
@@ -154,7 +154,7 @@ public class SecurityConfiguration {
             // .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
             .oauth2Login(Customizer.withDefaults());
             // .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-            
+
         return http.build();
     }
 

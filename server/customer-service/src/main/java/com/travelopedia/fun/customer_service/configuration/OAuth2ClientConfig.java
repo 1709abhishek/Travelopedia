@@ -2,6 +2,7 @@ package com.travelopedia.fun.customer_service.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
@@ -10,7 +11,8 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 @Configuration
 public class OAuth2ClientConfig {
 
-    @Bean
+    @Bean(name="oauth2ClientRegistrationRepository")
+    @Primary
     public ClientRegistrationRepository clientRegistrationRepository() {
         ClientRegistration clientRegistration = ClientRegistration.withRegistrationId("example")
                 .clientId("your-client-id")

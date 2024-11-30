@@ -22,8 +22,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.math3.distribution.NormalDistribution;
+import org.springframework.stereotype.Service;
+
 import java.util.concurrent.ConcurrentHashMap;
 
+@Service
 public class TravelStatsService {
 
     private static final String GEODB_API_URL = "https://wft-geo-db.p.rapidapi.com/v1/geo";

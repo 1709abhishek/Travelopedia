@@ -40,8 +40,9 @@ public class ProfileController {
         }
     }
 
-    @GetMapping("/getDetails/{email}")
+    @GetMapping("/{email}")
     public ResponseEntity<Account> getProfileDetails(@PathVariable String email){
+        System.out.println("Getting profile details for account: "+email);
         try{
             Account currentAccount=accountsRepository.findByEmail(email);
             if(currentAccount==null){
