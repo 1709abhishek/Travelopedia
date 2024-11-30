@@ -3,9 +3,7 @@ package com.travelopedia.fun.customer_service.accounts.controllers;
 import com.travelopedia.fun.customer_service.accounts.models.Account;
 import com.travelopedia.fun.customer_service.accounts.service.TravelStatsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,22 +12,26 @@ import java.util.List;
 @RequestMapping("/travel-stats")
 public class TravelStatsController {
 
-    @Autowired
-    TravelStatsService travelStatsService;
-    private int totalKilometersTravelled=0;
+    private final TravelStatsService travelStatsService;
 
-    @RequestMapping("/getTotalDistanceTravelled")
-    public int getTotalDistanceTravelled(@RequestBody Account account) {
-        List<String> placesTravelledList = Arrays.asList(account.getPlacesTravelled().split(","));
-        totalKilometersTravelled = (int)travelStatsService.getTotalKilometersTravelled(account.getCountry(), placesTravelledList);
-        return totalKilometersTravelled;
+    @Autowired
+    public TravelStatsController(TravelStatsService travelStatsService) {
+        this.travelStatsService = travelStatsService;
     }
 
-    @RequestMapping("/getCountryPercentile")
-    public int getCountryPercentile(@RequestBody Account account) {
-        List<String> placesTravelledList = Arrays.asList(account.getPlacesTravelled().split(","));
-//        return travelStatsService.getCountryPercentile(account.getCountry(), placesTravelledList);
-        return 0;
+    @GetMapping("/distance")
+    public double getDistance(@RequestParam String fromCountry, @RequestParam String toCountry) throws Exception {
+        return travelStatsService.getDistance(fromCountry, toCountry);
+    }
+
+    @GetMapping("/total-distance")
+    public double getTotalDistance(@RequestParam String startCountry, @RequestParam List<String> countriesVisited) throws Exception {
+        return travelStatsService.getTotalDistanceTraveled(startCountry, countriesVisited);
+    }
+
+    @GetMapping("/percentile")
+    public double getPercentile(@RequestParam double distanceTraveled) {
+        return travelStatsService.calculatePercentile(distanceTraveled);
     }
 
 }
