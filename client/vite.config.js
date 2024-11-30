@@ -3,6 +3,7 @@ import path from "path"
 import { defineConfig } from "vite"
 
 export default defineConfig({
+  assetsInclude: ['**/*.csv'],
   plugins: [react()],
   resolve: {
     alias: {

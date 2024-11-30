@@ -3,6 +3,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { BookOpen, Compass, Home, Map, Menu, PenTool, User } from 'lucide-react'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import "../styles/header.css";
 
 export default function Header() {
   const navItems = [
@@ -17,7 +18,7 @@ export default function Header() {
   return (
     <nav className="bg-gray-800 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold text-white">
+        <Link to="/" className="text-xl font-bold text-white site-name">
           Travelopedia
         </Link>
         

@@ -4,9 +4,56 @@
     box-sizing:border;
     text-decoration: none;
     scroll-behavior: smooth;
+    background-color: black;
+}
+
+.travelopedia{
+    font-family: "Dancing Script", cursive !important;
 }
 
 /* Home page */
+
+.about{
+    background-color: black;
+}
+
+.about-box{
+    padding: 20px;
+}
+
+.about-title{
+    color: rgb(46, 174, 46);
+}
+
+.about-description{
+    color: black;
+}
+
+.feature-box {
+    transition: all 0.3s ease;
+}
+
+.feature-box:hover {
+    transform: translateY(-5px);
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+    .flex-nowrap {
+        flex-wrap: wrap;
+    }
+    
+    .flex-1 {
+        flex: 0 0 calc(50% - 1rem);
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .flex-1 {
+        flex: 0 0 100%;
+    }
+}
 
 .banner{
     width:100%;
@@ -210,6 +257,7 @@ nav ul li a{
 
 .package-title{
     text-align: center;
+    color: white;
 }
 
 .package-title h2{
@@ -510,4 +558,8 @@ nav ul li a{
     padding: 1.5em 2em;
     text-align: center;
     border-right: 6px solid #f6f6f6;
+}
+
+.divider{
+    border-top: 1px solid lightgrey;
 }

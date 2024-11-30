@@ -1,6 +1,9 @@
+import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import AccountPage from './components/AccountPage.jsx';
 import ContactUsPage from './components/ContactUsPage.jsx';
 import ExplorePage from './components/ExplorePage.jsx';
@@ -9,7 +12,6 @@ import JourneyPage from './components/JourneyPage.jsx';
 import LogTripPage from './components/LogTripPage.jsx';
 import SignIn from './components/SignIn.jsx';
 import SignUp from './components/SignUp.jsx';
-
 
 function App() {
   return (
@@ -34,9 +36,9 @@ function App() {
         {/* Not Found Route */}
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
+      <ToastContainer />
     </Router>
   );
 }
-
 
 export default App
