@@ -1,20 +1,23 @@
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
-import './App.css';
-import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
 import AccountPage from './components/AccountPage.jsx';
 import ContactUsPage from './components/ContactUsPage.jsx';
 import ExplorePage from './components/ExplorePage.jsx';
 import HomePage from './components/HomePage.jsx';
 import JourneyPage from './components/JourneyPage.jsx';
 import LogTripPage from './components/LogTripPage.jsx';
+import ProtectedRoute from './components/ProtectedRoute.tsx';
 import SignIn from './components/SignIn.jsx';
 import SignUp from './components/SignUp.jsx';
+import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
   return (
+    <AuthProvider>
     <Router>
       <Routes>
         {/* Homepage Route */}
@@ -25,19 +28,22 @@ function App() {
 
         {/* Sign Up Route */}
         <Route path="/signup" element={<SignUp />} />
+        
+          {/* Protected Routes */}
 
-        <Route path="/my-journey" element={<JourneyPage></JourneyPage>}></Route>
-        <Route path="/wishlist" element={<JourneyPage></JourneyPage>}></Route>
-        <Route path="/explore" element={<ExplorePage></ExplorePage>}></Route>
-        <Route path="/account" element={<AccountPage></AccountPage>}></Route>
-        <Route path="/contact-us" element={<ContactUsPage></ContactUsPage>}></Route>
-        <Route path="/log-trip" element={<LogTripPage></LogTripPage>}></Route>
+        <Route path="/my-journey" element={<ProtectedRoute><JourneyPage></JourneyPage></ProtectedRoute>}></Route>
+        <Route path="/wishlist" element={<ProtectedRoute><JourneyPage></JourneyPage></ProtectedRoute>}></Route>
+        <Route path="/explore" element={<ProtectedRoute><ExplorePage></ExplorePage></ProtectedRoute>}></Route>
+        <Route path="/account" element={<ProtectedRoute><AccountPage></AccountPage></ProtectedRoute>}></Route>
+        <Route path="/contact-us" element={<ProtectedRoute><ContactUsPage></ContactUsPage></ProtectedRoute>}></Route>
+        <Route path="/log-trip" element={<ProtectedRoute><LogTripPage></LogTripPage></ProtectedRoute>}></Route>
 
         {/* Not Found Route */}
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
       <ToastContainer />
     </Router>
+    </AuthProvider>
   );
 }
 
