@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import AccountPage from './components/AccountPage.jsx';
+import Blogs from './components/Blogs.jsx';
 import ContactUsPage from './components/ContactUsPage.jsx';
 import ExplorePage from './components/ExplorePage.jsx';
 import HomePage from './components/HomePage.jsx';
@@ -37,7 +38,7 @@ function App() {
         <Route path="/account" element={<ProtectedRoute><AccountPage></AccountPage></ProtectedRoute>}></Route>
         <Route path="/contact-us" element={<ProtectedRoute><ContactUsPage></ContactUsPage></ProtectedRoute>}></Route>
         <Route path="/log-trip" element={<ProtectedRoute><LogTripPage></LogTripPage></ProtectedRoute>}></Route>
-
+        <Route path="/blogs" element={<ProtectedRoute><Blogs></Blogs></ProtectedRoute>}></Route>
         {/* Not Found Route */}
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
