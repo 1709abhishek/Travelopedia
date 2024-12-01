@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 import travelPic from "../assets/travel_vertical.jpg";
+import { useAuth } from "../contexts/AuthContext";
 import { signInService } from "../services/CustomerServices";
 import "../styles/loginpage.css";
 
@@ -12,10 +13,13 @@ export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const {login} = useAuth();
+
   const handleSignIn = async (e) => {
     e.preventDefault();
     const response = await signInService(username, password);
     console.log(response);
+    login(response.data, username)
     sessionStorage.setItem('token', response.data);
     navigate('/');
   };
