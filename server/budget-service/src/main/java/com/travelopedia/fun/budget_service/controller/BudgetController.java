@@ -1,6 +1,7 @@
 package com.travelopedia.fun.budget_service.controller;
 
 
+import com.travelopedia.fun.budget_service.clients.CustomerServiceProxy;
 import com.travelopedia.fun.budget_service.configuration.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,15 @@ public class BudgetController {
 
     @Autowired
     private SearchService searchService;
+
+    @Autowired
+    private CustomerServiceProxy customerServiceProxy;
+
+
+    @GetMapping("/feign")
+    public String testFeignClient(@RequestHeader("Authorization") String authorization) {
+        return customerServiceProxy.getExampleEndpoint(authorization);
+    }
 
     @PostMapping("/getHotelsCost")
     public ResponseEntity<Object> getCostItinerary(@RequestBody HotelRequest request) {
