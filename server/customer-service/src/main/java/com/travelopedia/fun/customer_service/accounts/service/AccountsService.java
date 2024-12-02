@@ -14,6 +14,9 @@ import com.travelopedia.fun.customer_service.accounts.models.Account;
 import com.travelopedia.fun.customer_service.accounts.repository.AccountsRepository;
 import com.travelopedia.fun.customer_service.accounts.security.JwtUtil;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class AccountsService {
 
@@ -101,6 +104,18 @@ public class AccountsService {
         } else {
             accountsRepository.save(account);
         }
+    }
+
+    public String authenticateToken(String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            String username = jwtUtil.extractUsername(token);
+            System.out.println("Username: " + username + token);
+            if (username != null) {
+                return username;
+            }
+        }
+        throw new IllegalArgumentException("Invalid token");
     }
 
 }
