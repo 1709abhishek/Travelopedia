@@ -18,6 +18,8 @@ import com.travelopedia.fun.customer_service.accounts.models.Account;
 import com.travelopedia.fun.customer_service.accounts.service.AccountsService;
 import org.springframework.security.core.Authentication;
 
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -76,6 +78,21 @@ public class AccountsController {
     public String oauth2Login() {
         // System.out.println("OAuth2 login");
         return "redirect:/oauth2/authorization/google";
+    }
+
+    @GetMapping("/verify-token")
+    public ResponseEntity<?> getExampleEndpoint(@RequestHeader("Authorization") String authorization) {
+        try {
+            String username = accountsService.authenticateToken(authorization);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Token is valid");
+            response.put("username", username);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+        }
     }
 
     // To check oauth2 login: http://localhost:8080/login
