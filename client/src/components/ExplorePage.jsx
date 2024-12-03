@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { HelpCircle, PlusCircle, Settings } from 'lucide-react';
+import { HelpCircle, PlusCircle, Settings, Trash2 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import Itinerary from "../components/Itinerary";
 import { createConversation, deleteConversation, getConversations } from '../services/RecommendationServices.jsx';
@@ -63,14 +63,26 @@ function ExplorePage() {
           </div>
           <ScrollArea className="flex-grow">
             {conversations.map((conversation) => (
+              <div key={conversation.conversationId} className="flex items-center justify-between p-2 hover:bg-gray-800">
               <Button
-                key={conversation.conversationId}
                 variant="ghost"
-                className="w-full justify-start text-left text-gray-300 hover:text-white hover:bg-gray-800"
+                className="w-8 justify-start text-left text-gray-300 hover:text-white"
                 onClick={() => setActiveConversation(conversation)}
               >
                 {conversation.conversationName}
               </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-gray-400 hover:text-red-500"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteConversation(conversation.conversationId);
+                }}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
             ))}
           </ScrollArea>
           <div className="p-4 border-t border-gray-800">
