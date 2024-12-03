@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { HelpCircle, PlusCircle, Settings, Trash2 } from 'lucide-react';
+import { PlusCircle, Trash2 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import Itinerary from "../components/Itinerary";
 import { createConversation, deleteConversation, getConversations } from '../services/RecommendationServices.jsx';
@@ -85,7 +85,7 @@ function ExplorePage() {
             </div>
             ))}
           </ScrollArea>
-          <div className="p-4 border-t border-gray-800">
+          {/* <div className="p-4 border-t border-gray-800">
             <Button variant="ghost" className="w-full justify-start mb-2 text-gray-300 hover:text-white hover:bg-gray-800">
               <Settings className="mr-2 h-4 w-4" />
               Settings
@@ -94,7 +94,7 @@ function ExplorePage() {
               <HelpCircle className="mr-2 h-4 w-4" />
               Help
             </Button>
-          </div>
+          </div> */}
         </div>
 
         {/* Main chat area */}
