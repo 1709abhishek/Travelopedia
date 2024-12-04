@@ -2,15 +2,18 @@ package com.travelopedia.fun.customer_service.beans;
 
 public class Customer {
     private int session;
+    private String firstName;
+    private String lastName;
     private String name;
     private String email;
     private String phone;
     private String address;
     private String places;
 
-
-    public Customer(String name, String email, String phone, String address, int session, String places) {
-        this.name = name;
+    public Customer(String firstName, String lastName, String email, String phone, String address, int session, String places) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.name = firstName + " " + lastName;
         this.email = email;
         this.phone = phone;
         this.address = address;
@@ -18,6 +21,13 @@ public class Customer {
         this.places = places;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
 
     public String getName() {
         return name;
@@ -43,8 +53,18 @@ public class Customer {
         return places;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+        this.name = firstName + " " + this.lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+        this.name = this.firstName + " " + lastName;
+    }
+
     public void setName(String name) {
-        this.name = name;
+        // This method is no longer needed as name is derived from firstName and lastName
     }
 
     public void setEmail(String email) {
@@ -69,7 +89,9 @@ public class Customer {
 
     public String toString() {
         return "Customer{" +
-                "name='" + name + '\'' +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
@@ -77,6 +99,4 @@ public class Customer {
                 ", places='" + places + '\'' +
                 '}';
     }
-
-
 }

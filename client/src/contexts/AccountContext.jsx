@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { createContext } from 'react';
+import { getUserDetailsService } from '../services/CustomerServices';
 
 const AccountContext = createContext();
 
@@ -34,18 +35,32 @@ function reducer(state, action) {
 
 
 const AccountContextProvider = props => {
+  // const [accountState, dispatch] = React.useReducer(reducer, {
+  //   firstName: 'Abhishek',
+  //   lastName: 'Jain',
+  //   phoneNumber: '1234567890',
+  //   email: '1709abhishek@gmail.com',
+  //   city: 'Bengaluru',
+  //   country: 'India',
+  //   bio: 'I am a software developer',
+  //   placeTravelled: ['India', 'USA', 'France', 'Netherlands', 'Brussels', 'Azerbaijan'],
+  //   wishlist: ['Rome', 'Italy', 'Spain', 'New Zealand', 'Australia'],
+  //   travelQuote: 'Travel is the only thing you buy that makes you richer',
+  //   username: 'Wanderlust'
+  // });
+  
   const [accountState, dispatch] = React.useReducer(reducer, {
-    firstName: 'Abhishek',
-    lastName: 'Jain',
-    phoneNumber: '1234567890',
-    email: '1709abhishek@gmail.com',
-    city: 'Bengaluru',
-    country: 'India',
-    bio: 'I am a software developer',
-    placeTravelled: ['India', 'USA', 'France', 'Netherlands', 'Brussels', 'Azerbaijan'],
-    wishlist: ['Rome', 'Italy', 'Spain', 'New Zealand', 'Australia'],
-    travelQuote: 'Travel is the only thing you buy that makes you richer',
-    username: 'Wanderlust'
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    email: '',
+    city: '',
+    country: '',
+    bio: '',
+    placeTravelled: [],
+    wishlist: [],
+    travelQuote: '',
+    username: ''
   });
 
   const setFirstName = firstName => dispatch({ type: 'setFirstName', payload: firstName });
@@ -59,6 +74,60 @@ const AccountContextProvider = props => {
   const setWishlist = wishlist => dispatch({ type: 'setWishlist', payload: wishlist });
   const setTravelQuote = travelQuote => dispatch({ type: 'setTravelQuote', payload: travelQuote });
   const setUsername = username => dispatch({ type: 'username', payload: username });
+
+  React.useEffect(() => {
+    const fetchProfileDetails = async () => {
+      try {
+        console.log('Fetching profile details...');
+        const email = localStorage.getItem('user');
+        console.log('Email:', email);
+        const response = await getUserDetailsService(email);
+        const profile = response.data;
+        console.log('Profile:', profile);
+        setFirstName(profile.firstName);
+        setLastName(profile.lastName);
+        setPhoneNumber(profile.phoneNumber);
+        setEmail(profile.email);
+        setCity(profile.city);
+        setCountry(profile.country);
+        setBio(profile.bio);
+        setPlaceTravelled(profile.placeTravelled);
+        setWishlist(profile.wishlist);
+        setTravelQuote(profile.travelQuote);
+        setUsername(profile.username);
+      } catch (error) {
+        console.error('Failed to fetch profile details:', error.response ? error.response.data : error.message);
+      }
+    };
+  
+    fetchProfileDetails();
+  }, []);React.useEffect(() => {
+    const fetchProfileDetails = async () => {
+      try {
+        console.log('Fetching profile details...');
+        const email = localStorage.getItem('user');
+        console.log('Email:', email);
+        const response = await getUserDetailsService(email);
+        const profile = response.data;
+        console.log('Profile:', profile);
+        setFirstName(profile.firstName);
+        setLastName(profile.lastName);
+        setPhoneNumber(profile.phoneNumber);
+        setEmail(profile.email);
+        setCity(profile.city);
+        setCountry(profile.country);
+        setBio(profile.bio);
+        setPlaceTravelled(profile.placeTravelled);
+        setWishlist(profile.wishlist);
+        setTravelQuote(profile.travelQuote);
+        setUsername(profile.username);
+      } catch (error) {
+        console.error('Failed to fetch profile details:', error.response ? error.response.data : error.message);
+      }
+    };
+  
+    fetchProfileDetails();
+  }, []);
 
   return (
     <AccountContext.Provider

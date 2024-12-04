@@ -21,8 +21,8 @@ const JourneyPage = () => {
     location: accountState.city + ", " + accountState.country,
     travelPercentile: 95,
     milesTraveled: 50000,
-    countriesVisited: accountState.placeTravelled.length,
-    tripsPlanned: accountState.wishlist.length,
+    countriesVisited: accountState.placeTravelled ? accountState.placeTravelled.length : 0,
+    tripsPlanned: accountState.wishlist ? accountState.wishlist.length : 0,
   });
 
 

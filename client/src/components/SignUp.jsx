@@ -7,9 +7,10 @@ import { signUpService } from "../services/CustomerServices";
 import "../styles/loginpage.css";
 
 export default function SignUp() {
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   const {login} = useAuth();
 
@@ -17,8 +18,8 @@ export default function SignUp() {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    const response = await signUpService(username, email, password);
-    login(response.data, username)
+    const response = await signUpService(firstName, lastName, email, password);
+    login(response.data, email)
     navigate("/signin");
     console.log(response);
   };
@@ -34,7 +35,7 @@ export default function SignUp() {
           <div className="sign-up__container">
             <form onSubmit={handleSignUp} className="sign-up__form">
               <h2 className="login-title">Sign Up</h2>
-              <div className="input-field">
+              {/* <div className="input-field">
                 <AccountCircle style={{ fontSize: 30, color: "#999" }} />
                 <input
                   type="text"
@@ -42,11 +43,29 @@ export default function SignUp() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
+              </div> */}
+              <div className="input-field">
+               <AccountCircle style={{ fontSize: 30, color: "#999" }} />
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
               </div>
+              <div className="input-field">
+              <AccountCircle style={{ fontSize: 30, color: "#999" }} />
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+                </div>
               <div className="input-field">
                 <Email style={{ fontSize: 30, color: "#999" }}></Email>
                 <input
-                  type="text"
+                  type="email"
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
