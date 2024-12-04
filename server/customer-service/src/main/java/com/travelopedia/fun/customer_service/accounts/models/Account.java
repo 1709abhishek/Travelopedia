@@ -20,6 +20,8 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private String firstName;
+    private String lastName;
     private String name;
     private String email;
     private String password;
@@ -31,5 +33,7 @@ public class Account {
     private String placesTravelled;
     private String wishlist;
     private String profilePicUrl;
+
+
 }
 

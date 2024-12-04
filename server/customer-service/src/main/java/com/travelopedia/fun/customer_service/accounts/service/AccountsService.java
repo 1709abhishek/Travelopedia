@@ -44,11 +44,12 @@ public class AccountsService {
     
     public void registerAccount(Account account) {
 
-        String newName = account.getName();
+        String newFirstName = account.getFirstName();
+        String newLastName = account.getLastName();
         String newEmail = account.getEmail();
         String newEncryptedPassword = passwordEncoder.encode(account.getPassword());
 
-        System.out.println("Name: " + newName);
+        System.out.println("Name: " + newFirstName);
         System.out.println("Email: " + newEmail);
         System.out.println("Password: " + newEncryptedPassword);
 
@@ -57,7 +58,8 @@ public class AccountsService {
         }
 
         Account newAccount = new Account();
-        newAccount.setName(newName);
+        newAccount.setFirstName(newFirstName);
+        newAccount.setLastName(newLastName);
         newAccount.setEmail(newEmail);
         newAccount.setPassword(newEncryptedPassword);
 
