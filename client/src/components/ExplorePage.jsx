@@ -2,12 +2,14 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { PlusCircle, Trash2 } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Itinerary from "../components/Itinerary";
 import { createConversation, deleteConversation, getConversations } from '../services/RecommendationServices.jsx';
 import Header from "./Header.jsx";
 
 function ExplorePage() {
   const [conversations, setConversations] = useState([]);
+  const location = useLocation();
   const [activeConversation, setActiveConversation] = useState(null);
   const [userEmail, setUserEmail] = useState('user@example.com'); // Replace with actual user email
   const [flag, setFlag] = useState(false);
@@ -26,6 +28,11 @@ function ExplorePage() {
   useEffect(() => {
     fetchConversations();
   }, [fetchConversations, flag]);
+
+  useEffect(() => {
+    // setActiveConversation(location?.state.flag? conversations[conversations.length - 1]: activeConversation);
+    // console.log("active conversations", activeConversation, location.state.flag, conversations);
+  }, [activeConversation]);
 
   useEffect(() => {
     console.log("conversations", conversations);

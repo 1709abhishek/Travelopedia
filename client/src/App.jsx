@@ -7,6 +7,7 @@ import './App.css';
 import AccountPage from './components/AccountPage.jsx';
 import Blogs from './components/Blogs.jsx';
 import ContactUsPage from './components/ContactUsPage.jsx';
+import CreateItinerary from './components/create-itinerary.tsx';
 import ExplorePage from './components/ExplorePage.jsx';
 import HomePage from './components/HomePage.jsx';
 import JourneyPage from './components/JourneyPage.jsx';
@@ -35,6 +36,7 @@ function App() {
         <Route path="/my-journey" element={<ProtectedRoute><JourneyPage></JourneyPage></ProtectedRoute>}></Route>
         <Route path="/wishlist" element={<ProtectedRoute><JourneyPage></JourneyPage></ProtectedRoute>}></Route>
         <Route path="/explore" element={<ProtectedRoute><ExplorePage></ExplorePage></ProtectedRoute>}></Route>
+        <Route path="/create-itinerary" element={<ProtectedRoute><CreateItinerary></CreateItinerary></ProtectedRoute>}></Route>
         <Route path="/account" element={<ProtectedRoute><AccountPage></AccountPage></ProtectedRoute>}></Route>
         <Route path="/contact-us" element={<ProtectedRoute><ContactUsPage></ContactUsPage></ProtectedRoute>}></Route>
         <Route path="/log-trip" element={<ProtectedRoute><LogTripPage></LogTripPage></ProtectedRoute>}></Route>
