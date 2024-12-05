@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -9,8 +9,14 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isAuthenticated } = useAuth();
   const location = useLocation();
+  const token = localStorage.getItem('token');
+  const user = localStorage.getItem('user');
 
-  if (!isAuthenticated) {
+  useEffect(() => {
+    
+  }, [isAuthenticated]);
+
+  if (!token || !user) {
     return <Navigate to="/signin" state={{ from: location }} replace />;
   }
 

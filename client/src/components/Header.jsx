@@ -8,6 +8,7 @@ import "../styles/header.css";
 const Header = () => {
   const navItems = [
     { to: "/", label: "Home", icon: Home },
+    { to: "/create-itinerary", label: "Create Itinerary", icon: PenTool },
     { to: "/explore", label: "Explore", icon: Compass },
     { to: "/blogs", label: "Blogs", icon: BookOpen },
     { to: "/my-journey", label: "My Journey", icon: Map },
