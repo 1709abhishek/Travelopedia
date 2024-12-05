@@ -39,8 +39,8 @@ public class CustomerController {
         // return authentication.getPrincipal(); // To see full details of user on the browser received from google 
     }
 
-    @GetMapping("/customer")
-    public String getCustomer() {
-        return new Customer("John Doe", "m", "123-456-7890", "123 Main St.", configuration.getSession(), configuration.getPlaces()).toString();
-    }
+//    @GetMapping("/customer")
+//    public String getCustomer() {
+//        return new Customer("John Doe", "m", "123-456-7890", "123 Main St.", configuration.getSession(), configuration.getPlaces()).toString();
+//    }
 }

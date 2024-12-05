@@ -73,7 +73,8 @@ export default function CreateItinerary() {
       const newConversation = await createConversation(jwt, values.title)
       
       const prompt = `Create a ${values.days}-day itinerary for a trip to ${values.title}. 
-        Include activities related to ${values.interests.join(', ')}.`
+        Include activities related to ${values.interests.join(', ')}.
+        Format the itinerary with **Day X:** headers and activities for each day.`
 
       const chatCompletion = await groq.chat.completions.create({
         messages: [{ role: 'user', content: prompt }],
@@ -150,7 +151,7 @@ export default function CreateItinerary() {
                             <SelectValue placeholder="Select number of days" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent className="bg-gray-800 border-gray-700">
+                        <SelectContent className="bg-gray-800 border-gray-700 text-white">
                           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((day) => (
                             <SelectItem key={day} value={day.toString()}>
                               {day} {day === 1 ? 'day' : 'days'}
@@ -187,7 +188,7 @@ export default function CreateItinerary() {
                                       >
                                         <FormControl>
                                           <Checkbox
-                                            className="border-white data-[state=checked]:bg-transparent data-[state=checked]:text-white"
+                                            className="border-white data-[state=checked]:bg-blue-600 data-[state=checked]:text-white"
                                             checked={field.value?.includes(interest.id)}
                                             onCheckedChange={(checked) => {
                                               return checked
@@ -218,7 +219,7 @@ export default function CreateItinerary() {
                   <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={loading}>
                     {loading ? 'Generating...' : 'Create'}
                   </Button>
-                  
+  
                 </div>
               </form>
             </Form>
@@ -234,6 +235,11 @@ export default function CreateItinerary() {
                 <StructuredItinerary itinerary={generatedItinerary} />
               </div>
             )}
+            <style jsx>{`
+              .checkbox-icon {
+                color: white !important;
+              }
+            `}</style>
           </CardContent>
         </Card>
       </div>
