@@ -118,7 +118,7 @@ const AccountPage = () => {
                 <div className="w-full space-y-2 mb-4">
                   <div className="flex items-center gap-2 text-sm">
                     <MapPin className="h-4 w-4" />
-                    {accountState.city}, {accountState.country}
+                    {accountState.city === '' || accountState.city == null ? 'Not available' : accountState.city + ", " + accountState.country}
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <Globe className="h-4 w-4" />
@@ -179,7 +179,7 @@ const AccountPage = () => {
                         name="firstName"
                         value={accountState.firstName}
                         onChange={(e) => handleInputChange(e, setFirstName)}
-                        className="bg-zinc-800 border-zinc-700"
+                        className="bg-zinc-800 border-zinc-600"
                       />
                     </div>
                     <div className="space-y-2">

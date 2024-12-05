@@ -11,37 +11,43 @@ import l7 from "../assets/l7.jpg";
 import l8 from "../assets/l8.jpg";
 import l9 from "../assets/new_york.jpg";
 import l10 from "../assets/LA.jpg";
-import { Card } from '@/components/ui/card';
+import experience1 from "../assets/maldives.jpg";
+import experience2 from "../assets/experience2.jpg";
+import { Card } from "@/components/ui/card";
 import Header from "../components/Header.jsx";
-import "../styles/bootstrap.min.css";
 import "../styles/homepage.css";
+import Footer from "./Footer.jsx";
 
 const Homepage = () => {
   const features = [
     {
       icon: "fa-route",
       title: "Track Your Travels",
-      description: "Log the places you've visited with a timeline, and visualize your travel statistics, including distance traveled and your global travel percentile."
+      description:
+        "Log the places you've visited with a timeline, and visualize your travel statistics, including distance traveled and your global travel percentile.",
     },
     {
       icon: "fa-camera",
       title: "Capture Memories",
-      description: "Showcase your top travel moments by uploading photos from your trips, creating a personal memoir of your adventures."
+      description:
+        "Showcase your top travel moments by uploading photos from your trips, creating a personal memoir of your adventures.",
     },
     {
       icon: "fa-compass",
       title: "Get Recommendations",
-      description: "Receive AI-driven destination suggestions based on your travel history and wishlist, and plan your future itineraries with ease."
+      description:
+        "Receive AI-driven destination suggestions based on your travel history and wishlist, and plan your future itineraries with ease.",
     },
     {
       icon: "fa-map-marked-alt",
       title: "Document Spots",
-      description: "Discover and document the best hotels, restaurants, and tourist spots at each destination, helping you and other travelers plan the perfect trip."
-    }
+      description:
+        "Discover and document the best hotels, restaurants, and tourist spots at each destination, helping you and other travelers plan the perfect trip.",
+    },
   ];
 
   return (
-    <div className="homepage">
+    <div className="homepage bg-gray-900">
       <div className="banner">
         <video
           src={videoBanner}
@@ -70,7 +76,7 @@ const Homepage = () => {
       </div>
 
       {/* <!-- Services --> */}
-      <section className="w-full px-4 py-12">
+      <section className="w-full px-4 py-12 bg-gray-900">
         <div className="container mx-auto">
           <h3 className="text-center text-white text-3xl lg:text-4xl font-bold mb-12">
             What we do!
@@ -94,10 +100,9 @@ const Homepage = () => {
           </div>
         </div>
       </section>
-      
 
       {/* <!-- Locations --> */}
-      <section className="locations" id="locations">
+      <section className="locations bg-gray-900" id="locations">
         <div className="package-title">
           <h2>Popular Locations</h2>
         </div>
@@ -182,80 +187,61 @@ const Homepage = () => {
               <p>USA</p>
             </div>
           </a>
-
         </div>
       </section>
 
       {/* <!--Travel Stats--> */}
-      <section className="stats py-5" id="stats">
+      <section className="stats py-5 bg-gray-900" id="stats">
         <div className="container py-lg-5 py-md-3">
-          <div className="row stat-grids">
-            <div className="col-lg-6 stats-left">
-              <h3 className="heading mb-4 text-li">Years in the Travel</h3>
-              <p className="mb-3">
-                Join thousands of travelers worldwide and see how you compare!
-              </p>
+          <div className="flex flex-wrap items-center lg:items-stretch lg:h-full">
+            {/* Left Section */}
+            <div className="w-full lg:w-1/2 text-center lg:text-left mb-4 lg:mb-0 p-5 flex items-center justify-center lg:justify-start">
+              <div>
+                <h3 className="text-3xl font-bold text-white mb-4">
+                  Years in the Travel
+                </h3>
+                <p className="text-gray-400">
+                  Join thousands of travelers worldwide and see how you compare!
+                </p>
+              </div>
             </div>
-            <div className="col-lg-6 grid1 stats-right mt-lg-0 mt-4 pl-5">
-              <div className="row">
-                <div className="col-sm-4 col-6">
-                  <p className="text-li">Total Distance Traveled</p>
-                  <h4 className="text-wh">10M+</h4>
-                  <span className="fa fa-users mr-2"></span>
-                </div>
-                <div className="col-sm-4 col-6">
-                  <p>Countries Explored</p>
-                  <h4>120+</h4>
-                  <span className="fa fa-tasks mr-2"></span>
-                </div>
-                <div className="col-sm-4 col-6 mt-sm-0 mt-5">
-                  <p>Trips Logged</p>
-                  <h4>25k</h4>
-                  <span className="fa fa-files-o mr-2"></span>
-                </div>
+
+            {/* Right Section */}
+            <div className="w-full lg:w-1/2 flex justify-around">
+              {/* Stat 1 */}
+              <div className="text-center">
+                <h4 className="text-4xl font-bold text-white">10M+</h4>
+                <p className="text-gray-400">Total Distance Traveled</p>
+              </div>
+              {/* Stat 2 */}
+              <div className="text-center">
+                <h4 className="text-4xl font-bold text-white">120+</h4>
+                <p className="text-gray-400">Countries Explored</p>
+              </div>
+              {/* Stat 3 */}
+              <div className="text-center">
+                <h4 className="text-4xl font-bold text-white">25k</h4>
+                <p className="text-gray-400">Trips Logged</p>
+              </div>
+            </div>
+          </div>
+          <div className="experience__container grid">
+            <div className="experience__img grid">
+              <div className="experience__overlay">
+                <img src={experience1} alt="" className="experience__img-one" />
+              </div>
+              <div className="experience__overlay">
+                <img src={experience2} alt="" className="experience__img-two" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <hr className="divider"></hr>
+      <hr className="divider bg-gray-900"></hr>
 
       {/* <!-- Footer --> */}
-
-      <section className="footer">
-        <div className="foot">
-          <div className="footer-content">
-            <div className="footlinks">
-              <h4>Quick Links</h4>
-              <ul>
-                <li>
-                  <Link to="/signup">Sign Up</Link>
-                </li>
-                <li>
-                  <Link to="/contact-us">About Us</Link>
-                </li>
-                <li>
-                  <Link to="/contact-us">Contact Us</Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="footlinks">
-              <h4>Connect</h4>
-              <div className="social">
-                <a href="#" target="_blank">
-                  <i className="bx bxl-facebook"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="end">
-          <p>Copyright © 2024 Travelopedia</p>
-        </div>
-      </section>
+      <Footer></Footer>
     </div>
   );
 };
