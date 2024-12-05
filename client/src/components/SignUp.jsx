@@ -18,8 +18,15 @@ export default function SignUp() {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    
+    // Check if all fields are filled
+    if (!firstName || !lastName || !email || !password) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
     const response = await signUpService(firstName, lastName, email, password);
-    login(response.data, email)
+    login(response.data, email);
     navigate("/signin");
     console.log(response);
   };
@@ -49,6 +56,7 @@ export default function SignUp() {
                 <input
                   type="text"
                   placeholder="First Name"
+                  required
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                 />
@@ -58,6 +66,7 @@ export default function SignUp() {
                 <input
                   type="text"
                   placeholder="Last Name"
+                  required
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                 />
@@ -67,6 +76,7 @@ export default function SignUp() {
                 <input
                   type="email"
                   placeholder="Email"
+                  required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -76,11 +86,12 @@ export default function SignUp() {
                 <input
                   type="password"
                   placeholder="Password"
+                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <input type="submit" value="Login" className="btn" />
+              <input type="submit" value="Sign Up" className="btn" />
               <p>
                 Already have an account?{" "}
                 <a href="/signin" className="account-text" id="sign-in-link">

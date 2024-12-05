@@ -14,6 +14,8 @@ export default function Header() {
     { to: "/my-journey", label: "My Journey", icon: Map },
     { to: "/account", label: "Account", icon: User },
     { to: "/log-trip", label: "Log Trip", icon: PenTool },
+    { to: "/contact_us", label: "Contact Us", icon: PenTool },
+    { to: "/about_us", label: "About us", icon: PenTool },
   ]
 
   return (

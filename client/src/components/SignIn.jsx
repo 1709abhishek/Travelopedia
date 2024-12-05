@@ -18,7 +18,6 @@ export default function SignIn() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     const response = await signInService(username, password);
-    console.log(response);
     login(response.data, username)
     sessionStorage.setItem('token', response.data);
     navigate('/');
@@ -37,8 +36,9 @@ export default function SignIn() {
             <div className="input-field">
               <AccountCircle style={{ fontSize: 30, color: "#999" }} />
               <input
-                type="text"
-                placeholder="Username"
+                type="email"
+                placeholder="Email"
+                required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -48,13 +48,11 @@ export default function SignIn() {
               <input
                 type="password"
                 placeholder="Password"
+                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <a href="/" className="forgot-password">
-              Forgot password?
-            </a>
             <input type="submit" value="Login" className="btn" />
             <p>
               Don't have an account?{" "}
