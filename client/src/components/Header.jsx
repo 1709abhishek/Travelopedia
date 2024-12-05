@@ -19,7 +19,7 @@ export default function Header() {
   ]
 
   return (
-    <nav className="bg-gray-800 text-white p-4">
+    <nav className="bg-gray-800 text-white p-4 z-10">
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/" className="text-xl font-bold text-white site-name">
           Travelopedia
