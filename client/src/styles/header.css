@@ -14,7 +14,6 @@ nav ul li a {
     text-decoration: none;
     font-size: 0.875rem;
     white-space: nowrap;
-    /* Prevent wrapping of navigation items */
 }
 
 @media (min-width: 768px) {
@@ -33,6 +32,7 @@ nav ul {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-left: auto;
 }
 
 @media (min-width: 768px) {

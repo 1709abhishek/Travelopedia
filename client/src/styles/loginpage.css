@@ -5,7 +5,7 @@ a {
 
 .app-name-background {
     position: absolute;
-    top: 15%;
+    top: 90px;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 5rem;

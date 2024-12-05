@@ -11,7 +11,6 @@ import l8 from "../assets/l8.jpg";
 import l9 from "../assets/new_york.jpg";
 import l10 from "../assets/LA.jpg";
 import experience1 from "../assets/maldives.jpg";
-import experience2 from "../assets/experience2.jpg";
 import { Card } from "@/components/ui/card";
 import Header from "../components/Header.jsx";
 import "../styles/homepage.css";
@@ -21,37 +20,44 @@ import { useEffect } from "react";
 const Homepage = () => {
   const features = [
     {
-      icon: "fa-route",
-      title: "Track Your Travels",
+      icon: "",
+      title: "AI Travel Recommendations",
       description:
-        "Log the places you've visited with a timeline, and visualize your travel statistics, including distance traveled and your global travel percentile.",
+        "Get personalized AI-driven suggestions for destinations, helping you plan your next adventure with ease.",
     },
     {
-      icon: "fa-camera",
-      title: "Capture Memories",
+      icon: "",
+      title: "Track Your Itinerary",
       description:
-        "Showcase your top travel moments by uploading photos from your trips, creating a personal memoir of your adventures.",
+        "Log your trips and itineraries, keeping a detailed record of all your travel adventures in one place.",
     },
     {
-      icon: "fa-compass",
-      title: "Get Recommendations",
+      icon: "",
+      title: "Manage Budgets and Bookings",
       description:
-        "Receive AI-driven destination suggestions based on your travel history and wishlist, and plan your future itineraries with ease.",
+        "Create budgets, find the best flights and hotels, and manage all your travel details seamlessly in one platform.",
     },
     {
-      icon: "fa-map-marked-alt",
-      title: "Document Spots",
+      icon: "",
+      title: "Compare Your Travel Stats",
       description:
-        "Discover and document the best hotels, restaurants, and tourist spots at each destination, helping you and other travelers plan the perfect trip.",
+        "Discover how much you've traveled compared to others, and see your global travel percentile with detailed insights.",
     },
   ];
 
   useEffect(() => {
     const handleScroll = () => {
       const statsSection = document.getElementById("stats");
-      const rect = statsSection.getBoundingClientRect();
-      if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+      const servicesSection = document.getElementById("services");
+      const rectStats = statsSection.getBoundingClientRect();
+      const rectServices = servicesSection.getBoundingClientRect();
+
+      if (rectStats.top <= window.innerHeight && rectStats.bottom >= 0) {
         statsSection.classList.add("visible");
+      }
+
+      if (rectServices.top <= window.innerHeight && rectServices.bottom >= 0) {
+        servicesSection.classList.add("visible");
       }
     };
 
@@ -65,10 +71,10 @@ const Homepage = () => {
     <div className="min-h-screen bg-black text-white">
       <header className="flex h-16 items-center justify-between bg-zinc-900">
         <h1 className="text-xl font-bold header-navbar">Travelopedia</h1>
-        <Header></Header>
+        <Header />
       </header>
-      
-      <div className=" bg-gray-900">
+    
+      <div className="bg-gray-900">
         <div className="banner">
           <video
             src={videoBanner}
@@ -94,22 +100,25 @@ const Homepage = () => {
         </div>
 
         {/* <!-- Services --> */}
-        <section className="w-full px-4 py-12 bg-gray-900">
+        <section
+          id="services"
+          className="services-section w-full px-4 py-12 bg-gray-900"
+        >
           <div className="container mx-auto">
-            <h3 className="text-center text-white text-3xl lg:text-4xl font-bold mb-12">
+            <h3 className="text-center text-white text-5xl lg:text-4xl font-bold mb-12">
               What we do!
             </h3>
             <div className="features-container">
               {features.map((feature, index) => (
                 <Card
                   key={index}
-                  className="card w-full sm:w-1/2 lg:w-1/4 p-6 rounded-xl hover:shadow-lg transition-all duration-300 bg-white"
+                  className="card w-full sm:w-3/4 lg:w-1/3 p-4 rounded-xl hover:shadow-lg transition-all duration-300 bg-white"
                 >
                   <div className="text-center about-box">
-                    <h3 className="text-lg font-semibold mb-2 about-title">
+                    <h3 className="text-3xl font-semibold mb-2 about-title">
                       {feature.title}
                     </h3>
-                    <p className="text-sm about-description">
+                    <p className="text-lg about-description">
                       {feature.description}
                     </p>
                   </div>
@@ -252,13 +261,6 @@ const Homepage = () => {
                     className="experience__img-one"
                   />
                 </div>
-                {/* <div className="experience__overlay">
-                  <img
-                    src={experience2}
-                    alt=""
-                    className="experience__img-two"
-                  />
-                </div> */}
               </div>
             </div>
           </div>
@@ -267,7 +269,7 @@ const Homepage = () => {
         <hr className="divider bg-gray-900"></hr>
 
         {/* <!-- Footer --> */}
-        <Footer></Footer>
+        <Footer />
       </div>
     </div>
   );

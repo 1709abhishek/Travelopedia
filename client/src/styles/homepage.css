@@ -1,18 +1,8 @@
-/* .homepage {
-    padding: 0;
-    margin: 0;
-    box-sizing: border;
-    text-decoration: none;
-    scroll-behavior: smooth;
-    background-color: black;
-} */
-
 .travelopedia {
     font-family: "Dancing Script", cursive !important;
 }
 
 /* Home page */
-
 .about {
     background-color: black;
 }
@@ -35,6 +25,11 @@
 
 .feature-box:hover {
     transform: translateY(-5px);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive styles for smaller screens */
@@ -504,7 +499,6 @@
 .experience__overlay:nth-child(1) {
     width: 100%;
     max-width: 1000px;
-    margin-right: 6rem;
     border-radius: 27px;
 }
 

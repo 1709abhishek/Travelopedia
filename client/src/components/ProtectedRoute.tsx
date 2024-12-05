@@ -17,7 +17,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }, [isAuthenticated]);
 
   if (!token || !user) {
-    return <Navigate to="/signin" state={{ from: location }} replace />;
+    if (location.pathname !== "/about_us") {
+      return <Navigate to="/signin" state={{ from: location }} replace />;
+    }
   }
 
   return <>{children}</>;
