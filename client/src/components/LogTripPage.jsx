@@ -3,53 +3,17 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Calendar, Clock, MapPin, PlusCircle } from 'lucide-react'
-import React, { useState } from 'react'
-import Header from "../components/Header.jsx"
+import React, { useEffect, useState } from 'react'
+import { AddTripModal } from "../components/add-trip-modal.tsx"
 import { BudgetModal } from "../components/BudgetModel.jsx"
+import Header from "../components/Header.jsx"
+import { getTripsService } from "../services/BudgetServices.jsx"
 
-const trips = [
-  {
-    id: 1,
-    destination: 'Los Angeles',
-    country: 'France',
-    duration: '1 Day',
-    date: '2024-11-30',
-    description: 'Explore the City of Light in just one day!',
-    budget: 1000,
-    itinerary: [
-      { time: '9:00 AM', activity: 'Arrival in Paris' },
-      { time: '9:30 AM', activity: 'Visit the Galeries Lafayette' },
-      { time: '11:00 AM', activity: 'Take in the views of the Eiffel Tower' },
-      { time: '12:00 PM', activity: 'Lunchtime' },
-      { time: '1:00 PM', activity: 'The Louvre Museum' },
-      { time: '4:00 PM', activity: 'Seine River Cruise' },
-      { time: '6:00 PM', activity: 'Explore Montmartre' },
-      { time: '8:00 PM', activity: 'Dinner' },
-      { time: '10:00 PM', activity: 'Return to Brussels' },
-    ]
-  },
-  {
-    id: 2,
-    destination: 'Rome',
-    country: 'Italy',
-    duration: '3 Days',
-    date: '2024-07-20',
-    description: 'Discover the Eternal City\'s ancient wonders.',
-    itinerary: []
-  },
-  {
-    id: 3,
-    destination: 'Tokyo',
-    country: 'Japan',
-    duration: '5 Days',
-    date: '2024-09-10',
-    description: 'Experience the perfect blend of tradition and modernity.',
-    itinerary: []
-  }
-]
+
 
 function ItineraryModal({ isOpen, onClose, trip }) {
   if (!trip) return null
+  
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -75,6 +39,31 @@ function LogTripPage() {
     const [selectedTrip, setSelectedTrip] = useState(null);
     const [isOpenBudget, setIsOpenBudget] = useState(false);
     const [isOpenItinerary, setIsOpenItinerary] = useState(false);
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+    const [trips, setTrips] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+      const fetchTrips = async () => {
+        // setIsLoading(true);
+        try {
+          const jwt = localStorage.getItem('jwt');
+          const response = await getTripsService(jwt);
+          setTrips(response.data);
+        } catch (error) {
+          console.error("Error fetching trips:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+  
+      fetchTrips();
+    }, []);
+
+    useEffect(() => {
+      console.log('Trips:', trips);
+    }, [trips]);
+
 
   const openItinerary = (trip) => {
     setSelectedTrip(trip)
@@ -101,9 +90,13 @@ function LogTripPage() {
       <header className="bg-gray-900 py-8 flex justify-between items-center">
         <Header></Header>
       </header>
+      {isLoading ? (
+        <div className="text-center">Loading trips...</div>
+      ) : (
       <main className="container mx-auto p-6">
+      
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {trips.map((trip) => (
+          {trips ? trips.map((trip) => (
             <Card key={trip.id} className="bg-gray-800 border-gray-700 text-white">
               <CardHeader>
                 <CardTitle className="flex items-center text-gray-100">
@@ -128,13 +121,17 @@ function LogTripPage() {
                 <Button className="w-full bg-blue-600 hover:bg-blue-600 text-white" onClick={() => openBudget(trip)}>View Budget</Button>
               </CardFooter>
             </Card>
-          ))}
+          )): null}
           <Card className="bg-gray-800 border-gray-700 text-white flex flex-col justify-center items-center p-6">
             <PlusCircle className="h-12 w-12 text-blue-600 mb-4" />
-            <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white">Add New Trip</Button>
+            <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white" onClick={() => setIsAddModalOpen(true)}>Add New Trip</Button>
+            <AddTripModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+      />
           </Card>
         </div>
-      </main>
+      </main>)}
       <ItineraryModal
         isOpen={isOpenItinerary}
         onClose={closeItinerary}

@@ -63,3 +63,20 @@ export const deleteItineraryService = async (itineraryId) => {
       url: `${serviceConfig.budgetHost}/api/budgets/delete/${itineraryId}`
     });
 }
+
+export const createTripService = async (data, jwt) => {
+  return await axios({
+      method: 'post',
+      url: `${serviceConfig.budgetHost}/api/trips`,
+      data: data,
+      headers: { 'Authorization': `Bearer ${jwt}`},
+    });
+}
+
+export const getTripsService = async (jwt) => {
+  return await axios({
+      method: 'get',
+      url: `${serviceConfig.budgetHost}/api/trips`,
+      headers: { 'Authorization': `Bearer ${jwt}`},
+    });
+}

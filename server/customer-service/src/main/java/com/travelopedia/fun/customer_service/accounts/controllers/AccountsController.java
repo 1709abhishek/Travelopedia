@@ -85,7 +85,6 @@ public class AccountsController {
         try {
             String username = accountsService.authenticateToken(authorization);
             Map<String, String> response = new HashMap<>();
-            response.put("message", "Token is valid");
             response.put("username", username);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
