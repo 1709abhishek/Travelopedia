@@ -79,7 +79,11 @@ function ExplorePage() {
               <div key={conversation.conversationId} className="flex items-center justify-between p-2 hover:bg-gray-800">
                 <Button
                   variant="ghost"
-                  className="w-8 justify-start text-left text-gray-300 hover:text-white"
+                  className={`w-full justify-start text-left ${
+                    activeConversation && activeConversation.conversationId === conversation.conversationId
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                  } focus:outline-none focus:ring-0 focus-visible:ring-0`}
                   onClick={() => handleConversationClick(conversation)}
                 >
                   {conversation.conversationName.substring(0, 20)}
