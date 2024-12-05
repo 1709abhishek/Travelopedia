@@ -17,8 +17,10 @@ const JourneyPage = () => {
   const navigate = useNavigate();
   const [userData] = useState({
     name: accountState.firstName + " " + accountState.lastName,
+    firstName: accountState.firstName,
+    lastName: accountState.lastName,
     username: accountState.username,
-    location: accountState.city + ", " + accountState.country,
+    location: accountState.city === '' || accountState.city == null ? 'Not available' : accountState.city + ", " + accountState.country,
     travelPercentile: 95,
     milesTraveled: 50000,
     countriesVisited: accountState.placeTravelled ? accountState.placeTravelled.length : 0,
@@ -45,7 +47,7 @@ const JourneyPage = () => {
             <AvatarFallback className="bg-zinc-800 text-xl">{userData.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <h2 className="text-xl font-bold">{userData.name}</h2>
-          <p className="text-sm text-zinc-400 mb-6">@{userData.username}</p>
+          <p className="text-sm text-zinc-400 mb-6">@{userData.firstName}{userData.lastName}</p>
           
           <div className="w-full space-y-4 mb-6">
             <div className="flex items-center gap-2 text-sm">
