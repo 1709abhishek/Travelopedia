@@ -290,28 +290,28 @@ const FlightBudget = ({ trip }) => {
   };
 
   const renderSearchInputs = () => (
-    <div className="flex items-center space-x-4">
-      <div className="flex-1">
+    <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+      <div className="flex-1 w-full md:w-auto">
         <Label htmlFor="departureDate">Departure Date</Label>
         <Input
           type="date"
           id="departureDate"
           value={departureDate}
           onChange={(e) => setDepartureDate(e.target.value)}
-          className="bg-gray-800 border-gray-700"
+          className="bg-gray-800 border-gray-700 w-full"
         />
       </div>
-      <div className="flex-1">
+      <div className="flex-1 w-full md:w-auto">
         <Label htmlFor="arrivalDate">Arrival Date</Label>
         <Input
           type="date"
           id="arrivalDate"
           value={arrivalDate}
           onChange={(e) => setArrivalDate(e.target.value)}
-          className="bg-gray-800 border-gray-700"
+          className="bg-gray-800 border-gray-700 w-full"
         />
       </div>
-      <div className="flex-1">
+      <div className="flex-1 w-full md:w-auto">
         <Label htmlFor="from">From</Label>
         <Select
           id="from"
@@ -324,10 +324,10 @@ const FlightBudget = ({ trip }) => {
           options={fromOptions}
           isLoading={fromLoading}
           styles={customStyles}
-          className="text-white"
+          className="text-white w-full"
         />
       </div>
-      <div className="flex-1">
+      <div className="flex-1 w-full md:w-auto">
         <Label htmlFor="to">To</Label>
         <Select
           id="to"
@@ -340,10 +340,10 @@ const FlightBudget = ({ trip }) => {
           options={toOptions}
           isLoading={toLoading}
           styles={customStyles}
-          className="text-white"
+          className="text-white w-full"
         />
       </div>
-      <div className="flex-1">
+      <div className="flex-1 w-full md:w-auto">
         <Label htmlFor="adults">Adults</Label>
         <Input
           type="number"
@@ -352,7 +352,7 @@ const FlightBudget = ({ trip }) => {
           max="4"
           value={adults}
           onChange={(e) => setAdults(parseInt(e.target.value))}
-          className="bg-gray-800 border-gray-700"
+          className="bg-gray-800 border-gray-700 w-full"
         />
       </div>
     </div>
@@ -442,7 +442,7 @@ const FlightBudget = ({ trip }) => {
   };
 
   return (
-    <div>
+    <div className="p-4 md:p-8">
       <BudgetProcess step={currentStep} />
       {renderStepContent()}
       <div className="flex justify-between mt-6">

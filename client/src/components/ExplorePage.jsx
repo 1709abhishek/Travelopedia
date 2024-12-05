@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Itinerary from "../components/Itinerary";
 import { createConversation, deleteConversation, getConversations } from '../services/RecommendationServices.jsx';
 import Header from "./Header.jsx";
+import Footer from "../components/Footer.jsx";
 
 function ExplorePage() {
   const [conversations, setConversations] = useState([]);
@@ -115,6 +116,9 @@ function ExplorePage() {
           </div>
         )}
       </div>
+      <hr className="divider bg-gray-900"></hr>
+      {/* <!-- Footer --> */}
+      {/* <Footer></Footer> */}
     </div>
   );
 }

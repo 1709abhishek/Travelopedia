@@ -1,4 +1,55 @@
-.site-name {
-    font-size: 40px;
+.travelopedia-name {
+    font-size: 1.5rem;
     font-family: "Dancing Script", cursive !important;
+}
+
+@media (min-width: 768px) {
+    .travelopedia-name {
+        font-size: 2.5rem;
+        font-family: "Dancing Script", cursive !important;
+    }
+}
+
+nav ul li a {
+    text-decoration: none;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    /* Prevent wrapping of navigation items */
+}
+
+@media (min-width: 768px) {
+    nav ul li a {
+        font-size: 1rem;
+    }
+}
+
+/* Prevent horizontal scrolling for the entire nav */
+nav {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+@media (min-width: 768px) {
+    nav ul {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+/* Ensure mobile navigation bar does not require horizontal scrolling */
+nav .sheet-content {
+    width: 100vw;
+    box-sizing: border-box;
+}
+
+/* Adjust Sheet for mobile */
+.sheet-content {
+    padding: 0;
+    /* Reset padding for a better fit */
 }

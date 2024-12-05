@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { BookOpen, Compass, Home, Map, Menu, PenTool, User } from 'lucide-react'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { BookOpen, Compass, Home, Map, Menu, PenTool, User, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 import "../styles/header.css";
 
-export default function Header() {
+const Header = () => {
   const navItems = [
     { to: "/", label: "Home", icon: Home },
     { to: "/explore", label: "Explore", icon: Compass },
@@ -13,52 +13,72 @@ export default function Header() {
     { to: "/my-journey", label: "My Journey", icon: Map },
     { to: "/account", label: "Account", icon: User },
     { to: "/log-trip", label: "Log Trip", icon: PenTool },
-    { to: "/contact_us", label: "Contact Us", icon: PenTool },
-    { to: "/about_us", label: "About us", icon: PenTool },
-  ]
+    { to: "/about_us", label: "About Us", icon: Users },
+  ];
 
   return (
-    <nav className="bg-gray-800 text-white p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold text-white site-name">
+    <nav className="bg-gray-800 text-white py-2 px-4 fixed w-full top-0 z-50">
+      <div className="container max-w-7xl mx-auto flex justify-between items-center">
+        {/* Site Name */}
+        <Link 
+          to="/" 
+          className="font-bold text-white travelopedia-name"
+        >
           Travelopedia
         </Link>
-        
+
         {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-4">
-          {navItems.map((item) => (
-            <li key={item.to}>
-              <Link to={item.to} className="hover:text-gray-300 transition-colors">
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        
+        <div className="hidden lg:flex items-center space-x-1">
+          <ul>
+            {navItems.map((item) => (
+              <li key={item.to}>
+                <Link
+                  to={item.to}
+                  className="px-3 py-2 rounded-md text-lg font-medium text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
+                >
+                  <span className="whitespace-nowrap">{item.label}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         {/* Mobile Menu */}
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="lg:hidden text-white hover:bg-gray-700"
+            >
               <Menu className="h-6 w-6" />
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-            <nav className="flex flex-col space-y-4">
-              {navItems.map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition-colors"
-                >
-                  <item.icon className="h-5 w-5" />
-                  <span>{item.label}</span>
-                </Link>
-              ))}
-            </nav>
+          <SheetContent 
+            side="right" 
+            className="w-full p-0 bg-gray-800 border-l border-gray-700"
+          >
+            <div className="flex flex-col py-4">
+              <ul>
+                {navItems.map((item) => (
+                  <li key={item.to}>
+                    <Link
+                      to={item.to}
+                      className="flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
+                    >
+                      <item.icon className="h-5 w-5 mr-3" />
+                      <span className="text-sm font-medium">{item.label}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </SheetContent>
         </Sheet>
       </div>
     </nav>
-  )
-}
+  );
+};
+
+export default Header;

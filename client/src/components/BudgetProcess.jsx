@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const BudgetProcess = ({ step }) => {
   return (
     <div className="mb-8">
-      <div className="flex justify-between items-center relative mb-4">
+      <div className="flex flex-col md:flex-row justify-between items-center relative mb-4">
         <div className="absolute top-1/2 left-0 w-full h-1 bg-gray-700 -z-10" />
         {["Add Items", "Preview", "Confirm & Save"].map((label, index) => (
           <div key={index} className="flex flex-col items-center gap-2">

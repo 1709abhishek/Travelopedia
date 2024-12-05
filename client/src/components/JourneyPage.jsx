@@ -9,6 +9,7 @@ import { AccountContext } from "@/contexts/AccountContext";
 import { useNavigate } from 'react-router-dom';
 import Header from "./Header.jsx";
 import TravelMap from "./ui/TravelMap.tsx";
+import Footer from "../components/Footer.jsx";
 
 const JourneyPage = () => {
   const {
@@ -189,6 +190,8 @@ const JourneyPage = () => {
         </div>
       </main>
     </div>
+    {/* <!-- Footer --> */}
+    <Footer></Footer>
     </div>
   );
 };

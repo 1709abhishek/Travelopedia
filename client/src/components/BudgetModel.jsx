@@ -16,7 +16,7 @@ export function BudgetModal({ isOpen, onClose, trip }) {
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-gray-900 text-white sm:max-w-[1400px]">
+      <DialogContent className="bg-gray-900 text-white sm:max-w-[1400px] sm:p-8 p-4">
         <DialogHeader>
           <DialogTitle>Your {trip.destination} Budget</DialogTitle>
           <DialogDescription className="text-gray-400">
@@ -25,7 +25,7 @@ export function BudgetModal({ isOpen, onClose, trip }) {
         </DialogHeader>
 
         <Tabs defaultValue="existing" className="w-full mt-4">
-          <TabsList className="grid w-full grid-cols-3 bg-gray-800 mb-6 gap-2">
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 bg-gray-800 mb-6 gap-2">
             <TabsTrigger value="existing" className="text-white data-[state=active]:bg-gray-700">
               Existing Budgets
             </TabsTrigger>
@@ -44,7 +44,7 @@ export function BudgetModal({ isOpen, onClose, trip }) {
             <div className="flex-1 pb-4">
                 <Label htmlFor="budgetType">Budget Type</Label>
                 <Select value={budgetType} onValueChange={setBudgetType}>
-                  <SelectTrigger className="bg-gray-800 border-gray-700 w-40">
+                  <SelectTrigger className="bg-gray-800 border-gray-700 w-full sm:w-40">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
                   <SelectContent className="bg-gray-800 text-white">

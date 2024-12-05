@@ -50,7 +50,7 @@ function ExistingBudgets() {
   }, 0).toFixed(2);
 
   return (
-    <ScrollArea className="h-[60vh] w-full">
+    <ScrollArea className="h-[60vh] w-full pt-16">
       <div className="space-y-4">
         <div className="p-4 bg-gray-800 rounded-lg text-center">
           <p className="text-2xl font-bold">${totalPrice}</p>
