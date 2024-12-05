@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { X } from 'lucide-react'
 import { useState } from "react"
 import { createTripService } from "../services/BudgetServices"
 
@@ -90,13 +89,7 @@ export function AddTripModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
                 className="bg-transparent border-gray-700 text-gray-300 mt-2"
               />
             </div>
-            <Button
-              variant="ghost"
-              className="h-6 w-6 p-0 text-gray-400 hover:text-white"
-              onClick={onClose}
-            >
-              <X className="h-4 w-4" />
-            </Button>
+            
           </div>
         </DialogHeader>
 
@@ -125,7 +118,7 @@ export function AddTripModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
               type="button"
               variant="outline"
               onClick={addItineraryItem}
-              className="border-gray-700 text-gray-300 hover:bg-gray-800"
+              className="bg-gray-600 border-gray-700 text-gray-300 hover:bg-gray-800"
             >
               Add Activity
             </Button>

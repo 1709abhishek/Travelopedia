@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useBudgets } from "@/hooks/useBudgets";
 import { useSearch } from "@/hooks/useSearch";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import Select from "react-select";
 import { ClipLoader } from "react-spinners";
+import { toast } from "react-toastify";
 import BudgetProcess from "./BudgetProcess";
 import FlightList from "./FlightList";
-import { toast } from "react-toastify";
-import Select from "react-select";
 
 // const temp_flights = [
 //   {
@@ -160,7 +160,7 @@ const FlightBudget = ({ trip }) => {
     if (!startDate) return "";
     const start = new Date(startDate);
     if (isNaN(start)) return "";
-    const durationDays = parseInt(duration.split(" ")[0], 10);
+    const durationDays = parseInt((duration+"").split(" ")[0], 10);
     const end = new Date(start);
     end.setDate(start.getDate() + durationDays);
     return end.toISOString().split("T")[0];

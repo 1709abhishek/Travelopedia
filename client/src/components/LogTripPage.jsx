@@ -137,6 +137,7 @@ function LogTripPage() {
         onClose={closeItinerary}
         trip={selectedTrip}
       />
+      {/* Please remember that duration and date are being passed as int and datetime respectively, so make the changes accordingly. */}
       <BudgetModal
         isOpen={isOpenBudget}
         onClose={closeBudget}
