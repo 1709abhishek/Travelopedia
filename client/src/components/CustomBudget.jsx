@@ -55,8 +55,8 @@ function CustomBudget(){
 
     return (   
         <ScrollArea className="h-[60vh] w-full">
-            <div className="p-4">
-                <Label htmlFor="itemName" className="block text-sm font-medium">
+            <div className="p-4 md:p-8">
+                <Label htmlFor="itemName" className="block text-sm font-medium pt-8">
                     Item Name
                 </Label>
                 <Input
@@ -78,12 +78,12 @@ function CustomBudget(){
                       onChange={(e) => setPrice(e.target.value)}
                       min="0.01" 
                       step="0.01"
-                      className="bg-gray-800 border-gray-700 text-white p-2 rounded-md"
+                      className="bg-gray-800 border-gray-700 text-white p-2 rounded-md w-full md:w-auto"
                     />
                   </div>
                 <Button 
                     onClick={handleSave}
-                    className="mt-4 bg-blue-600 hover:bg-blue-700"
+                    className="mt-4 bg-blue-600 hover:bg-blue-700 w-full md:w-auto"
                 >
                     Save
                 </Button>

@@ -5,7 +5,7 @@ a {
 
 .app-name-background {
     position: absolute;
-    top: 15%;
+    top: 90px;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 5rem;
@@ -18,8 +18,8 @@ a {
 }
 
 .sign-in-background {
-    height: 100vh;
-    width: 100vw;
+    min-height: 100vh; /* Changed from height to min-height */
+    /* width: 100vw; */
     background: linear-gradient(to bottom, #87CEFA, #ffffff);
     display: flex;
     align-items: center;
@@ -46,7 +46,7 @@ a {
     align-items: center;
     overflow: hidden;
     width: 350px;
-    height: inherit;
+    height: 600px; /* Increased height */
     border-radius: 10px 0 0 10px;
 }
 
@@ -60,7 +60,7 @@ a {
     background: #fff;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     width: 500px;
-    height: auto;
+    height: 600px; /* Increased height to match .sign-up */
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -73,6 +73,7 @@ a {
     display: flex;
     flex-direction: column;
     width: 90%;
+    height: fit-content;
     align-items: center;
     justify-content: center;
 }
@@ -158,10 +159,72 @@ a {
     color: #000000;
 }
 
-.error-message {
+.error-message p {
     padding-top: 10px;
     display: grid;
     place-items: center;
     color: red;
     font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .sign-in-background {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .app-name-background {
+    position: static;
+    transform: none;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-modal__wrapper {
+    flex-direction: column;
+    max-width: 100%;
+    height: auto;
+    margin: 2rem 1rem;
+  }
+
+  .sign-up {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .sign-up__container {
+    width: 100%;
+    height: auto;
+    border-radius: 0 0 10px 10px;
+  }
+
+  .sign-up__form {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .input-field {
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (min-width: 769px) {
+  .form-modal__wrapper {
+    flex-direction: row;
+  }
+
+  .sign-up {
+    width: 350px;
+    height: 600px;
+  }
+
+  .sign-up__container {
+    width: 500px;
+    height: 600px;
+  }
 }

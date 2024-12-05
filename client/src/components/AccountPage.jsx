@@ -19,6 +19,7 @@ import { AccountContext } from "../contexts/AccountContext.jsx";
 import { useAuth } from "../contexts/AuthContext.tsx";
 import Header from "./Header.jsx";
 import { logOutService } from "../services/CustomerServices.jsx";
+import Footer from "../components/Footer.jsx";
 
 const AccountPage = () => {
   const {
@@ -91,7 +92,6 @@ const AccountPage = () => {
     <div className="min-h-screen bg-black text-white">
       <header className="flex h-16 items-center justify-between bg-zinc-900">
         <h1 className="text-xl font-bold header-navbar">Travelopedia</h1>
-
         <Header></Header>
       </header>
       <div className="container mx-auto px-4 py-8">
@@ -424,6 +424,9 @@ const AccountPage = () => {
           }
         `}</style>
       </div>
+
+      {/* <!-- Footer --> */}
+      <Footer></Footer>
     </div>
   );
 };

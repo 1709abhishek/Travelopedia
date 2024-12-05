@@ -214,28 +214,28 @@ const HotelBudget = ({ trip }) => {
         return (
           <>
           <ScrollArea className="h-[40vh] w-full pr-4">
-            <div className="flex items-center space-x-4">
-              <div className="flex-1">
+            <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+              <div className="flex-1 w-full md:w-auto">
                 <Label htmlFor="startDate">Start Date</Label>
                 <Input
                   type="date"
                   id="startDate"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-gray-800 border-gray-700 w-full"
                 />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 w-full md:w-auto">
                 <Label htmlFor="endDate">End Date</Label>
                 <Input
                   type="date"
                   id="endDate"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-gray-800 border-gray-700 w-full"
                 />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 w-full md:w-auto">
                 <Label htmlFor="guests">Guests</Label>
                 <Input
                   type="number"
@@ -244,17 +244,17 @@ const HotelBudget = ({ trip }) => {
                   max="4"
                   value={guests}
                   onChange={(e) => setGuests(parseInt(e.target.value))}
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-gray-800 border-gray-700 w-full"
                 />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 w-full md:w-auto">
                 <Label htmlFor="city">City</Label>
                 <Input
                   type="text"
                   id="city"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  className="bg-gray-800 border-gray-700"
+                  className="bg-gray-800 border-gray-700 w-full"
                 />
               </div>
             </div>
@@ -306,7 +306,7 @@ const HotelBudget = ({ trip }) => {
                       }
                       min="0.01"
                       step="0.01"
-                      className="bg-white-800 border-gray-700 text-white p-2 rounded"
+                      className="bg-white-800 border-gray-700 text-white p-2 rounded w-full md:w-auto"
                     />
                   </div>
                 </div>
@@ -343,7 +343,7 @@ const HotelBudget = ({ trip }) => {
   };
 
   return (
-    <div>
+    <div className="p-4 md:p-8">
       <BudgetProcess step={currentStep} />
       {renderStepContent()}
       <div className="flex justify-between mt-6">
