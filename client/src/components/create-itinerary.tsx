@@ -109,7 +109,7 @@ export default function CreateItinerary() {
   return (
     <div className="flex flex-col min-h-screen bg-black text-gray-100">
       <Header />
-      <div className="flex-1 container px-4 py-8 mt-14">
+      <div className="mx-auto flex-1 container px-4 py-8 mt-14">
         <Card className="bg-gray-900 border-gray-800">
           <CardContent className="p-6">
             <div className="mb-8">
