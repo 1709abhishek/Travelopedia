@@ -5,22 +5,38 @@ import { Groq } from 'groq-sdk';
 import { Send, Sparkles } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { addChatMessage, editConversation, getChatMessages } from '../services/RecommendationServices.jsx';
+import StructuredItinerary from './StructuredItinerary';
 
 const groq = new Groq({ apiKey: "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", dangerouslyAllowBrowser: true });
 
-const Itinerary = ({ conversationId, email, setFlag }) => {
+const Itinerary = ({ conversationId, email, setFlag, activeConversation }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [itinerary, setItinerary] = useState(null);
 
   useEffect(() => {
     fetchMessages();
-  }, [conversationId]);
+  }, [activeConversation]);
+
+  const isItineraryFormat = (content) => {
+    // Check for the specific itinerary format with **Day
+    return content.includes('**Day') && content.split('**Day').length > 1;
+  };
 
   const fetchMessages = async () => {
     try {
-      const fetchedMessages = await getChatMessages(conversationId);
+      const jwt = localStorage.getItem('token');
+      const fetchedMessages = await getChatMessages(jwt, conversationId);
+      console.log("fetchedMessages", fetchedMessages);
       setMessages(fetchedMessages);
+
+      const lastMessage = fetchedMessages[fetchedMessages.length - 1];
+      if (lastMessage && lastMessage.role === 'assistant' && isItineraryFormat(lastMessage.content)) {
+        setItinerary(lastMessage.content);
+      } else {
+        setItinerary(null);
+      }
     } catch (error) {
       console.error('Error fetching messages:', error);
     }
@@ -31,19 +47,18 @@ const Itinerary = ({ conversationId, email, setFlag }) => {
       setLoading(true);
       try {
         const userMessage = { role: 'user', content: input };
-        console.log('Messages:', messages);
-        if(messages.length==0) {
+        const jwt = localStorage.getItem('token');
+        if(messages.length === 0) {
           setFlag(true);
-          console.log('Editing conversation');
           editConversation(conversationId, userMessage.content);
         }
-        await addChatMessage(conversationId, userMessage);
+        await addChatMessage(jwt, conversationId, userMessage);
         setMessages([...messages, userMessage]);
         setInput('');
 
         const chatCompletion = await groq.chat.completions.create({
           messages: [
-            ...messages.map(msg => ({ role: msg.role, content: msg.content })),
+            ...messages.map(msg => ({ role: msg.role === 'user' ? 'user' : 'assistant', content: msg.content })),
             { role: 'user', content: input }
           ],
           model: "llama3-8b-8192",
@@ -60,13 +75,36 @@ const Itinerary = ({ conversationId, email, setFlag }) => {
         }
 
         const assistantMessage = { role: 'assistant', content: aiResponse };
-        await addChatMessage(conversationId, assistantMessage);
+        await addChatMessage(jwt, conversationId, assistantMessage);
         setMessages(prevMessages => [...prevMessages, assistantMessage]);
+
+        if (isItineraryFormat(aiResponse)) {
+          setItinerary(aiResponse);
+        } else {
+          setItinerary(null);
+        }
       } catch (error) {
         console.error('Error sending message:', error);
       } finally {
         setLoading(false);
       }
+    }
+  };
+
+  const renderMessage = (message) => {
+    if (message.role === 'user') {
+      return message.content;
+    }
+
+    if (message.role === 'assistant') {
+      if (isItineraryFormat(message.content)) {
+        return (
+          <div className="flex-grow overflow-auto bg-gray-900 border-t border-gray-700">
+            <StructuredItinerary itinerary={message.content} />
+          </div>
+        );
+      }
+      return message.content;
     }
   };
 
@@ -90,15 +128,16 @@ const Itinerary = ({ conversationId, email, setFlag }) => {
               {message.role === 'assistant' && (
                 <Sparkles className="inline-block mr-2 h-4 w-4" />
               )}
-              {message.content}
+              {renderMessage(message)}
             </div>
           </div>
         ))}
       </ScrollArea>
+      
       <div className="border-t border-gray-800 p-4 bg-gray-900">
         <div className="flex items-center">
           <Input
-            placeholder="Type your message..."
+            placeholder="Plan your itinerary with Travelopedia chatbot..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && !loading && handleSend()}
@@ -115,3 +154,4 @@ const Itinerary = ({ conversationId, email, setFlag }) => {
 };
 
 export default Itinerary;
+

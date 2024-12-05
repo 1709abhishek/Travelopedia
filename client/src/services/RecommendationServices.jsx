@@ -31,13 +31,26 @@ export const getConversations = async (jwt) => {
   }
 };
 
-export const getChatMessages = async (conversationId) => {
-  const response = await api.get(`/chats/${conversationId}`);
+export const getChatMessages = async (jwt, conversationId) => {
+  const response = await axios.get(`http://localhost:8200/api/chats/${conversationId}`, {
+    'Content-Type': 'application/json',
+    headers: { 'Authorization': `Bearer ${jwt}`},
+    withCredentials: true
+  });
   return response.data;
 };
 
-export const addChatMessage = async (conversationId, message) => {
-  const response = await api.post(`/chats/${conversationId}/messages`, message);
+export const addChatMessage = async (jwt,conversationId, message) => {
+  // console.log("addChatMessage", message);
+  const response = await axios.post(`http://localhost:8200/api/chats/${conversationId}`, {
+      role: message.role,
+      message: message.content
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt}`
+      }
+    });
   return response.data;
 };
 

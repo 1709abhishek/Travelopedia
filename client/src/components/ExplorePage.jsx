@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { HelpCircle, PlusCircle, Settings } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import { PlusCircle, Trash2 } from 'lucide-react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Itinerary from "../components/Itinerary";
 import { createConversation, deleteConversation, getConversations } from '../services/RecommendationServices.jsx';
 import Header from "./Header.jsx";
@@ -12,25 +12,31 @@ function ExplorePage() {
   const [userEmail, setUserEmail] = useState('user@example.com'); // Replace with actual user email
   const [flag, setFlag] = useState(false);
 
-  useEffect(() => {
-    fetchConversations();
-  }, [flag]);
-
-  const fetchConversations = async () => {
+  const fetchConversations = useCallback(async () => {
     try {
       const jwt = localStorage.getItem('token');
       const fetchedConversations = await getConversations(jwt);
+      console.log("fetchedConversations", fetchedConversations);
       setConversations(fetchedConversations);
     } catch (error) {
       console.error('Error fetching conversations:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchConversations();
+  }, [fetchConversations, flag]);
+
+  useEffect(() => {
+    console.log("conversations", conversations);
+    console.log("activeConversation", activeConversation);
+  }, [conversations, activeConversation]);
 
   const handleNewItinerary = async () => {
     try {
       const jwt = localStorage.getItem('token');
       const newConversation = await createConversation(jwt, 'New Itinerary');
-      setConversations([...conversations, newConversation]);
+      setConversations(prevConversations => [...prevConversations, newConversation]);
       setActiveConversation(newConversation);
     } catch (error) {
       console.error('Error creating new conversation:', error);
@@ -40,7 +46,9 @@ function ExplorePage() {
   const handleDeleteConversation = async (conversationId) => {
     try {
       await deleteConversation(conversationId);
-      setConversations(conversations.filter(conv => conv.conversationId !== conversationId));
+      setConversations(prevConversations => 
+        prevConversations.filter(conv => conv.conversationId !== conversationId)
+      );
       if (activeConversation && activeConversation.conversationId === conversationId) {
         setActiveConversation(null);
       }
@@ -48,6 +56,11 @@ function ExplorePage() {
       console.error('Error deleting conversation:', error);
     }
   };
+
+  const handleConversationClick = useCallback((conversation) => {
+    console.log("Clicked conversation:", conversation.conversationName);
+    setActiveConversation(conversation);
+  }, []);
 
   return (
     <div className="flex flex-col h-screen bg-black text-gray-300">
@@ -63,31 +76,39 @@ function ExplorePage() {
           </div>
           <ScrollArea className="flex-grow">
             {conversations.map((conversation) => (
-              <Button
-                key={conversation.conversationId}
-                variant="ghost"
-                className="w-full justify-start text-left text-gray-300 hover:text-white hover:bg-gray-800"
-                onClick={() => setActiveConversation(conversation)}
-              >
-                {conversation.conversationName}
-              </Button>
+              <div key={conversation.conversationId} className="flex items-center justify-between p-2 hover:bg-gray-800">
+                <Button
+                  variant="ghost"
+                  className="w-8 justify-start text-left text-gray-300 hover:text-white"
+                  onClick={() => handleConversationClick(conversation)}
+                >
+                  {conversation.conversationName.substring(0, 20)}
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-gray-400 hover:text-red-500"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteConversation(conversation.conversationId);
+                  }}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
             ))}
           </ScrollArea>
-          <div className="p-4 border-t border-gray-800">
-            <Button variant="ghost" className="w-full justify-start mb-2 text-gray-300 hover:text-white hover:bg-gray-800">
-              <Settings className="mr-2 h-4 w-4" />
-              Settings
-            </Button>
-            <Button variant="ghost" className="w-full justify-start text-gray-300 hover:text-white hover:bg-gray-800">
-              <HelpCircle className="mr-2 h-4 w-4" />
-              Help
-            </Button>
-          </div>
         </div>
 
         {/* Main chat area */}
         {activeConversation ? (
-          <Itinerary conversationId={activeConversation.conversationId} email={userEmail} setFlag={setFlag}/>
+          <Itinerary 
+            key={activeConversation.conversationId}
+            conversationId={activeConversation.conversationId} 
+            email={userEmail} 
+            setFlag={setFlag} 
+            activeConversation={activeConversation}
+          />
         ) : (
           <div className="flex-1 flex items-center justify-center">
             <p className="text-gray-500">Select or create an itinerary to get started.</p>
@@ -99,3 +120,4 @@ function ExplorePage() {
 }
 
 export default ExplorePage;
+
