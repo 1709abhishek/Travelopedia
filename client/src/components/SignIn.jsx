@@ -12,15 +12,26 @@ export default function SignIn() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const {login} = useAuth();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    const response = await signInService(username, password);
-    login(response.data, username)
-    sessionStorage.setItem('token', response.data);
-    navigate('/');
+    try {
+      const response = await signInService(username, password);
+      login(response.data, username);
+      sessionStorage.setItem('token', response.data);
+      navigate('/');
+    } catch (error) {
+      if (error.response) {
+        setError("Login failed: Bad credentials");
+      } else if (error.request) {
+        setError("Login failed: Unable to connect to the server");
+      } else {
+        setError("Login failed: An unexpected error occurred");
+      }
+    }
   };
 
   return (
@@ -54,6 +65,7 @@ export default function SignIn() {
               />
             </div>
             <input type="submit" value="Login" className="btn" />
+            <div className="error-message">{error && <p>{error}</p>} </div>
             <p>
               Don't have an account?{" "}
               <a href="/signup" className="account-text" id="sign-up-link">

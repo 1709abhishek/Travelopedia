@@ -11,6 +11,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [error, setError] = useState("");
 
   const {login} = useAuth();
 
@@ -24,11 +25,21 @@ export default function SignUp() {
       alert("Please fill in all fields.");
       return;
     }
-
-    const response = await signUpService(firstName, lastName, email, password);
-    login(response.data, email);
-    navigate("/signin");
-    console.log(response);
+    try {
+      const response = await signUpService(firstName, lastName, email, password);
+      login(response.data, email);
+      navigate("/signin");
+      console.log(response);
+    }catch (error) {
+      console.log(error);
+      if (error.response) {
+        setError("Sign Up failed");
+      } else if (error.request) {
+        setError("Sign Up failed: Unable to connect to the server");
+      } else {
+        setError("Sign Up  failed: An unexpected error occurred");
+      }
+    }
   };
 
   return (
@@ -42,15 +53,6 @@ export default function SignUp() {
           <div className="sign-up__container">
             <form onSubmit={handleSignUp} className="sign-up__form">
               <h2 className="login-title">Sign Up</h2>
-              {/* <div className="input-field">
-                <AccountCircle style={{ fontSize: 30, color: "#999" }} />
-                <input
-                  type="text"
-                  placeholder="Username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </div> */}
               <div className="input-field">
                <AccountCircle style={{ fontSize: 30, color: "#999" }} />
                 <input
@@ -92,6 +94,7 @@ export default function SignUp() {
                 />
               </div>
               <input type="submit" value="Sign Up" className="btn" />
+              <div className="error-message">{error && <p>{error}</p>} </div>
               <p>
                 Already have an account?{" "}
                 <a href="/signin" className="account-text" id="sign-in-link">

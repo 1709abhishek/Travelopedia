@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import "../styles/footer.css";
 
 const Footer = () => {
     return (
@@ -13,9 +14,9 @@ const Footer = () => {
                             <li>
                                 <Link to="/about_us">About Us</Link>
                             </li>
-                            <li>
+                            {/* <li>
                                 <Link to="/contact_us">Contact Us</Link>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                     <div className="footlinks">
