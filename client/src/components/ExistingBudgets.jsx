@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useBudgets } from "@/hooks/useBudgets";
 import { toast } from "react-toastify";
 
-function ExistingBudgets() {
+function ExistingBudgets({ trip }) {
   const { getBudgets, refreshFlag, deleteBudget } = useBudgets();
   const [budgets, setBudgets] = useState([]);
   
   const fetchBudgets = async () => {
-    const data = await getBudgets(104);
+    const data = await getBudgets(trip.id);
     if (data) {
       setBudgets(data);
       // console.log(data);
@@ -89,5 +90,10 @@ function ExistingBudgets() {
     </ScrollArea>
   );
 }
+ExistingBudgets.propTypes = {
+  trip: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default ExistingBudgets;

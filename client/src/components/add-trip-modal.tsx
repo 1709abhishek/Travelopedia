@@ -1,10 +1,12 @@
 "use client"
 
+import React from "react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
-import { createTripService } from "../services/BudgetServices"
+import { createTripService, updateTripService } from "../services/BudgetServices"
+import { toast } from "react-toastify"
 
 interface ItineraryItem {
   time: string
@@ -12,15 +14,13 @@ interface ItineraryItem {
   day: string
 }
 
-export function AddTripModal({ isOpen, onClose, fetchTrips }: { isOpen: boolean; onClose: () => void, fetchTrips: () => void }) {
-  const [destination, setDestination] = useState("")
-  const [country, setCountry] = useState("")
-  const [itinerary, setItinerary] = useState<ItineraryItem[]>([
-    { time: "", activity: "", day: "" },
-  ])
-  const [duration, setDuration] = useState("")
-  const [date, setDate] = useState("")
-  const [description, setDescription] = useState("")
+export function AddTripModal({ isOpen, onClose, fetchTrips, trip }: { isOpen: boolean; onClose: () => void, fetchTrips: () => void, trip?: any }) {
+  const [destination, setDestination] = useState(trip?.destination || "")
+  const [country, setCountry] = useState(trip?.country || "")
+  const [itinerary, setItinerary] = useState<ItineraryItem[]>(trip?.itinerary || [{ time: "", activity: "", day: "" }])
+  const [duration, setDuration] = useState(trip?.duration || "")
+  const [date, setDate] = useState(trip?.date || "")
+  const [description, setDescription] = useState(trip?.description || "")
 
   const addItineraryItem = () => {
     setItinerary([...itinerary, { time: "", activity: "", day: "" }])
@@ -42,18 +42,27 @@ export function AddTripModal({ isOpen, onClose, fetchTrips }: { isOpen: boolean;
       description,
       itinerary
     }
-    // Add your form submission logic here
     const jwttoken = localStorage.getItem('token')
-    
-    const response = createTripService(data, jwttoken)
-    await fetchTrips();
-    console.log(response)
-    onClose()
+    try {
+      if (trip) {
+        // Update existing trip
+        await updateTripService(jwttoken, trip.id, data)
+        toast.success("Trip updated successfully!")
+      } else {
+        // Create new trip
+        await createTripService(data, jwttoken)
+        toast.success("Trip created successfully!")
+        onClose()
+      }
+      await fetchTrips()
+    } catch (error) {
+      toast.error("An error occurred while saving the trip.")
+    }
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] bg-[#1a1b26] border-gray-800 text-white">
+      <DialogContent className="bg-gray-900 text-white sm:max-w-[600px] sm:p-8 p-4">
         <DialogHeader>
           <div className="flex justify-between items-center">
             <div>
@@ -62,14 +71,14 @@ export function AddTripModal({ isOpen, onClose, fetchTrips }: { isOpen: boolean;
                   placeholder="Destination"
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
-                  className="bg-transparent border-none text-xl font-semibold placeholder:text-gray-400"
+                  className="bg-transparent border-gray-700 text-gray-300 mt-2"
                 />
               </DialogTitle>
               <Input
                 placeholder="Country"
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                className="bg-transparent border-none text-gray-400 placeholder:text-gray-500"
+                className="bg-transparent border-gray-700 text-gray-300 mt-2"
               />
               <Input
                 placeholder="Duration (days)"
@@ -127,7 +136,7 @@ export function AddTripModal({ isOpen, onClose, fetchTrips }: { isOpen: boolean;
               type="button"
               variant="outline"
               onClick={addItineraryItem}
-              className="border-gray-700 text-gray-300 hover:bg-gray-800"
+              className="bg-blue-600 hover:bg-blue-700 text-white"
             >
               Add Activity
             </Button>
@@ -135,7 +144,7 @@ export function AddTripModal({ isOpen, onClose, fetchTrips }: { isOpen: boolean;
               type="submit"
               className="bg-blue-600 hover:bg-blue-700 text-white"
             >
-              Save Trip
+              {trip ? "Update Trip" : "Save Trip"}
             </Button>
           </div>
         </form>

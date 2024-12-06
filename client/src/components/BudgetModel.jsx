@@ -59,11 +59,11 @@ export function BudgetModal({ isOpen, onClose, trip }) {
           </TabsContent>
 
           <TabsContent value="custom" className="pt-4">
-            <CustomBudget />
+            <CustomBudget trip={trip}/>
           </TabsContent>
 
           <TabsContent value="existing" className="pt-4">
-            <ExistingBudgets />
+            <ExistingBudgets trip={trip}/>
           </TabsContent>
 
         </Tabs>

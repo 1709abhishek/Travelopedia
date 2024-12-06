@@ -88,3 +88,13 @@ export const deleteTripService = async (jwt, id) => {
       headers: { 'Authorization': `Bearer ${jwt}`},
     });
 }
+
+export const updateTripService = async (jwt, id, data) => {
+  console.log(data);
+  return await axios({
+      method: 'put',
+      url: `${serviceConfig.budgetHost}/api/trips/${id}`,
+      data: data,
+      headers: { 'Authorization': `Bearer ${jwt}`},
+    });
+}
