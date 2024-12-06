@@ -41,14 +41,14 @@ public class AccountsController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginAccount(@RequestBody Account account) {
+    public ResponseEntity<?> loginAccount(@RequestBody Account account) {
         try {
-            String jwt = accountsService.loginAccount(account);
+            Map<String, Object> response = accountsService.loginAccount(account);
             // System.out.println("JWT token: " + jwt); // Todo: Save this token client side
-            return new ResponseEntity<>(jwt, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("Login failed: " + e.getMessage());
-            return new ResponseEntity<>("Login failed: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(Map.of("error", "Login failed: " + e.getMessage()), HttpStatus.UNAUTHORIZED);
         }
     }
 

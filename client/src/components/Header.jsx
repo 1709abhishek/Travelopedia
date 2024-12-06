@@ -48,7 +48,7 @@ const Header = () => {
 
   return (
     <nav className="bg-gray-800 text-white py-2 px-4 fixed w-full top-0 z-50">
-      <div className="hidden lg:flex items-center justify-between w-full">
+      <div className="container max-w-7xl mx-auto flex justify-between items-center">
         <Link to="/" className="font-bold text-white travelopedia-name">
           Travelopedia
         </Link>

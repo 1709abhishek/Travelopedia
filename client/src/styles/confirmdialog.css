@@ -1,0 +1,56 @@
+.confirm-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .confirm-dialog {
+    background-color: #1c1c1c;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #fff;
+  }
+  
+  .confirm-dialog h2 {
+    margin-top: 0;
+  }
+  
+  .confirm-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    align-items: center;
+  }
+  
+  .confirm-button,
+  .cancel-button {
+    padding: 10px 20px;
+    width: 80px;
+    height: 40px;
+    background-color: #1d4065;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .confirm-button:hover {
+    background-color: #ff0000;
+    /* Red color on hover for Yes button */
+  }
+  
+  .cancel-button:hover {
+    background-color: #0056b3;
+    /* Blue color on hover for No button */
+  
+  }
