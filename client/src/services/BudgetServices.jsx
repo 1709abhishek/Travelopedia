@@ -80,3 +80,11 @@ export const getTripsService = async (jwt) => {
       headers: { 'Authorization': `Bearer ${jwt}`},
     });
 }
+
+export const deleteTripService = async (jwt, id) => {
+  return await axios({
+      method: 'delete',
+      url: `${serviceConfig.budgetHost}/api/trips/${id}`,
+      headers: { 'Authorization': `Bearer ${jwt}`},
+    });
+}

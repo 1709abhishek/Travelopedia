@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { AddTripModal } from "../components/add-trip-modal.tsx"
 import { BudgetModal } from "../components/BudgetModel.jsx"
 import Header from "../components/Header.jsx"
-import { getTripsService } from "../services/BudgetServices.jsx"
+import { deleteTripService, getTripsService } from "../services/BudgetServices.jsx"
 
 
 
@@ -102,6 +102,15 @@ function LogTripPage() {
     setIsOpenItinerary(false);
   }
 
+  const onDeleteTrip = async (id) => {
+    try {
+      const jwt = localStorage.getItem('token');
+      const response = await deleteTripService(jwt, id);
+    } catch (error) {
+      console.error("Error deleting trip:", error);
+    } 
+  }
+
   return (
     <div className="min-h-screen bg-black text-white">
       <header className="bg-gray-900 py-8 flex justify-between items-center">
@@ -136,6 +145,10 @@ function LogTripPage() {
               <CardFooter className="mt-auto flex flex-col space-y-2">
                 <Button className="w-full bg-blue-600 hover:bg-blue-600 text-white" onClick={() => openItinerary(trip)}>View Itinerary</Button>
                 <Button className="w-full bg-blue-600 hover:bg-blue-600 text-white" onClick={() => openBudget(trip)}>View Budget</Button>
+                <Button 
+          className="w-full bg-red-600 hover:bg-red-700 text-white" 
+          onClick={() => onDeleteTrip(trip.id)}
+        >Delete Trip</Button>
               </CardFooter>
             </Card>
           )): null}
