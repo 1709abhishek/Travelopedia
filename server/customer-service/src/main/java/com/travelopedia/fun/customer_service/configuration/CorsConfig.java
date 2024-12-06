@@ -1,4 +1,5 @@
-package com.travelopedia.fun.budget_service.configuration;
+package com.travelopedia.fun.customer_service.configuration;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

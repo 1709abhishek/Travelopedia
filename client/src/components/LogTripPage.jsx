@@ -13,7 +13,19 @@ import { getTripsService } from "../services/BudgetServices.jsx"
 
 function ItineraryModal({ isOpen, onClose, trip }) {
   if (!trip) return null
-  
+
+  // Sort and group itinerary items by day
+  const groupedItinerary = trip.itinerary.reduce((acc, item) => {
+    const day = item.day
+    if (!acc[day]) {
+      acc[day] = []
+    }
+    acc[day].push(item)
+    return acc
+  }, {})
+
+  // Sort days numerically
+  const sortedDays = Object.keys(groupedItinerary).sort((a, b) => parseInt(a) - parseInt(b))
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -23,10 +35,15 @@ function ItineraryModal({ isOpen, onClose, trip }) {
           <DialogDescription className="text-gray-400">{trip.country}</DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-[60vh] w-full pr-4">
-          {trip.itinerary.map((item, index) => (
-            <div key={index} className="mb-4">
-              <h3 className="text-sm font-semibold text-gray-300">{item.time}</h3>
-              <p className="text-sm text-gray-400">{item.activity}</p>
+          {sortedDays.map((day) => (
+            <div key={day} className="mb-6">
+              <h2 className="text-lg font-bold text-white mb-2">Day {day}</h2>
+              {groupedItinerary[day].map((item, index) => (
+                <div key={index} className="mb-4">
+                  <h3 className="text-sm font-semibold text-gray-300">{item.time}</h3>
+                  <p className="text-sm text-gray-400">{item.activity}</p>
+                </div>
+              ))}
             </div>
           ))}
         </ScrollArea>
@@ -47,7 +64,7 @@ function LogTripPage() {
       const fetchTrips = async () => {
         // setIsLoading(true);
         try {
-          const jwt = localStorage.getItem('jwt');
+          const jwt = localStorage.getItem('token');
           const response = await getTripsService(jwt);
           setTrips(response.data);
         } catch (error) {

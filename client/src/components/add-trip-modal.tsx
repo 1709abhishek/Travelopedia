@@ -9,20 +9,21 @@ import { createTripService } from "../services/BudgetServices"
 interface ItineraryItem {
   time: string
   activity: string
+  day: string
 }
 
 export function AddTripModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [destination, setDestination] = useState("")
   const [country, setCountry] = useState("")
   const [itinerary, setItinerary] = useState<ItineraryItem[]>([
-    { time: "", activity: "" }
+    { time: "", activity: "", day: "" },
   ])
   const [duration, setDuration] = useState("")
   const [date, setDate] = useState("")
   const [description, setDescription] = useState("")
 
   const addItineraryItem = () => {
-    setItinerary([...itinerary, { time: "", activity: "" }])
+    setItinerary([...itinerary, { time: "", activity: "", day: "" }])
   }
 
   const updateItineraryItem = (index: number, field: keyof ItineraryItem, value: string) => {
@@ -96,7 +97,13 @@ export function AddTripModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
             {itinerary.map((item, index) => (
-              <div key={index} className="grid grid-cols-[100px,1fr] gap-4">
+              <div key={index} className="grid grid-cols-[75px,1fr,3fr] gap-4">
+                <Input
+                  placeholder="Day"
+                  value={item.day}
+                  onChange={(e) => updateItineraryItem(index, "day", e.target.value)}
+                  className="bg-transparent border-gray-700 text-gray-300"
+                />
                 <Input
                   type="time"
                   value={item.time}
@@ -109,6 +116,7 @@ export function AddTripModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
                   onChange={(e) => updateItineraryItem(index, "activity", e.target.value)}
                   className="bg-transparent border-gray-700 text-gray-300"
                 />
+                
               </div>
             ))}
           </div>
@@ -118,7 +126,7 @@ export function AddTripModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
               type="button"
               variant="outline"
               onClick={addItineraryItem}
-              className="bg-gray-600 border-gray-700 text-gray-300 hover:bg-gray-800"
+              className="border-gray-700 text-gray-300 hover:bg-gray-800"
             >
               Add Activity
             </Button>

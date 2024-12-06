@@ -85,6 +85,7 @@ public class Trip {
 class ItineraryItem {
     private String time;
     private String activity;
+    private String day;
 
     // Getters and setters
 
@@ -102,5 +103,13 @@ class ItineraryItem {
 
     public void setActivity(String activity) {
         this.activity = activity;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
     }
 }
