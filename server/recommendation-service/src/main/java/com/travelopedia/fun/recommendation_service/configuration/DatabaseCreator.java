@@ -13,7 +13,7 @@ public class DatabaseCreator {
 
     private final String url = "jdbc:mysql://localhost:3306/";
     private final String user = "root";
-    private final String password = "Figureyourself";
+    private final String password = "root";
     private final String dbName = "Recommendationdb";
 
     @PostConstruct

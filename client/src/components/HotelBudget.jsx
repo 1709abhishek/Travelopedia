@@ -149,7 +149,7 @@ const HotelBudget = ({ trip }) => {
         adults: guests,
         roomQuantity: Math.ceil(guests / 4),
       };
-      console.log(inputs);
+      // console.log(inputs);
       // setHotels(temp_hotels);
       // setShowSearch(true);
       setLoading(true);
@@ -183,7 +183,7 @@ const HotelBudget = ({ trip }) => {
       setLoading(true);
   
       let data = {
-        itineraryID: 104,
+        itineraryID: trip.id,
         type: "hotel",
         price: totalPrice,
         items: selectedItems,
@@ -383,6 +383,7 @@ const HotelBudget = ({ trip }) => {
 
 HotelBudget.propTypes = {
   trip: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     destination: PropTypes.string.isRequired,
     country: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,

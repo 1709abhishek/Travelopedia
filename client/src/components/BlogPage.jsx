@@ -141,7 +141,7 @@ const BlogPage = () => {
   return (
     <div className="blog-page">
       <Header />
-      <div className="content">
+      <div className="blog-content">
         <div className="main-content">
           <div className="search-bar">
             <input

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,7 +32,7 @@ const spinnerStyle = {
     color: "white",
   };
 
-function CustomBudget(){
+function CustomBudget({ trip }){
     const [itemName, setItemName] = useState("");
     const [price, setPrice] = useState(""); 
     const { createCustomBudget, refreshBudgets } = useBudgets();
@@ -40,7 +41,7 @@ function CustomBudget(){
     const handleSave = () => {
         setLoading(true);
         let data = {
-            "itineraryID": 104,
+            "itineraryID": trip.id,
             "type": "custom",
             "name": itemName,
             "price": price
@@ -100,5 +101,10 @@ function CustomBudget(){
         </ScrollArea>
     );
 }
+CustomBudget.propTypes = {
+    trip: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+    }).isRequired,
+};
 
 export default CustomBudget;

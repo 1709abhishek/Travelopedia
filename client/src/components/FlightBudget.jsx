@@ -124,48 +124,48 @@ const FlightBudget = ({ trip }) => {
   const customStyles = {
     control: (provided) => ({
       ...provided,
-      backgroundColor: 'rgb(31, 41, 55)', // dark background
-      borderColor: 'rgb(75, 85, 99)', // dark border
-      '&:hover': {
-        borderColor: 'rgb(107, 114, 128)'
-      }
+      backgroundColor: "rgb(31, 41, 55)", // dark background
+      borderColor: "rgb(75, 85, 99)", // dark border
+      "&:hover": {
+        borderColor: "rgb(107, 114, 128)",
+      },
     }),
     menu: (provided) => ({
       ...provided,
-      backgroundColor: 'rgb(31, 41, 55)'
+      backgroundColor: "rgb(31, 41, 55)",
     }),
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isFocused ? 'rgb(55, 65, 81)' : 'rgb(31, 41, 55)',
-      color: 'white',
-      '&:hover': {
-        backgroundColor: 'rgb(55, 65, 81)'
-      }
+      backgroundColor: state.isFocused ? "rgb(55, 65, 81)" : "rgb(31, 41, 55)",
+      color: "white",
+      "&:hover": {
+        backgroundColor: "rgb(55, 65, 81)",
+      },
     }),
     singleValue: (provided) => ({
       ...provided,
-      color: 'white'
+      color: "white",
     }),
     input: (provided) => ({
       ...provided,
-      color: 'white'
+      color: "white",
     }),
     placeholder: (provided) => ({
       ...provided,
-      color: 'rgb(156, 163, 175)'
-    })
+      color: "rgb(156, 163, 175)",
+    }),
   };
 
   const calculateEndDate = (startDate, duration) => {
     if (!startDate) return "";
     const start = new Date(startDate);
     if (isNaN(start)) return "";
-    const durationDays = parseInt((duration+"").split(" ")[0], 10);
+    const durationDays = parseInt((duration + "").split(" ")[0], 10);
     const end = new Date(start);
     end.setDate(start.getDate() + durationDays);
     return end.toISOString().split("T")[0];
   };
-  
+
   useEffect(() => {
     if (trip.date && trip.duration) {
       setDepartureDate(trip.date);
@@ -209,41 +209,39 @@ const FlightBudget = ({ trip }) => {
     setLoading(true);
     try {
       const inputs = {
-        departure: from, 
-        arrival: to,   
+        departure: from,
+        arrival: to,
         departureDate,
         arrivalDate,
         adults,
       };
-      
+
       const flightsData = await getFlights(inputs);
       setFlights(flightsData);
       setShowSearch(true);
     } catch (error) {
-      console.error('Error fetching flights:', error);
-      toast.error('Failed to fetch flights');
+      console.error("Error fetching flights:", error);
+      toast.error("Failed to fetch flights");
     } finally {
       setLoading(false);
     }
   };
 
   const handleSave = async () => {
-    setLoading(true); 
+    setLoading(true);
     try {
       let data = {
-        itineraryID: 104,
+        itineraryID: trip.id,
         type: "flight",
         price: totalPrice,
         items: selectedItems,
       };
-  
-      console.log("Flights data:", data);
-  
+
       const result = await createFlightBudget(data);
-      console.log(result['success']);
-      if (result.success) { 
+      console.log(result["success"]);
+      if (result.success) {
         console.log("Flights saved:", result);
-        refreshBudgets(); 
+        refreshBudgets();
         toast.success("Budget saved successfully!");
       } else {
         toast.error(result.message || "Failed to save budget");
@@ -256,35 +254,35 @@ const FlightBudget = ({ trip }) => {
     }
   };
 
-   const handleInputChange = async (inputValue, type) => {
+  const handleInputChange = async (inputValue, type) => {
     if (inputValue.length < 2) return;
 
     try {
-      const loadingState = type === 'from' ? setFromLoading : setToLoading;
-      const optionsState = type === 'from' ? setFromOptions : setToOptions;
-      
+      const loadingState = type === "from" ? setFromLoading : setToLoading;
+      const optionsState = type === "from" ? setFromOptions : setToOptions;
+
       loadingState(true);
       // console.log('Searching airports:', inputValue);
       const data = {
-        searchTerm: inputValue
+        searchTerm: inputValue,
       };
 
       // console.log('Searching airports:', data);
 
       const response = await searchAirport(data);
-      
+
       if (response.success && response.data) {
-        const formattedOptions = response.data.map(airport => ({
+        const formattedOptions = response.data.map((airport) => ({
           value: airport.iata,
-          label: `${airport.city} - ${airport.name} (${airport.iata})`
+          label: `${airport.city} - ${airport.name} (${airport.iata})`,
         }));
         optionsState(formattedOptions);
       }
     } catch (error) {
-      console.error('Error searching airports:', error);
-      toast.error('Failed to search airports');
+      console.error("Error searching airports:", error);
+      toast.error("Failed to search airports");
     } finally {
-      const loadingState = type === 'from' ? setFromLoading : setToLoading;
+      const loadingState = type === "from" ? setFromLoading : setToLoading;
       loadingState(false);
     }
   };
@@ -332,10 +330,10 @@ const FlightBudget = ({ trip }) => {
         <Select
           id="to"
           placeholder="Enter city name"
-          value={toOptions.find(option => option.value === to)}
-          onChange={(selectedOption) => setTo(selectedOption?.value || '')}
+          value={toOptions.find((option) => option.value === to)}
+          onChange={(selectedOption) => setTo(selectedOption?.value || "")}
           onInputChange={(input) => {
-            handleInputChange(input, 'to');
+            handleInputChange(input, "to");
           }}
           options={toOptions}
           isLoading={toLoading}
@@ -482,6 +480,7 @@ const FlightBudget = ({ trip }) => {
 
 FlightBudget.propTypes = {
   trip: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     destination: PropTypes.string.isRequired,
     country: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
