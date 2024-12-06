@@ -23,6 +23,7 @@ import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import * as z from "zod";
+import { createTripService } from "../services/BudgetServices";
 import { addChatMessage, createConversation } from '../services/RecommendationServices';
 import Header from "./Header";
 import StructuredItinerary from "./StructuredItinerary";
@@ -105,6 +106,58 @@ export default function CreateItinerary() {
   const handleExploreMore = () => {
     navigate('/explore?tab=create');
   }
+
+  const handleAddLogTrip = async () => {
+    const prompt = `Generate a JSON-formatted trip itinerary for the given ${generatedItinerary}. The JSON should have the following structure:
+
+{
+  "destination": "City, Country",
+  "country": "Country",
+  "description": "A brief description of the trip",
+  "duration": given duration,
+  "date": "YYYY-MM-DD",
+  "itinerary": [
+    { "day": "1", "time": "HH:MM", "activity": "Description of activity" },
+    ...
+  ]
+}
+
+Requirements:
+1. The destination should be given.
+2. Provide a concise description of the trip's theme or focus.
+3. Set the date to the current date.
+4. Times should be in 24-hour format (e.g., "14:00" for 2 PM).
+5. Ensure the JSON is properly formatted and valid.
+6. Ensure the duration is a number.
+
+Please generate a complete itinerary JSON for the given generated itinerary. Only return the JSON, no additional text.`
+
+      const chatCompletion = await groq.chat.completions.create({
+        messages: [{ role: 'user', content: prompt }],
+        model: "llama3-8b-8192",
+        temperature: 1,
+        max_tokens: 1024,
+        top_p: 1,
+        stream: true,
+        stop: null
+      })
+      let itineraryJson = ""
+      for await (const chunk of chatCompletion) {
+        itineraryJson += chunk.choices[0]?.delta?.content || ""
+      }
+      // Clean up the response: remove any non-JSON content
+    let responseContent = itineraryJson.replace(/^[\s\S]*?(\{[\s\S]*\})[\s\S]*$/, '$1');
+    console.log('Cleaned response:', responseContent);
+
+    const itineraryJsonCleaned = JSON.parse(responseContent);
+    console.log('Parsed JSON:', itineraryJsonCleaned);
+
+    await createTripService(itineraryJsonCleaned, localStorage.getItem('token'));
+    navigate('/log-trip');
+
+    }
+
+      
 
   return (
     <div className="flex flex-col min-h-screen bg-black text-gray-100">
@@ -230,6 +283,9 @@ export default function CreateItinerary() {
                 <h2 className="text-2xl font-bold mb-4">Generated Itinerary</h2>
                 <Button type="button" onClick={handleExploreMore} className="bg-blue-600 hover:bg-blue-700">
                     Explore More
+                  </Button>
+                  <Button type="button" onClick={handleAddLogTrip} className="bg-blue-600 hover:bg-blue-700">
+                    Add to Log Trip
                   </Button>
                 </div>
                 <StructuredItinerary itinerary={generatedItinerary} />

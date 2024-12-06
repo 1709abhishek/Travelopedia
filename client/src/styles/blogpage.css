@@ -1,0 +1,150 @@
+.blog-page {
+    background-color: #000;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+  
+.content {
+    flex: 1;
+    display: flex;
+    padding: 150px;
+    padding-top: 100px;
+}
+
+.main-content {
+    flex: 3;
+  }
+  
+.search-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-left: 0px;
+}
+  
+.search-bar input {
+    width: 60%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+.search-bar select {
+    width: 20%; 
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #333;
+    color: #fff;
+    margin-left: 10px;
+  }
+  
+.create-blog-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+  
+.create-blog-button:hover {
+    background-color: #a4c1e0;
+}
+  
+.blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.blog-link {
+    text-decoration: none;
+    color: inherit;
+}
+  
+.blog-link:hover {
+    text-decoration: none;
+}
+  
+.blog-item {
+    display: flex;
+    justify-content: space-between; 
+    align-items: flex-start;
+    background-color: #1c1c1c;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%; /* Full width container */
+    box-sizing: border-box;
+}
+
+.blog-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+  
+.blog-image {
+    width: 170px;
+    height: 100px;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+  
+.blog-text {
+    flex: 1;
+    text-align: left; 
+}
+  
+.blog-title {
+    font-size: 28px;
+    margin: 0;
+    color: #fff;
+}
+  
+.blog-description {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #ccc;
+}
+
+.blog-tags {
+    margin-top: 10px;
+}
+  
+.blog-tag {
+    display: inline-block;
+    background-color: #1d4065;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+.blog-date {
+    font-size: 12px;
+    color: #366fad;
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.blog-meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+  
+.blog-author {
+    font-size: 14px;
+    color: #cabd76;
+    flex-grow: 1;
+}
