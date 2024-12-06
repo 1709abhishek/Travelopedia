@@ -66,8 +66,9 @@ export const updateUserProfileService = async (jwt, updateData) => {
     headers: { 'Authorization': `Bearer ${jwt}`, "Content-Type": "application/json"},
     data: updateData
   });
+}
 
-// export const getUserDetailsService = async (email, jwt) => {
+// export const getUserDetailsService = async (jwt, email) => {
 //   try {
 //     const token = localStorage.getItem('token');
 //     const response = await axios.request({
