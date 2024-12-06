@@ -81,7 +81,8 @@ const AccountContextProvider = props => {
         console.log('Fetching profile details...');
         const email = localStorage.getItem('user');
         console.log('Email:', email);
-        const response = await getUserDetailsService(email);
+        const jwt = localStorage.getItem('token');
+        const response = await getUserDetailsService(email, jwt);
         const profile = response.data;
         console.log('Profile:', profile);
         setFirstName(profile.firstName);
@@ -107,7 +108,8 @@ const AccountContextProvider = props => {
         console.log('Fetching profile details...');
         const email = localStorage.getItem('user');
         console.log('Email:', email);
-        const response = await getUserDetailsService(email);
+        const jwt = localStorage.getItem('token');
+        const response = await getUserDetailsService(email, jwt);
         const profile = response.data;
         console.log('Profile:', profile);
         setFirstName(profile.firstName);
