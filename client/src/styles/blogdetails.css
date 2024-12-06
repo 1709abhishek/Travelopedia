@@ -1,0 +1,131 @@
+.blog-details-page {
+    background-color: #000;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .content {
+    flex: 1;
+    display: flex;
+    padding: 150px;
+    padding-top: 100px;
+  }
+  
+  .main-content {
+    flex: 3;
+  }
+  
+  .blog-details {
+    background-color: #1c1c1c;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .blog-details-image {
+    width: 2048px;
+    height: 700px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .blog-details-title {
+    font-size: 32px;
+    margin: 0;
+    color: #fff;
+    text-align: left;
+  }
+  
+  .blog-details-user {
+    font-size: 18px;
+    color: #aaa;
+    margin-top: 10px;
+    text-align: left;
+    flex-grow: 1;
+  }
+  
+  .blog-details-date {
+    font-size: 14px;
+    color: #cabd76;
+    margin-top: 10px;
+    text-align: left;
+  }
+  
+  .blog-details-tags {
+    margin-top: 10px;
+    text-align: left;
+  }
+  
+  /* .blog-tag {
+      display: inline-block;
+      background-color: #1d4065;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 4px;
+      margin-right: 5px;
+      font-size: 14px;
+    } */
+  
+  .blog-details-content {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #ccc;
+  }
+  
+  .ql-editor h1 {
+    font-size: 2em;
+  }
+  
+  .ql-editor h2 {
+    font-size: 1.5em;
+  }
+  
+  .ql-editor h3 {
+    font-size: 1.17em;
+  }
+  
+  .ql-editor p {
+    margin: 0 0 1em;
+  }
+  
+  .ql-editor strong {
+    font-weight: bold;
+  }
+  
+  .ql-editor em {
+    font-style: italic;
+  }
+  
+  .ql-editor u {
+    text-decoration: underline;
+  }
+  
+  .blog-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .edit-button,
+  .delete-button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .edit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .delete-button {
+    background-color: #ff0000;
+  }
+  
+  .delete-button:hover {
+    background-color: #b43737;
+  }

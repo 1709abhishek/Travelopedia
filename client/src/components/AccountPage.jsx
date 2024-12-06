@@ -1,5 +1,6 @@
 import { Globe, Heart, MapPin } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -15,10 +16,10 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useNavigate } from "react-router-dom";
-import { AccountContext } from "../contexts/AccountContext.jsx";
+import { AccountContext, useAccount } from "../contexts/AccountContext.jsx";
 import { useAuth } from "../contexts/AuthContext.tsx";
 import Header from "./Header.jsx";
-import { logOutService } from "../services/CustomerServices.jsx";
+import { logOutService, updateUserProfileService } from "../services/CustomerServices.jsx";
 import Footer from "../components/Footer.jsx";
 
 const AccountPage = () => {
@@ -30,17 +31,22 @@ const AccountPage = () => {
     setCity,
     setCountry,
     setBio,
-    setPlaceTravelled,
+    setPlacesTravelled,
     setWishlist,
     setTravelQuote,
   } = useContext(AccountContext);
 
+  const { fetchProfileDetails } = useAccount();
+
+  useEffect(() => {
+    fetchProfileDetails();
+  }, []);
+
   const { logout } = useAuth();
-
+  const jwt = localStorage.getItem('token');
   const [countries, setCountries] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  let placeTravelled = new Set([accountState.placeTravelled]);
 
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all?fields=name")
@@ -54,37 +60,29 @@ const AccountPage = () => {
       .catch((error) => console.error("Error fetching countries:", error));
   }, []);
 
-  useEffect(() => {
-    console.log("Account State:", accountState);
-  }, [accountState]);
-
   const handleInputChange = (e, setter) => {
     const { value } = e.target;
     setter(value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Updated Info: ", accountState);
-  };
-
-  const handleCountrySelect = (list, country) => {
-    const currentList = accountState[list];
-    const updatedList = currentList.includes(country)
-      ? currentList.filter((c) => c !== country)
-      : [...currentList, country];
-
-    if (list === "placeTravelled") {
-      setPlaceTravelled(updatedList);
-    } else if (list === "wishlist") {
-      setWishlist(updatedList);
+    setLoading(true);
+    try {
+      await updateUserProfileService(jwt, accountState);
+      console.log("Profile updated successfully");
+      toast.success("Profile updated successfully");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast.error("Error updating profile");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleLogout = () => {
-    const token = localStorage.getItem("token");
     logout();
-    logOutService(token);
+    logOutService(jwt);
     navigate("/");
   };
 
@@ -122,7 +120,7 @@ const AccountPage = () => {
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <Globe className="h-4 w-4" />
-                    {accountState.placeTravelled ? accountState.placeTravelled.length : 0} places travelled
+                    {accountState.placesTravelled ? accountState.placesTravelled.length : 0} places traveled
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <Heart className="h-4 w-4" />
@@ -143,8 +141,8 @@ const AccountPage = () => {
               </CardHeader>
               <CardContent className="space-y-2">
                 <div className="flex justify-between">
-                  <span>Places Travelled:</span>
-                  <span>{accountState.placeTravelled ? accountState.placeTravelled.length : 0}</span>
+                  <span>Places Traveled:</span>
+                  <span>{accountState.placesTravelled ? accountState.placesTravelled.length : 0}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Wishlist Places:</span>
@@ -271,17 +269,18 @@ const AccountPage = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="placeTravelled">Places Travelled</Label>
+                    <Label htmlFor="placeTravelled">Places Traveled</Label>
                     <Select
                       name="placeTravelled"
-                      value={accountState.placeTravelled}
+                      value={accountState.placesTravelled}
                       onValueChange={(value) => {
                         if (
+                          accountState.placesTravelled &&
                           value &&
-                          !accountState.placeTravelled.includes(value)
+                          !accountState.placesTravelled.includes(value)
                         ) {
-                          setPlaceTravelled([
-                            ...accountState.placeTravelled,
+                          setPlacesTravelled([
+                            ...accountState.placesTravelled,
                             value,
                           ]);
                         }
@@ -305,8 +304,8 @@ const AccountPage = () => {
                       </SelectContent>
                     </Select>
                     <div className="flex flex-wrap gap-2 mt-2">
-                      {accountState.placeTravelled && accountState.placeTravelled.length !== 0
-                        ? accountState.placeTravelled.map((place) => (
+                      {accountState.placesTravelled && accountState.placesTravelled.length !== 0
+                        ? accountState.placesTravelled.map((place) => (
                             <div
                               key={place}
                               className="bg-zinc-800 text-white px-3 py-1 rounded-full text-sm flex items-center"
@@ -317,27 +316,26 @@ const AccountPage = () => {
                                   let filteredValue = [];
                                   for (
                                     let i = 0;
-                                    i < accountState.placeTravelled.length;
+                                    i < accountState.placesTravelled.length;
                                     i++
                                   ) {
                                     if (
-                                      accountState.placeTravelled[i] !== place
+                                      accountState.placesTravelled[i] !== place
                                     ) {
                                       filteredValue.push(
-                                        accountState.placeTravelled[i]
+                                        accountState.placesTravelled[i]
                                       );
                                     }
                                   }
-                                  console.log("filteredValue:", filteredValue);
-                                  setPlaceTravelled(
-                                    accountState.placeTravelled.filter(
+                                  setPlacesTravelled(
+                                    accountState.placesTravelled.filter(
                                       (c) => c !== place
                                     )
                                   );
                                   console.log(
                                     "place:",
                                     place,
-                                    accountState.placeTravelled.filter(
+                                    accountState.placesTravelled.filter(
                                       (c) => c !== place
                                     )
                                   );
@@ -351,10 +349,6 @@ const AccountPage = () => {
                           ))
                         : null}
                     </div>
-                    {console.log(
-                      "accountState.placeTravelled:",
-                      accountState.placeTravelled
-                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="wishlist">Travel Wishlist</Label>
@@ -362,7 +356,7 @@ const AccountPage = () => {
                       name="wishlist"
                       value={accountState.wishlist}
                       onValueChange={(value) => {
-                        if (value && !accountState.wishlist.includes(value)) {
+                        if (accountState.wishlist && value && !accountState.wishlist.includes(value)) {
                           setWishlist([...accountState.wishlist, value]);
                         }
                       }}
@@ -412,8 +406,9 @@ const AccountPage = () => {
               <Button
                 type="submit"
                 className="w-full bg-blue-600 hover:bg-blue-700"
+                disabled={loading}
               >
-                Update Profile
+                {loading ? "Updating..." : "Update Profile"}
               </Button>
             </form>
           </main>

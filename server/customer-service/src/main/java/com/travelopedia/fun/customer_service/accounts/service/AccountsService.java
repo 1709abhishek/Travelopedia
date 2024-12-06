@@ -66,7 +66,7 @@ public class AccountsService {
         accountsRepository.save(newAccount);
     }
 
-    public String loginAccount(Account account) {
+    public Map<String, Object> loginAccount(Account account) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(account.getEmail(), account.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -75,7 +75,14 @@ public class AccountsService {
         // Generate JWT token
         UserDetails userDetails = userDetailsService.loadUserByUsername(account.getEmail());
         String jwt = jwtUtil.generateToken(userDetails.getUsername());
-        return jwt;
+        // return jwt;
+        Account existingAccount = accountsRepository.findByEmail(account.getEmail());
+        Map<String, Object> response = new HashMap<>();
+        response.put("jwt", jwt);
+        response.put("userId", existingAccount.getId());
+        response.put("email", account.getEmail());
+        System.out.println("Response: " + response);
+        return response;
     }
 
     public void logoutAccount(String jwtToken) {

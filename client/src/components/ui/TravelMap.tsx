@@ -34,11 +34,11 @@ type Place = {
 }
 
 type TravelMapProps = {
-  placesTraveled: string[]
+  placesTravelled: string[]
   wishlist: string[]
 }
 
-export default function TravelMap({ placesTraveled, wishlist }: TravelMapProps) {
+export default function TravelMap({ placesTravelled, wishlist }: TravelMapProps) {
   const [places, setPlaces] = useState<Place[]>([])
   const [mapCenter, setMapCenter] = useState<[number, number]>([0, 0])
   const [mapZoom, setMapZoom] = useState(2)
@@ -80,7 +80,7 @@ export default function TravelMap({ placesTraveled, wishlist }: TravelMapProps) 
         return null
       }
 
-      for (const place of placesTraveled) {
+      for (const place of placesTravelled) {
         const placeData = await getLongAndLat(place, false)
         if (placeData) {
           mockPlaces.push(placeData)
@@ -103,7 +103,7 @@ export default function TravelMap({ placesTraveled, wishlist }: TravelMapProps) 
     }
 
     fetchPlaces()
-  }, [placesTraveled, wishlist])
+  }, [placesTravelled, wishlist])
 
   return (
     <div className="h-[600px] w-full">

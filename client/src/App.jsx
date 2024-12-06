@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import AboutUsPage from './components/AboutUsPage.jsx';
 import AccountPage from './components/AccountPage.jsx';
-import Blogs from './components/Blogs.jsx';
+import BlogPage from './components/BlogPage.jsx';
 import ContactUsPage from './components/ContactUsPage.jsx';
 import CreateItinerary from './components/create-itinerary.tsx';
 import ExplorePage from './components/ExplorePage.jsx';
@@ -16,6 +16,9 @@ import LogTripPage from './components/LogTripPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
 import SignIn from './components/SignIn.jsx';
 import SignUp from './components/SignUp.jsx';
+import CreateBlogPage from "./components/CreateBlogPage.jsx";
+import BlogDetails from './components/BlogDetails.jsx';
+import UpdateBlogPage from './components/UpdateBlogPage.jsx';
 import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
@@ -42,7 +45,10 @@ function App() {
         <Route path="/contact_us" element={<ProtectedRoute><ContactUsPage></ContactUsPage></ProtectedRoute>}></Route>
         <Route path="/about_us" element={<ProtectedRoute><AboutUsPage></AboutUsPage></ProtectedRoute>}></Route>
         <Route path="/log-trip" element={<ProtectedRoute><LogTripPage></LogTripPage></ProtectedRoute>}></Route>
-        <Route path="/blogs" element={<ProtectedRoute><Blogs></Blogs></ProtectedRoute>}></Route>
+        <Route path="/blogs" element={<ProtectedRoute><BlogPage></BlogPage></ProtectedRoute>}></Route>
+        <Route path="/create-blog" element={<ProtectedRoute><CreateBlogPage /></ProtectedRoute>} />
+        <Route path="/blogs/:blogId" element={<ProtectedRoute><BlogDetails /></ProtectedRoute>} /> 
+        <Route path="/blogs/edit/:blogId" element={<ProtectedRoute><UpdateBlogPage /></ProtectedRoute>} />
         {/* Not Found Route */}
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
