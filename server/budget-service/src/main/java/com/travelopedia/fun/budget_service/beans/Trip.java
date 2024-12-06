@@ -9,7 +9,10 @@ import java.util.List;
 public class Trip {
 
     @Id
-    String email;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String email;
 
     private String destination;
     private String country;
@@ -22,6 +25,22 @@ public class Trip {
     private List<ItineraryItem> itinerary;
 
     // Getters and setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 
     public String getDestination() {
@@ -72,13 +91,7 @@ public class Trip {
         this.itinerary = itinerary;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
 
 @Embeddable
