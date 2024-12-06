@@ -12,7 +12,7 @@ interface ItineraryItem {
   day: string
 }
 
-export function AddTripModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+export function AddTripModal({ isOpen, onClose, fetchTrips }: { isOpen: boolean; onClose: () => void, fetchTrips: () => void }) {
   const [destination, setDestination] = useState("")
   const [country, setCountry] = useState("")
   const [itinerary, setItinerary] = useState<ItineraryItem[]>([
@@ -46,6 +46,7 @@ export function AddTripModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
     const jwttoken = localStorage.getItem('token')
     
     const response = createTripService(data, jwttoken)
+    await fetchTrips();
     console.log(response)
     onClose()
   }

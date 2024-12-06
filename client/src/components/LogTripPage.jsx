@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Calendar, Clock, MapPin, PlusCircle } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { AddTripModal } from "../components/add-trip-modal.tsx"
 import { BudgetModal } from "../components/BudgetModel.jsx"
 import Header from "../components/Header.jsx"
@@ -59,27 +59,30 @@ function LogTripPage() {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false)
     const [trips, setTrips] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const fetchTrips = useCallback(async () => {
+      setIsLoading(true);
+      try {
+        const jwt = localStorage.getItem('token');
+        const response = await getTripsService(jwt);
+        setTrips(response.data);
+      } catch (error) {
+        console.error("Error fetching trips:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }, []);
 
     useEffect(() => {
-      const fetchTrips = async () => {
-        // setIsLoading(true);
-        try {
-          const jwt = localStorage.getItem('token');
-          const response = await getTripsService(jwt);
-          setTrips(response.data);
-        } catch (error) {
-          console.error("Error fetching trips:", error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
+      fetchTrips();
+    }, [isAddModalOpen]);
+
+    useEffect(() => {
+      
   
       fetchTrips();
     }, []);
 
-    useEffect(() => {
-      console.log('Trips:', trips);
-    }, [trips]);
+    
 
 
   const openItinerary = (trip) => {
@@ -106,10 +109,15 @@ function LogTripPage() {
     try {
       const jwt = localStorage.getItem('token');
       const response = await deleteTripService(jwt, id);
+      await fetchTrips();
     } catch (error) {
       console.error("Error deleting trip:", error);
     } 
   }
+
+  useEffect(() => {
+    console.log('Trips:', trips);
+  }, [trips.length]);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -157,6 +165,7 @@ function LogTripPage() {
             <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white" onClick={() => setIsAddModalOpen(true)}>Add New Trip</Button>
             <AddTripModal
         isOpen={isAddModalOpen}
+        fetchTrips={fetchTrips}
         onClose={() => setIsAddModalOpen(false)}
       />
           </Card>
@@ -166,6 +175,7 @@ function LogTripPage() {
         isOpen={isOpenItinerary}
         onClose={closeItinerary}
         trip={selectedTrip}
+        fetchTrips={fetchTrips}
       />
       {/* Please remember that duration and date are being passed as int and datetime respectively, so make the changes accordingly. */}
       <BudgetModal
