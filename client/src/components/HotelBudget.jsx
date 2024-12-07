@@ -87,7 +87,7 @@ const HotelBudget = ({ trip }) => {
     if (!startDate) return "";
     const start = new Date(startDate);
     if (isNaN(start)) return "";
-    const durationDays = parseInt(duration.split(" ")[0], 10);
+    const durationDays = parseInt(duration, 10);
     const end = new Date(start);
     end.setDate(start.getDate() + durationDays);
     return end.toISOString().split("T")[0];
