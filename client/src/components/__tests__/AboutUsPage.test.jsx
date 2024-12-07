@@ -2,14 +2,17 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import AboutUsPage from '../AboutUsPage';
+import { AuthProvider } from '../../contexts/AuthContext';
 import { MemoryRouter } from 'react-router-dom';
 
 test('renders AboutUsPage component', () => {
     render(
-        <MemoryRouter>
+        <AuthProvider>
+          <MemoryRouter>
             <AboutUsPage />
-        </MemoryRouter>
-    );
+          </MemoryRouter>
+        </AuthProvider>
+      );
 
     // Check the header's <h1>
     const headerHeading = screen.getByText('Travelopedia', { selector: '.header-navbar' });
