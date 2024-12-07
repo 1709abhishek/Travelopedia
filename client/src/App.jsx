@@ -6,9 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import AboutUsPage from './components/AboutUsPage.jsx';
 import AccountPage from './components/AccountPage.jsx';
+import BlogDetails from './components/BlogDetails.jsx';
 import BlogPage from './components/BlogPage.jsx';
 import ContactUsPage from './components/ContactUsPage.jsx';
 import CreateItinerary from './components/create-itinerary.tsx';
+import CreateBlogPage from "./components/CreateBlogPage.jsx";
 import ExplorePage from './components/ExplorePage.jsx';
 import HomePage from './components/Homepage.jsx';
 import JourneyPage from './components/JourneyPage.jsx';
@@ -16,13 +18,12 @@ import LogTripPage from './components/LogTripPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
 import SignIn from './components/SignIn.jsx';
 import SignUp from './components/SignUp.jsx';
-import CreateBlogPage from "./components/CreateBlogPage.jsx";
-import BlogDetails from './components/BlogDetails.jsx';
 import UpdateBlogPage from './components/UpdateBlogPage.jsx';
 import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
   return (
+    
     <AuthProvider>
     <Router>
       <Routes>
