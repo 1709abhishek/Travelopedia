@@ -70,7 +70,6 @@ const BlogDetails = () => {
 
   const getImageSrc = (image) => {
     if (image) {
-      console.log("image", image);
       return `data:image/jpeg;base64,${image}`;
     }
     return defaultImage;

@@ -107,7 +107,7 @@ export default function TravelMap({ placesTravelled, wishlist }: TravelMapProps)
 
   return (
     <div className="h-[600px] w-full">
-      <MapContainer center={mapCenter} zoom={mapZoom} className="h-full w-full rounded-lg">
+      <MapContainer center={mapCenter} zoom={mapZoom} className="h-full w-full rounded-lg" style={{ zIndex: 2 }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

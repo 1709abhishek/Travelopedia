@@ -26,6 +26,7 @@ import {
   getTripsService,
 } from "../services/BudgetServices.jsx";
 import { useBudgets } from "@/hooks/useBudgets";
+import Footer from "./Footer";
 
 function ItineraryModal({ isOpen, onClose, trip }) {
   if (!trip) return null;
@@ -262,6 +263,7 @@ function LogTripPage() {
           trip={tripToEdit}
         />
       )}
+      <Footer />
     </div>
   );
 }
