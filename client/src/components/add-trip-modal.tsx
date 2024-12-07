@@ -62,7 +62,7 @@ export function AddTripModal({ isOpen, onClose, fetchTrips, trip }: { isOpen: bo
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-gray-900 text-white sm:max-w-[600px] sm:p-8 p-4">
+      <DialogContent className="bg-gray-900 text-white sm:max-w-[600px] sm:p-8 p-4 max-h-[500px] overflow-y-auto">
         <DialogHeader>
           <div className="flex justify-between items-center">
             <div>

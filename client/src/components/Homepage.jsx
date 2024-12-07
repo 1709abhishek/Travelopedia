@@ -135,86 +135,86 @@ const Homepage = () => {
           </div>
 
           <div className="location-content">
-            <a href="./locations.html#kashmir" target="_blank">
-              <div className="col-content">
-                <img src={l1} alt="" />
-                <h5>India</h5>
-                <p>Kashmir</p>
-              </div>
-            </a>
+          <a href="./src/static/kashmir.html" target="_blank">
+            <div className="col-content">
+              <img src={l1} alt="" />
+              <h5>India</h5>
+              <p>Kashmir</p>
+            </div>
+          </a>
 
-            <a href="./locations.html#istanbul" target="_blank">
-              <div className="col-content">
-                <img src={l2} alt="" />
-                <h5>Turkey</h5>
-                <p>Istanbul</p>
-              </div>
-            </a>
+          <a href="./src/static/turkey.html" target="_blank">
+            <div className="col-content">
+              <img src={l2} alt="" />
+              <h5>Turkey</h5>
+              <p>Istanbul</p>
+            </div>
+          </a>
 
-            <a href="./locations.html#paris" target="_blank">
-              <div className="col-content">
-                <img src={l3} alt="" />
-                <h5>France</h5>
-                <p>Paris</p>
-              </div>
-            </a>
+          <a href="./src/static/paris.html" target="_blank">
+            <div className="col-content">
+              <img src={l3} alt="" />
+              <h5>France</h5>
+              <p>Paris</p>
+            </div>
+          </a>
 
-            <a href="./locations.html#bali" target="_blank">
-              <div className="col-content">
-                <img src={l4} alt="" />
-                <h5>Indonesia</h5>
-                <p>Bali</p>
-              </div>
-            </a>
+          <a href="./src/static/indonesia.html" target="_blank">
+            <div className="col-content">
+              <img src={l4} alt="" />
+              <h5>Indonesia</h5>
+              <p>Bali</p>
+            </div>
+          </a>
 
-            <a href="./locations.html#dubai" target="_blank">
-              <div className="col-content">
-                <img src={l5} alt="" />
-                <h5>United Arab Emirates</h5>
-                <p>Dubai</p>
-              </div>
-            </a>
+          <a href="./src/static/dubai.html" target="_blank">
+            <div className="col-content">
+              <img src={l5} alt="" />
+              <h5>United Arab Emirates</h5>
+              <p>Dubai</p>
+            </div>
+          </a>
 
-            <a href="./locations.html#geneva" target="_blank">
-              <div className="col-content">
-                <img src={l6} alt="" />
-                <h5>Switzerland</h5>
-                <p>Geneva</p>
-              </div>
-            </a>
+          <a href="./src/static/switzerland.html" target="_blank">
+            <div className="col-content">
+              <img src={l6} alt="" />
+              <h5>Switzerland</h5>
+              <p>Geneva</p>
+            </div>
+          </a>
 
-            <a href="./locations.html#port-blair" target="_blank">
-              <div className="col-content">
-                <img src={l7} alt="" />
-                <h5>Andaman & Nicobar</h5>
-                <p>Port Blair</p>
-              </div>
-            </a>
+          <a href="./src/static/aan.html" target="_blank">
+            <div className="col-content">
+              <img src={l7} alt="" />
+              <h5>Andaman & Nicobar</h5>
+              <p>Port Blair</p>
+            </div>
+          </a>
 
-            <a href="./locations.html#rome" target="_blank">
-              <div className="col-content">
-                <img src={l8} alt="" />
-                <h5>Italy</h5>
-                <p>Rome</p>
-              </div>
-            </a>
+          <a href="./src/static/Italy.html" target="_blank">
+            <div className="col-content">
+              <img src={l8} alt="" />
+              <h5>Italy</h5>
+              <p>Rome</p>
+            </div>
+          </a>
 
-            <a href="./locations.html#rome" target="_blank">
-              <div className="col-content">
-                <img src={l10} alt="" />
-                <h5>Los Angeles</h5>
-                <p>USA</p>
-              </div>
-            </a>
+          <a href="./src/static/la.html" target="_blank">
+            <div className="col-content">
+              <img src={l10} alt="" />
+              <h5>Los Angeles</h5>
+              <p>USA</p>
+            </div>
+          </a>
 
-            <a href="./locations.html#rome" target="_blank">
-              <div className="col-content">
-                <img src={l9} alt="" />
-                <h5>New York</h5>
-                <p>USA</p>
-              </div>
-            </a>
-          </div>
+          <a href="./src/static/new_york.html" target="_blank">
+            <div className="col-content">
+              <img src={l9} alt="" />
+              <h5>New York</h5>
+              <p>USA</p>
+            </div>
+          </a>
+        </div>
         </section>
 
         {/* <!--Travel Stats--> */}
