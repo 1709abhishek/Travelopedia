@@ -14,6 +14,7 @@ export default {
   ],
   plugins: [
     [
+
       'babel-plugin-transform-import-meta',
       {
         metaPropertyReplacement: {
@@ -23,6 +24,6 @@ export default {
         },
       },
     ],
-    'babel-plugin-transform-vite-meta-env', // Add this plugin for Vite meta env
+    "@babel/plugin-transform-runtime"
   ],
 };
