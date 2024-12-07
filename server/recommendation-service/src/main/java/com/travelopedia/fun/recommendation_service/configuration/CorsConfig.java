@@ -1,5 +1,7 @@
 package com.travelopedia.fun.recommendation_service.configuration;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -14,7 +16,10 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:5173"); // Replace with your frontend URL
+        config.setAllowedOrigins(Arrays.asList(
+                "http://localhost:5173",
+                "https://travelopedia-v1.vercel.app",
+                "https://travelopedia-frontend.vercel.app"));
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/api/**", config);
