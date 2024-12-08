@@ -158,111 +158,113 @@ function LogTripPage() {
   }, [trips.length]);
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <header className="bg-gray-900 py-8 flex justify-between items-center">
-        <Header></Header>
-      </header>
-      {isLoading ? (
-        <div className="text-center">Loading trips...</div>
-      ) : (
-        <main className="container mx-auto p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {trips
-              ? trips.map((trip) => (
-                  <Card
-                    key={trip.id}
-                    className="bg-gray-800 border-gray-700 text-white"
-                  >
-                    <CardHeader>
-                      <CardTitle className="flex items-center text-gray-100">
-                        <MapPin className="mr-2 text-blue-600" />
-                        {trip.destination}
-                      </CardTitle>
-                      <CardDescription className="text-gray-400">
-                        {trip.country}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-gray-300 mb-4">
-                        {trip.description}
-                      </p>
-                      <div className="flex items-center text-sm text-gray-400 mb-2">
-                        <Clock className="mr-2 h-4 w-4 text-blue-600" />
-                        {trip.duration}
-                      </div>
-                      <div className="flex items-center text-sm text-gray-400">
-                        <Calendar className="mr-2 h-4 w-4 text-blue-600" />
-                        {trip.date}
-                      </div>
-                    </CardContent>
-                    <CardFooter className="mt-auto flex flex-col space-y-2">
-                      <Button
-                        className="w-full bg-blue-600 hover:bg-blue-600 text-white"
-                        onClick={() => openItinerary(trip)}
-                      >
-                        View Itinerary
-                      </Button>
-                      <Button
-                        className="w-full bg-blue-600 hover:bg-blue-600 text-white"
-                        onClick={() => openBudget(trip)}
-                      >
-                        View Budget
-                      </Button>
-                      <div className="w-full flex space-x-2">
+    <div>
+      <div className="min-h-screen bg-black text-white">
+        <header className="bg-gray-900 py-8 flex justify-between items-center">
+          <Header></Header>
+        </header>
+        {isLoading ? (
+          <div className="text-center">Loading trips...</div>
+        ) : (
+          <main className="container mx-auto p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {trips
+                ? trips.map((trip) => (
+                    <Card
+                      key={trip.id}
+                      className="bg-gray-800 border-gray-700 text-white"
+                    >
+                      <CardHeader>
+                        <CardTitle className="flex items-center text-gray-100">
+                          <MapPin className="mr-2 text-blue-600" />
+                          {trip.destination}
+                        </CardTitle>
+                        <CardDescription className="text-gray-400">
+                          {trip.country}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-gray-300 mb-4">
+                          {trip.description}
+                        </p>
+                        <div className="flex items-center text-sm text-gray-400 mb-2">
+                          <Clock className="mr-2 h-4 w-4 text-blue-600" />
+                          {trip.duration}
+                        </div>
+                        <div className="flex items-center text-sm text-gray-400">
+                          <Calendar className="mr-2 h-4 w-4 text-blue-600" />
+                          {trip.date}
+                        </div>
+                      </CardContent>
+                      <CardFooter className="mt-auto flex flex-col space-y-2">
                         <Button
-                          className="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white"
-                          onClick={() => openEditModal(trip)}
+                          className="w-full bg-blue-600 hover:bg-blue-600 text-white"
+                          onClick={() => openItinerary(trip)}
                         >
-                          Edit Trip
+                          View Itinerary
                         </Button>
                         <Button
-                          className="flex-1 bg-red-600 hover:bg-red-700 text-white"
-                          onClick={() => onDeleteTrip(trip.id)}
+                          className="w-full bg-blue-600 hover:bg-blue-600 text-white"
+                          onClick={() => openBudget(trip)}
                         >
-                          Delete Trip
+                          View Budget
                         </Button>
-                      </div>
-                    </CardFooter>
-                  </Card>
-                ))
-              : null}
-            <Card className="bg-gray-800 border-gray-700 text-white flex flex-col justify-center items-center p-6">
-              <PlusCircle className="h-12 w-12 text-blue-600 mb-4" />
-              <Button
-                variant="outline"
-                className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
-                onClick={() => setIsAddModalOpen(true)}
-              >
-                Add New Trip
-              </Button>
-              <AddTripModal
-                isOpen={isAddModalOpen}
-                fetchTrips={fetchTrips}
-                onClose={() => setIsAddModalOpen(false)}
-              />
-            </Card>
-          </div>
-        </main>
-      )}
-      <ItineraryModal
-        isOpen={isOpenItinerary}
-        onClose={closeItinerary}
-        trip={selectedTrip}
-        fetchTrips={fetchTrips}
-      />
-      <BudgetModal
-        isOpen={isOpenBudget}
-        onClose={closeBudget}
-        trip={selectedTrip}
-      />
-      {tripToEdit && (
-        <AddTripModal
-          isOpen={isEditModalOpen}
+                        <div className="w-full flex space-x-2">
+                          <Button
+                            className="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white"
+                            onClick={() => openEditModal(trip)}
+                          >
+                            Edit Trip
+                          </Button>
+                          <Button
+                            className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                            onClick={() => onDeleteTrip(trip.id)}
+                          >
+                            Delete Trip
+                          </Button>
+                        </div>
+                      </CardFooter>
+                    </Card>
+                  ))
+                : null}
+              <Card className="bg-gray-800 border-gray-700 text-white flex flex-col justify-center items-center p-6">
+                <PlusCircle className="h-12 w-12 text-blue-600 mb-4" />
+                <Button
+                  variant="outline"
+                  className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+                  onClick={() => setIsAddModalOpen(true)}
+                >
+                  Add New Trip
+                </Button>
+                <AddTripModal
+                  isOpen={isAddModalOpen}
+                  fetchTrips={fetchTrips}
+                  onClose={() => setIsAddModalOpen(false)}
+                />
+              </Card>
+            </div>
+          </main>
+        )}
+        <ItineraryModal
+          isOpen={isOpenItinerary}
+          onClose={closeItinerary}
+          trip={selectedTrip}
           fetchTrips={fetchTrips}
-          onClose={closeEditModal}
-          trip={tripToEdit}
         />
-      )}
+        <BudgetModal
+          isOpen={isOpenBudget}
+          onClose={closeBudget}
+          trip={selectedTrip}
+        />
+        {tripToEdit && (
+          <AddTripModal
+            isOpen={isEditModalOpen}
+            fetchTrips={fetchTrips}
+            onClose={closeEditModal}
+            trip={tripToEdit}
+          />
+        )}
+      </div>
       <Footer />
     </div>
   );
