@@ -11,10 +11,10 @@ import java.sql.Statement;
 @Component
 public class DatabaseCreator {
 
-    private final String url = "jdbc:mysql://localhost:3306/";
+    private final String url = "jdbc:mysql://35.188.76.128/";
     private final String user = "root";
-    private final String password = "root";
-    private final String dbName = "TravelopediaDB";
+    private final String password = "Figureyourself";
+    private final String dbName = "customerservicedb";
 
     @PostConstruct
     public void createDatabase() {
