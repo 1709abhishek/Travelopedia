@@ -87,7 +87,7 @@ const Header = () => {
           >
             <div className="flex flex-col py-4">
               <ul>
-                {navItems.map((item) => (
+                {filteredNavItems.map((item) => (
                   <li key={item.to}>
                     <Link
                       to={item.to}

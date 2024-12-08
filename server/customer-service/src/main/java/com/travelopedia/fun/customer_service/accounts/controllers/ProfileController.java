@@ -29,7 +29,8 @@ public class ProfileController {
             ObjectMapper objectMapper = new ObjectMapper();
 
             // Update fields
-            currentAccount.setName(account.getName());
+            currentAccount.setFirstName(account.getFirstName());
+            currentAccount.setLastName(account.getLastName());
             currentAccount.setPhoneNumber(account.getPhoneNumber());
             currentAccount.setCity(account.getCity());
             currentAccount.setCountry(account.getCountry());
