@@ -108,6 +108,7 @@ export default function CreateItinerary() {
   }
 
   const handleAddLogTrip = async () => {
+    // add a for loop so that if it fails it repeats the process
     const prompt = `Generate a JSON-formatted trip itinerary for the given ${generatedItinerary}. The JSON should have the following structure:
 
 {
