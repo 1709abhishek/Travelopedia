@@ -109,7 +109,7 @@ The application follows a microservices architecture with high cohesion and low 
 
 ## 🔄 System Flow
 
-![System Flow](./public/Microservice_3.png)
+![System Flow](./client/public/Microservice_3.png)
 
 1. Client requests are distributed through a Load Balancer
 2. Requests are routed through the API Gateway
@@ -120,7 +120,7 @@ The application follows a microservices architecture with high cohesion and low 
 
 ## 💻 Performance Optimization
 
-![Redis Caching](./public/Microservice_4.png)
+![Redis Caching](./client/public/Microservice_4.png)
 
 - Redis caching reduces API latency from 20/10 sec to 30 msec
 - Rate limiting: 1000 requests/day
@@ -143,9 +143,9 @@ _Beautiful landing page featuring hot air balloons over a scenic landscape_
 
 ### Architecture Diagrams
 
-![Microservices Architecture](./public/Microservice_1.png)
+![Microservices Architecture](./client/public/Microservice_1.png)
 
-![Configuration Setup](./public/Microservice_2.png)
+![Configuration Setup](./client/public/Microservice_2.png)
 
 ## 🚀 Getting Started
 
